@@ -1,7 +1,7 @@
 import React from 'react'
 import RegisterInput from "../Components/RegisterComponents/RegisterInput";
 
-const Register = () => {
+const RegisterPage = () => {
     return (
         <div className='h-screen flex justify-center'>
             <form className='flex flex-col self-center'>
@@ -11,4 +11,4 @@ const Register = () => {
     )
 }
 
-export default Register
+export default RegisterPage

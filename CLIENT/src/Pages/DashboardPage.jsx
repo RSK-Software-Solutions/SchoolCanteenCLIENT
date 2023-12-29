@@ -1,11 +1,11 @@
 import React from 'react';
+const DashboardPage = () => {
 
-const UserSettings = () => {
     return (
         <div>
-            Settings
+            Content
         </div>
     );
 };
 
-export default UserSettings;
+export default DashboardPage;

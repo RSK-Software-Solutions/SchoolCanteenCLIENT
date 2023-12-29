@@ -7,15 +7,17 @@ const defaultSettings = {
 export const AuthContext = createContext(defaultSettings)
 
 export const AuthContextProvider = (props) => {
-    const [token, setToken] = useState("test"); //initialState test for accessing the protected routes
-    const [isLoading, setIsLoading] = useState(true)
+    const [token, setToken] = useState("test");
+    const [isLoading, setIsLoading] = useState(true);
+    const [session, setSession] =useState(false);
 
     const tokenSetter = async (token) => {
         setIsLoading(true)
         const res = await setToken(token)
         if (res) {
+            setSession(true)
             setIsLoading(false)
         }
     }
-    return <AuthContext.Provider value={{token, tokenSetter, isLoading}}>{props.children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{token, tokenSetter, isLoading, session}}>{props.children}</AuthContext.Provider>
 }
