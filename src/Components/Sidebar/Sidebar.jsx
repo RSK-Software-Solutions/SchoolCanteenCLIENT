@@ -1,24 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import sidebarLinks from "./SidebarLinks";
 import { Link } from "react-router-dom";
 import { navLinks } from "../Navbar/NavbarLinks";
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleMenuToggle = () => {
-    setIsOpen((prevState) => !prevState);
-  };
+const Sidebar = ({isOpen}) => {
 
   return (
     <AnimatePresence>
-      <div>
-        <div className={`${isOpen ? "flex justify-end border-r" : ""}`} onClick={handleMenuToggle}>
-          {isOpen ? <PanelLeftClose /> : <PanelRightClose />}
-        </div>
-
         {isOpen && (
           <motion.section
             key={Math.random()}
@@ -27,7 +16,7 @@ const Sidebar = () => {
             animate={{ x: 0 }}
             transition={{ type: "just", ease: "easeInOut" }}
           >
-            <section className="flex flex-col w-[200px] border-r justify-center ">
+            <section className="flex flex-col w-[200px] border-r justify-center">
               <nav className="w-full flex justify-center flex-col gap-y-5 resize-x">
                 {sidebarLinks.map((sidebarContent) => (
                   <Link
@@ -51,7 +40,6 @@ const Sidebar = () => {
             </section>
           </motion.section>
         )}
-      </div>
     </AnimatePresence>
   );
 };

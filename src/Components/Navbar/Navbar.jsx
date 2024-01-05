@@ -1,24 +1,35 @@
-import React from 'react';
-import {Link} from 'react-router-dom'
-import {navLinks} from "./NavbarLinks";
+import React from "react";
+import { Link } from "react-router-dom";
+import { navLinks } from "./NavbarLinks";
+import { AlignJustify } from "lucide-react";
 
-
-const Navbar = () => {
-
-    return (
-        <div className='h-[80px] border-b flex text-xl'>
-            <Link to={'/dashboard'} className='flex self-center ml-20 max-md:ml-10 max-sm:w-full max-sm:mx-0 max-sm:justify-center'>logo</Link>
-            <div className=' flex justify-evenly w-full max-sm:hidden'>
-                {navLinks.map(el => (
-                    <div key={el.path} className=' flex max-sm:hidden'>
-                        <div className="flex self-center">
-                            <Link to={el.path}>{el.element}</Link>
-                        </div>
-                    </div>
-                ))}
-            </div>
+const Navbar = ({ setIsOpen }) => {
+  const handleMenuToggle = () => {
+    setIsOpen((prevState) => !prevState);
+  };
+  return (
+    <div className="h-[80px] border-b flex text-xl shadow-md">
+      <div className=" flex w-full justify-between self-center">
+        <div onClick={handleMenuToggle} className="ml-5">
+          <span>
+            <AlignJustify size={30} className="hover:" />
+          </span>
         </div>
-    );
+        <div className="flex justify-evenly w-full self-center">
+          <Link to={"/dashboard"} className="sm:hidden xl:flex">
+            logo
+          </Link>
+          {navLinks.map((el) => (
+            <div key={el.path} className="sm:flex hidden">
+              <div className="flex self-center">
+                <Link to={el.path}>{el.element}</Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Navbar;
