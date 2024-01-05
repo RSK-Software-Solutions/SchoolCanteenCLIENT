@@ -1,14 +1,14 @@
 import React from 'react'
-import LoginInput from "../Components/LoginComponents/LoginInput";
+import Login from "../Components/Auth/Login";
 
-const Login = () => {
+const LoginPage = () => {
     return (
         <div className='h-screen flex justify-center '>
             <form className='flex flex-col self-center'>
-                <LoginInput/>
+                <Login/>
             </form>
         </div>
     )
 }
 
-export default Login
+export default LoginPage

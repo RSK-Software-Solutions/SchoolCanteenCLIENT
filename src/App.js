@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
-import Login from "./Pages/Login";
+import LoginPage from "./Pages/Login";
 import RegisterPage from "./Pages/RegisterPage";
 import Navbar from "./Components/Navbar/Navbar";
 import Sidebar from "./Components/Sidebar/Sidebar";
@@ -15,11 +15,11 @@ function App() {
     return (
         <div>
             <Routes>
-                <Route path={'/login'} element={<Login/>}/>
+                <Route path={'/login'} element={<LoginPage/>}/>
                 <Route path={'/register'} element={<RegisterPage/>}/>
             </Routes>
             <Navbar/>
-            <div className='flex'>
+            <div className='flex w-full'>
                 <Sidebar/>
                 <div className='flex w-full'>
                 {(isLogged) ? <ProtectedRoutes/> : <Navigate
