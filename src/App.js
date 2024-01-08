@@ -1,32 +1,32 @@
-import React, { useContext, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import LoginPage from "./Pages/Login";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PrivateRoutes from "./Pages/PrivateRouter/PrivateRouter";
+import DashboardPage from "./Pages/DashboardPage";
+import AdminPanelPage from "./Pages/AdminPanelPage";
+import NotificationsPage from "./Pages/NotificationsPage";
+import RaportsPage from "./Pages/RaportsPage";
+import UserSettingsPage from "./Pages/UserSettingsPage";
+import Menu from "./Pages/Menu";
+import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
-import Navbar from "./Components/Navbar/Navbar";
-import Sidebar from "./Components/Sidebar/Sidebar";
-import ProtectedRoutes from "./Pages/ProtectedRoutes/ProtectedRoutes";
-import { AuthContext } from "./Context/AuthContext";
-
 function App() {
-    const getSession = useContext(AuthContext)
-    const isLogged = getSession.token
-    const [isOpen, setIsOpen] = useState(false)
+
 
     return (
-        <div>
+        <BrowserRouter>
             <Routes>
-                <Route path={'/login'} element={<LoginPage />} />
-                <Route path={'/register'} element={<RegisterPage />} />
+                <Route path="/" element={<PrivateRoutes />}>
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route path="/admin" element={<AdminPanelPage />} />
+                    <Route path="/notifications" element={<NotificationsPage />} />
+                    <Route path="/raports" element={<RaportsPage />} />
+                    <Route path="/settings" element={<UserSettingsPage />} />
+                    <Route path="/menu" element={<Menu />} />
+                </Route>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
             </Routes>
-            <Navbar setIsOpen={setIsOpen} />
-            <div className='flex w-full'>
-                <Sidebar isOpen={isOpen} />
-                <div className='flex w-full'>
-                    {(isLogged) ? <ProtectedRoutes /> : <Navigate
-                        to={'/login'} />} {/*this is protected route if user don't have token than redirect to log in*/}
-                </div>
-            </div>
-        </div>
+        </BrowserRouter>
     );
 }
 

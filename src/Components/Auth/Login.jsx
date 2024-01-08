@@ -33,7 +33,7 @@ const Login = () => {
         </div>
       ))}
       <div className="text-center">
-        <button type="submit" onClick={HandleLogin(formData)}>
+        <button type="submit" onClick={() =>HandleLogin(formData)}>
           Zaloguj
         </button>
       </div>

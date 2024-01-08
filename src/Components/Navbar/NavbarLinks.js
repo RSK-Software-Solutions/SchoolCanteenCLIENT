@@ -1,17 +1,17 @@
   export const navLinks = [
         {
-            path: "/panel-admina", element: "Panel admina",
+            path: "/admin", element: "Panel admina",
         },
         {
-            path: "/powiadomienia", element: "Powiadomienia",
+            path: "/notifications", element: "Powiadomienia",
         },
         {
-            path: "/jadlospis", element: "Menu",
+            path: "/menu", element: "Menu",
         },
         {
-            path: "/raporty", element: "Raporty",
+            path: "/raports", element: "Raporty",
         },
         {
-            path: "/ustawienia", element: "Ustawienia",
+            path: "/settings", element: "Ustawienia",
         }
     ];
