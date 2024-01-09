@@ -4,15 +4,25 @@ import { HandleRegisterCompany } from "./HandleRegisterLogic";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    Name: "",
-    Login: "",
+    email: "",
+    userName: "",
     Password: "",
+    Role: "user",
   });
 
   const formFields = [
-    { label: "Firma", key: "Name" },
-    { label: "Login", key: "Login" },
-    { label: "Hasło", key: "Password" },
+    {
+      label: "Email",
+      key: "email",
+    },
+    {
+      label: "Username",
+      key: "userName",
+    },
+    {
+      label: "Password",
+      key: "Password",
+    },
   ];
 
   return (
@@ -24,17 +34,12 @@ const Register = () => {
             type="text"
             className="flex flex-col border"
             value={formData[field.key]}
-            onChange={(e) => handleChangeInput(setFormData, formData, field.key, e)}
+            onChange={(e) => handleChangeInput(setFormData, formData, e, field.key)}
           />
         </div>
       ))}
       <div className="text-center">
-        <button
-          type="button"
-          onClick={() => {
-            HandleRegisterCompany(formData);
-          }}
-        >
+        <button type="button" onClick={()=>HandleRegisterCompany(formData)}>
           Zarejestruj
         </button>
       </div>
