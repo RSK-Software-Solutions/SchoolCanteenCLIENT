@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { handleChangeInput } from "../../Logic/HandlingChangeInput";
-import { HandleLogin } from "./HandleLoginLogic";
+import HandleLogin from "./HandleLoginLogic";
+import { AuthContext } from "../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    Login: "",
+    email: "",
     Password: "",
   });
+
+  const navigate = useNavigate();
+  const setUserSession = useContext(AuthContext);
+
+  useEffect(() => {
+    if (setUserSession.token) {
+      navigate("/");
+    }
+
+  }, [setUserSession, navigate]);
 
   const formFields = [
     {
       label: "Email",
-      key: "Login",
+      key: "email",
     },
     {
       label: "Hasło",
@@ -28,12 +40,12 @@ const Login = () => {
             type="text"
             className="flex flex-col border"
             value={formData[field.key]}
-            onChange={(e) => handleChangeInput(setFormData, formData, field.key, e)}
+            onChange={(e) => handleChangeInput(setFormData, formData, e, field.key)}
           />
         </div>
       ))}
       <div className="text-center">
-        <button type="submit" onClick={() =>HandleLogin(formData)}>
+        <button type="button" onClick={() => HandleLogin(formData, setUserSession)}>
           Zaloguj
         </button>
       </div>

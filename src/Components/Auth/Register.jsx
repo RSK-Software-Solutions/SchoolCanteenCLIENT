@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { handleChangeInput } from "../../Logic/HandlingChangeInput";
-import { HandleRegisterCompany } from "./HandleRegisterLogic";
+import HandleRegisterCompany from "./HandleRegisterLogic";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -39,7 +39,7 @@ const Register = () => {
         </div>
       ))}
       <div className="text-center">
-        <button type="button" onClick={()=>HandleRegisterCompany(formData)}>
+        <button type="button" onClick={() => HandleRegisterCompany(formData)}>
           Zarejestruj
         </button>
       </div>
