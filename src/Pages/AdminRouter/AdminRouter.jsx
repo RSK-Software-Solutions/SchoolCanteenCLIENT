@@ -21,10 +21,10 @@ const AdminRouter = () => {
   }, [navigate, localStorageToken]);
 
   return (
-    <div className="flex w-full">
-      <AdminPanel selected={selected} />
-      <div className="flex w-full justify-end">
-        <AdminRightBar setSelected={setSelected} />
+    <div className="flex flex-col w-full justify-center">
+      <AdminRightBar setSelected={setSelected} selected={selected}/>
+      <div className="flex w-full">
+        <AdminPanel selected={selected} />
       </div>
     </div>
   );

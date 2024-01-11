@@ -1,15 +1,16 @@
 import React from "react";
+import EmployeesManagment from "./Employees/EmployeesManagment";
 
 const AdminPanel = ({ selected }) => {
   return (
-    <div>
+    <div className="w-full">
       {selected === "warehouse" ? (
         <div>
           <div>hello</div>
         </div>
       ) : selected === "employees" ? (
-        <div>
-          <div>chaawa</div>
+        <div className="flex justify-center w-full">
+          <EmployeesManagment />
         </div>
       ) : selected === "company" ? (
         <div>

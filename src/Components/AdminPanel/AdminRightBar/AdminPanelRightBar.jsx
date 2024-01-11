@@ -1,11 +1,7 @@
 import React from "react";
 
-const AdminRightBar = ({ setSelected }) => {
+const AdminRightBar = ({ selected, setSelected }) => {
   const options = [
-    {
-      text: "Zarządzanie Magazynem",
-      key: "warehouse",
-    },
     {
       text: "Zarządzanie Użytkownikami",
       key: "employees",
@@ -20,14 +16,17 @@ const AdminRightBar = ({ setSelected }) => {
     },
   ];
   return (
-    <div className="border w-[200px]">
-      <div>
-        {options.map((e) => (
-          <button key={e.text} type="button" onClick={() => setSelected(e.key)} className="flex flex-col">
-            <div className="my-3">{e.text}</div>
-          </button>
-        ))}
-      </div>
+    <div className="border p-4 overflow-x-auto">
+      {options.map((e, index) => (
+        <button
+          key={e.text}
+          type="button"
+          onClick={() => setSelected(e.key)}
+          className={`inline-block p-2 mx-2 ${selected === e.key ? "bg-blue-500 text-white" : "bg-white text-black"}`}
+        >
+          {e.text}
+        </button>
+      ))}
     </div>
   );
 };

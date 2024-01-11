@@ -21,7 +21,7 @@ const PrivateRoutes = () => {
     <div>
       <Navbar setIsOpen={setIsOpen} />
       <div className="flex w-full">
-        <Sidebar isOpen={isOpen} />
+        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen}/>
         <div className="flex w-full">
           <Outlet/>
         </div>

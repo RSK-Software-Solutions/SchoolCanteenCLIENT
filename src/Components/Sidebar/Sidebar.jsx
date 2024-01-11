@@ -2,12 +2,25 @@ import React from "react";
 import sidebarLinks from "./SidebarLinks";
 import { Link } from "react-router-dom";
 import { navLinks } from "../Navbar/NavbarLinks";
+import CloseIcon from "@mui/icons-material/Close";
+import { AnimatePresence, motion } from "framer-motion";
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = ({ isOpen, setIsOpen }) => {
   return (
-    <div>
+    <AnimatePresence>
       {isOpen && (
-        <section className="flex flex-col w-[200px] border-r justify-center">
+        <motion.section
+          initial={{ x: -300 }}
+          animate={{ x: 0 }}
+          exit={{ x: -300 }}
+          transition={{ type: "just", ease: "easeInOut" }}
+          className="fixed left-0 top-0 z-50 h-screen w-[250px] border-r bg-white"
+        >
+          <div className="flex w-full justify-end">
+            <button onClick={() => setIsOpen(!isOpen)}>
+              <CloseIcon fontSize="large" />
+            </button>
+          </div>
           <nav className="w-full flex justify-center flex-col gap-y-5 resize-x">
             {sidebarLinks.map((sidebarContent) => (
               <Link
@@ -28,9 +41,9 @@ const Sidebar = ({ isOpen }) => {
               </Link>
             ))}
           </nav>
-        </section>
+        </motion.section>
       )}
-    </div>
+    </AnimatePresence>
   );
 };
 
