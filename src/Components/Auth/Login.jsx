@@ -37,7 +37,7 @@ const Login = () => {
         <div key={field.key}>
           <label>{field.label}</label>
           <input
-            type="text"
+            type={field.key}
             className="flex flex-col border"
             value={formData[field.key]}
             onChange={(e) => handleChangeInput(setFormData, formData, e, field.key)}

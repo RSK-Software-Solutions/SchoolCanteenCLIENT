@@ -6,23 +6,26 @@ import { UserPersonalSettingsOption } from "./UserPersonalSettingsOption";
 
 const UserSettings = () => {
   const [userSettingsData, setUserSettingsData] = useState({
-    name: "",
-    email: "",
+    firstName: "",
+    lastName: "",
     surname: "",
+    email: "",
+    phoneNumber: "",
   });
+
   const [userResidenceData, setUserResidenceData] = useState({
     street: "",
     state: "",
     city: "",
     country: "",
   });
+
   const [optionPicked, setOptionPicked] = useState("Użytkownika");
 
   return (
-    <div className="flex justify-center">
-      <div className="w-[200px] mt-8 bg-white rounded-md shadow-md flex justify-center mx-10">
+    <div className="flex justify-center max-sm:flex-col max-sm:mx-10">
+      <div className="w-[200px] mt-8 bg-white rounded-md shadow-md flex  justify-center max-sm:w-full">
         <div className=" mb-4 flex flex-col w-full">
-          <span className="flex justify-center text-xl font-semibold">Wybór</span>
           <span className="flex justify-center text-xl font-semibold mb-8">Ustawienia</span>
           {options.map((option) => (
             <button
@@ -41,8 +44,6 @@ const UserSettings = () => {
           userSettingsData={userSettingsData}
           userSettings={userSettingsContent}
         />
-      ) : optionPicked === "widok" ? (
-        <div>ThemeSelector</div>
       ) : optionPicked === "zamieszkanie" ? (
         <UserResidenceOption
           setUserResidenceData={setUserResidenceData}

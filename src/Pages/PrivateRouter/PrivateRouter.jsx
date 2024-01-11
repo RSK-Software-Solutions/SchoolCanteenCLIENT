@@ -23,7 +23,7 @@ const PrivateRoutes = () => {
       <div className="flex w-full">
         <Sidebar isOpen={isOpen} />
         <div className="flex w-full">
-          <Outlet />
+          <Outlet/>
         </div>
       </div>
     </div>

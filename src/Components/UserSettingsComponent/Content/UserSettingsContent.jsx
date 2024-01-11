@@ -46,7 +46,4 @@ export const options = [
   {
     option: "zamieszkanie",
   },
-  {
-    option: "widok",
-  },
 ];

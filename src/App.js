@@ -9,16 +9,17 @@ import UserSettingsPage from "./Pages/UserSettingsPage";
 import Menu from "./Pages/Menu";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
+import AdminRouter from "./Pages/AdminRouter/AdminRouter";
 
 function App() {
-
-
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<PrivateRoutes />}>
+                    <Route path="/admin" element={<AdminRouter />}>
+                        <Route path="/admin" element={<AdminPanelPage />} />
+                    </Route>
                     <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="/admin" element={<AdminPanelPage />} />
                     <Route path="/notifications" element={<NotificationsPage />} />
                     <Route path="/raports" element={<RaportsPage />} />
                     <Route path="/settings" element={<UserSettingsPage />} />
