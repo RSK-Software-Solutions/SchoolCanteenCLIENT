@@ -7,6 +7,7 @@ const Navbar = ({ setIsOpen }) => {
   const handleMenuToggle = () => {
     setIsOpen((prevState) => !prevState);
   };
+
   return (
     <div className="h-[80px] border-b flex text-xl shadow-md">
       <div className=" flex w-full justify-between self-center">

@@ -9,6 +9,7 @@ import UserSettingsPage from "./Pages/UserSettingsPage";
 import Menu from "./Pages/Menu";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
+
 function App() {
 
 

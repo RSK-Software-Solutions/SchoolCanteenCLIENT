@@ -35,7 +35,6 @@ export const AuthContextProvider = (props) => {
   const isTokenValid = (token) => {
     try {
       const decodedToken = jose.decodeJwt(token);
-      console.log(decodedToken.exp * 1000, Date.now());
       return decodedToken.exp * 1000 > Date.now();
     } catch (error) {
       console.error("Error decoding token:", error);

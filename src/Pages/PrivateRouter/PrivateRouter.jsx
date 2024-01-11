@@ -10,7 +10,7 @@ const PrivateRoutes = () => {
 
   useEffect(() => {
     const handleAuthentication = () => {
-      if (!localStorageToken) {
+      if (localStorageToken) {
         navigate("/login");
       }
     };
