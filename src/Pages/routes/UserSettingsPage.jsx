@@ -1,5 +1,5 @@
 import React from 'react';
-import UserSettings from "../Components/UserSettingsComponent/UserSettings";
+import UserSettings from "../../components/userSettingsComponent/UserSettings";
 
 const UserSettingsPage = () => {
     return (

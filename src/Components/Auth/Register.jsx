@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { handleChangeInput } from "../../Logic/HandlingChangeInput";
+import { handleChangeInput } from "../../formhandleChangeLogic/HandlingChangeInput";
 import HandleRegisterCompany from "./HandleRegisterLogic";
 
 const Register = () => {

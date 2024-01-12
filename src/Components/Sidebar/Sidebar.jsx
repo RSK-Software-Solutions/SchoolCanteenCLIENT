@@ -1,7 +1,7 @@
 import React from "react";
-import sidebarLinks from "./SidebarLinks";
+import sidebarLinks from "./content/SidebarLinks";
 import { Link } from "react-router-dom";
-import { navLinks } from "../Navbar/NavbarLinks";
+import { navLinks } from "../navbar/NavbarLinks";
 import CloseIcon from "@mui/icons-material/Close";
 import { AnimatePresence, motion } from "framer-motion";
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Navbar from "../../Components/Navbar/Navbar";
-import Sidebar from "../../Components/Sidebar/Sidebar";
+import Navbar from "../../components/navbar/Navbar";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 const PrivateRoutes = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,9 +21,9 @@ const PrivateRoutes = () => {
     <div>
       <Navbar setIsOpen={setIsOpen} />
       <div className="flex w-full">
-        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen}/>
+        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="flex w-full">
-          <Outlet/>
+          <Outlet />
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ const Navbar = ({ setIsOpen }) => {
       <div className=" flex w-full justify-between self-center">
         <div onClick={handleMenuToggle} className="ml-5">
           <span>
-            <AlignJustify size={30} className="hover:" />
+            <AlignJustify size={30} />
           </span>
         </div>
         <div className="flex justify-evenly w-full self-center">

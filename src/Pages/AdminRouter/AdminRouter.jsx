@@ -1,28 +1,27 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AdminRightBar from "../../Components/AdminPanel/AdminRightBar/AdminPanelRightBar";
-import AdminPanel from "../../Components/AdminPanel/AdminPanel";
+import AdminPanel from "../../components/adminPanel/AdminPanel";
+import AdminManagmentOptions from "../../components/adminPanel/adminManagmentOptions/AdminManagmentOptions";
 
 const AdminRouter = () => {
   const [selected, setSelected] = useState("");
-
-  console.log(selected);
   const navigate = useNavigate();
-
   const localStorageToken = localStorage.getItem("token");
+  const localStorageRole = localStorage.getItem("role");
   //TODO SPRAWDZ CZY JEST ADMINEM
-  useEffect(() => {
-    const handleAuthentication = () => {
-      if (localStorageToken) {
-        navigate("/login");
-      }
-    };
-    handleAuthentication();
-  }, [navigate, localStorageToken]);
+  // useEffect(() => {
+  //   const handleAuthentication = () => {
+  //     if (!localStorageRole && localStorageToken) {
+  //       navigate("/login");
+  //     }
+  //   };
+  //   handleAuthentication();
+  //   s;
+  // }, [navigate, localStorageToken]);
 
   return (
     <div className="flex flex-col w-full justify-center">
-      <AdminRightBar setSelected={setSelected} selected={selected}/>
+      <AdminManagmentOptions setSelected={setSelected} selected={selected} />
       <div className="flex w-full">
         <AdminPanel selected={selected} />
       </div>

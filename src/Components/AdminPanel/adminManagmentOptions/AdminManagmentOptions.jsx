@@ -1,6 +1,6 @@
 import React from "react";
 
-const AdminRightBar = ({ selected, setSelected }) => {
+const AdminManagmentOptions = ({ selected, setSelected }) => {
   const options = [
     {
       text: "Zarządzanie Użytkownikami",
@@ -31,4 +31,4 @@ const AdminRightBar = ({ selected, setSelected }) => {
   );
 };
 
-export default AdminRightBar;
+export default AdminManagmentOptions;

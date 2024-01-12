@@ -44,6 +44,6 @@ export const options = [
     option: "Użytkownika",
   },
   {
-    option: "zamieszkanie",
+    option: "Zamieszkanie",
   },
 ];

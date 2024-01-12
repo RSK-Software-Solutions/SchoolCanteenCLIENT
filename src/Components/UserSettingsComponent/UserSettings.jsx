@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { UserResidenceOption } from "./UserResidenceOption";
-import { options, userSettingsContent } from "./Content/UserSettingsContent";
-import { userResidenceContent } from "./Content/UserSettingsContent";
+import { options, userSettingsContent } from "./content/UserSettingsContent";
+import { userResidenceContent } from "./content/UserSettingsContent";
 import { UserPersonalSettingsOption } from "./UserPersonalSettingsOption";
 
 const UserSettings = () => {
@@ -44,7 +44,7 @@ const UserSettings = () => {
           userSettingsData={userSettingsData}
           userSettings={userSettingsContent}
         />
-      ) : optionPicked === "zamieszkanie" ? (
+      ) : optionPicked === "Zamieszkanie" ? (
         <UserResidenceOption
           setUserResidenceData={setUserResidenceData}
           userResidenceData={userResidenceData}

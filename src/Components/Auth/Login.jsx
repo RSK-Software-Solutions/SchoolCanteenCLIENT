@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { handleChangeInput } from "../../Logic/HandlingChangeInput";
+import { handleChangeInput } from "../../formhandleChangeLogic/HandlingChangeInput";
 import HandleLogin from "./HandleLoginLogic";
-import { AuthContext } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import { AuthContext } from "../../context/AuthContext";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -17,7 +16,6 @@ const Login = () => {
     if (setUserSession.token) {
       navigate("/");
     }
-
   }, [setUserSession, navigate]);
 
   const formFields = [
@@ -30,7 +28,7 @@ const Login = () => {
       key: "Password",
     },
   ];
- 
+
   return (
     <div className="border">
       {formFields.map((field) => (
@@ -45,7 +43,7 @@ const Login = () => {
         </div>
       ))}
       <div className="text-center">
-        <button type="button" onClick={() => HandleLogin(formData, setUserSession)}>
+        <button type="submit" onClick={() => HandleLogin(formData, setUserSession)}>
           Zaloguj
         </button>
       </div>

@@ -1,4 +1,4 @@
-import { handleChangeInput } from "../../Logic/HandlingChangeInput";
+import { handleChangeInput } from "../../formhandleChangeLogic/HandlingChangeInput";
 export const UserResidenceOption = ({ userResidenceData, setUserResidenceData , userResidenceSettings}) => {
  
   return (

@@ -1,4 +1,4 @@
-import { handleChangeInput } from "../../Logic/HandlingChangeInput";
+import { handleChangeInput } from "../../formhandleChangeLogic/HandlingChangeInput";
 export const UserPersonalSettingsOption = ({ userSettingsData, setUserSettingsData, userSettings }) => {
   return (
     <div className="mt-8 p-6 bg-white rounded-md shadow-md">

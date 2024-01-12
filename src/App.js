@@ -1,15 +1,15 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PrivateRoutes from "./Pages/PrivateRouter/PrivateRouter";
-import DashboardPage from "./Pages/DashboardPage";
-import AdminPanelPage from "./Pages/AdminPanelPage";
-import NotificationsPage from "./Pages/NotificationsPage";
-import RaportsPage from "./Pages/RaportsPage";
-import UserSettingsPage from "./Pages/UserSettingsPage";
-import Menu from "./Pages/Menu";
-import LoginPage from "./Pages/LoginPage";
-import RegisterPage from "./Pages/RegisterPage";
-import AdminRouter from "./Pages/AdminRouter/AdminRouter";
+import PrivateRoutes from "./pages/privateRouter/PrivateRouter";
+import DashboardPage from "./pages/routes/DashboardPage";
+import AdminPanelPage from "./pages/routes/AdminPanelPage";
+import NotificationsPage from "./pages/routes/NotificationsPage";
+import RaportsPage from "./pages/routes/RaportsPage";
+import UserSettingsPage from "./pages/routes/UserSettingsPage";
+import Menu from "./pages/routes/MenuPage";
+import LoginPage from "./pages/routes/LoginPage";
+import RegisterPage from "./pages/routes/RegisterPage";
+import AdminRouter from "./pages/adminRouter/AdminRouter";
 
 function App() {
     return (
