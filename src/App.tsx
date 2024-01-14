@@ -1,22 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PrivateRoutes from "./pages/privateRouter/PrivateRouter";
-import DashboardPage from "./pages/routes/DashboardPage";
-import AdminPanelPage from "./pages/routes/AdminPanelPage";
-import NotificationsPage from "./pages/routes/NotificationsPage";
-import RaportsPage from "./pages/routes/RaportsPage";
-import UserSettingsPage from "./pages/routes/UserSettingsPage";
-import Menu from "./pages/routes/MenuPage";
-import LoginPage from "./pages/routes/LoginPage";
-import RegisterPage from "./pages/routes/RegisterPage";
-import AdminRouter from "./pages/adminRouter/AdminRouter";
+import DashboardPage from "./pages/protectedRoutes/DashboardPage";
+import NotificationsPage from "./pages/protectedRoutes/NotificationsPage";
+import RaportsPage from "./pages/protectedRoutes/RaportsPage";
+import UserSettingsPage from "./pages/protectedRoutes/UserSettingsPage";
+import Menu from "./pages/protectedRoutes/MenuPage";
+import LoginPage from "./pages/publicRoutes/LoginPage";
+import RegisterPage from "./pages/publicRoutes/RegisterPage";
 import React from "react";
+import AdminProtectedWrapper from "./pages/privatePageWrappers/AdminProtectedWrapper";
+import UserProtectedWrapper from "./pages/privatePageWrappers/UserProtectedWrapper";
+import AdminPanelPage from "./pages/protectedRoutes/AdminPanelPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PrivateRoutes />}>
-          <Route path="/admin" element={<AdminRouter />}>
+        <Route path="/" element={<UserProtectedWrapper />}>
+          <Route path="/admin" element={<AdminProtectedWrapper />}>
             <Route path="/admin" element={<AdminPanelPage />} />
           </Route>
           <Route path="/dashboard" element={<DashboardPage />} />
