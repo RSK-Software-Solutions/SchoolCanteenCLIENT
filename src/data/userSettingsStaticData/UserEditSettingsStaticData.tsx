@@ -1,6 +1,8 @@
 import { Options } from "../dataTypes/data-types-d";
-import { TUserSettingsContent } from "../dataTypes/user-creds-types-d";
-
+export type TUserSettingsContent = {
+  label: string;
+  key: string;
+};
 export const userSettingsStaticData: TUserSettingsContent[] = [
   {
     label: "Imię",

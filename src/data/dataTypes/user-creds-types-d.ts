@@ -12,10 +12,7 @@ export type TRegisterCredentials = {
     comapanyName: string;
 };
 
-export type TUserSettingsContent = {
-    label: string;
-    key: string;
-};
+
 
 export type TUserPersonalData = {
     firstName: string;
