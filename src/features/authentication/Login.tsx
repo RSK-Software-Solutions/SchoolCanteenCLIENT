@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { TFormField, handleChangeInput } from "../../utils/HandlingChangeInput";
-import HandleLogin from "../../utils/LoginAuthentication";
+import { TFormField, handleChangeInput } from "../../lib/utils/HandlingChangeInput";
+import HandleLogin from "../../lib/utils/LoginAuthentication";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { TLoginCredentials } from "../../data/dataTypes/user-creds-types-d";

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TLoginCredentials } from '../data/dataTypes/user-creds-types-d';
+import { TLoginCredentials } from '../../data/dataTypes/user-creds-types-d';
 
 type AuthSetter = (token: string, email: string, userName: string) => void;
 

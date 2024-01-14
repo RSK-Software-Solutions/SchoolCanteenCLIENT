@@ -1,4 +1,4 @@
-import { handleChangeInput } from "../../utils/HandlingChangeInput";
+import { handleChangeInput } from "../../lib/utils/HandlingChangeInput";
 import React, { SetStateAction } from "react";
 import { TUserPersonalData, TUserSettingsContent } from "../../data/dataTypes/user-creds-types-d";
 

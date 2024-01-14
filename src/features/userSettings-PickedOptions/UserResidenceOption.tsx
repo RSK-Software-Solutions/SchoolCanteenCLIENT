@@ -1,5 +1,5 @@
 import { SetStateAction } from "react";
-import { handleChangeInput } from "../../utils/HandlingChangeInput";
+import { handleChangeInput } from "../../lib/utils/HandlingChangeInput";
 import React from "react";
 import { TUserResidenceData, TUserSettingsContent } from "../../data/dataTypes/user-creds-types-d";
 

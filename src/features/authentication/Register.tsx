@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { TFormField, handleChangeInput } from "../../utils/HandlingChangeInput";
-import HandleRegisterCompany from "../../utils/RegisterAuthentication";
+import { TFormField, handleChangeInput } from "../../lib/utils/HandlingChangeInput";
+import HandleRegisterCompany from "../../lib/utils/RegisterAuthentication";
 import { TRegisterCredentials } from "../../data/dataTypes/user-creds-types-d";
 
 const Register = () => {
