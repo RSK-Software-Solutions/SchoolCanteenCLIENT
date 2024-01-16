@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { UserResidenceOption } from "../userSettings-PickedOptions/UserResidenceOption";
-import { options, userResidenceStaticData, userSettingsStaticData } from "../../data/userSettingsStaticData/UserEditSettingsStaticData";
+import { TUserPersonalData, TUserResidenceData } from "@/data/dataTypes/user-creds-types-d";
+import { options, userSettingsStaticData, userResidenceStaticData } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
+import React, { useState } from "react";
 import { UserPersonalSettingsOption } from "../userSettings-PickedOptions/UserPersonalSettingsOption";
-import React from "react";
-import { TUserPersonalData, TUserResidenceData } from "../../data/dataTypes/user-creds-types-d";
+import { UserResidenceOption } from "../userSettings-PickedOptions/UserResidenceOption";
+
 
 const UserSettings = () => {
   const [userSettingsData, setUserSettingsData] = useState<TUserPersonalData>({

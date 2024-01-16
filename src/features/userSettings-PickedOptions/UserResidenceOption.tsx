@@ -1,7 +1,8 @@
-import { SetStateAction } from "react";
-import { handleChangeInput } from "../../lib/utils/HandlingChangeInput";
-import React from "react";
-import { TUserResidenceData, TUserSettingsContent } from "../../data/dataTypes/user-creds-types-d";
+import { TUserResidenceData } from "@/data/dataTypes/user-creds-types-d";
+import { TUserSettingsContent } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
+import { handleChangeInput } from "@/lib/utils/HandlingChangeInput";
+import React, { SetStateAction } from "react";
+
 
 type UserResidenceOptionProps = {
   userResidenceData: TUserResidenceData;

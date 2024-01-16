@@ -1,9 +1,9 @@
-import React, { SetStateAction } from "react";
-import { Link } from "react-router-dom";
-import { navLinks } from "../data/navbarStaticData/NavbarNavigationLinks";
-import CloseIcon from "@mui/icons-material/Close";
+import { navLinks } from "@/data/navbarStaticData/NavbarNavigationLinks";
+import { SidebarLinks } from "@/data/sidebarStaticData/SidebarNavigationLinks";
 import { AnimatePresence, motion } from "framer-motion";
-import { SidebarLinks } from "../data/sidebarStaticData/SidebarNavigationLinks";
+import { X, Link } from "lucide-react";
+import React, { SetStateAction } from "react";
+
 
 type TSidebarProps = {
   isOpen: boolean;
@@ -23,7 +23,7 @@ const Sidebar = ({ isOpen, setIsOpen }: TSidebarProps) => {
         >
           <div className="flex w-full justify-end">
             <button onClick={() => setIsOpen(!isOpen)}>
-              <CloseIcon fontSize="large" />
+              <X className="size-8" />
             </button>
           </div>
           <nav className="w-full flex justify-center flex-col gap-y-5 resize-x">

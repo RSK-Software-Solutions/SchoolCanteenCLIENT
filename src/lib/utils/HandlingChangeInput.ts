@@ -1,7 +1,7 @@
 // HandlingChangeInput.tsx
 
+import { TLoginCredentials, TRegisterCredentials, TUserPersonalData, TUserResidenceData } from "@/data/dataTypes/user-creds-types-d";
 import { SetStateAction, Dispatch } from "react";
-import { TLoginCredentials, TRegisterCredentials, TUserPersonalData, TUserResidenceData } from "../../data/dataTypes/user-creds-types-d";
 export type TAuthCredentials = TLoginCredentials | TRegisterCredentials | TUserPersonalData | TUserResidenceData;
 
 export type TFormField = {

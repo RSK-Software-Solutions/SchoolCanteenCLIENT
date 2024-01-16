@@ -1,6 +1,7 @@
-import { handleChangeInput } from "../../lib/utils/HandlingChangeInput";
+import { TUserPersonalData } from "@/data/dataTypes/user-creds-types-d";
+import { TUserSettingsContent } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
+import { handleChangeInput } from "@/lib/utils/HandlingChangeInput";
 import React, { SetStateAction } from "react";
-import { TUserPersonalData, TUserSettingsContent } from "../../data/dataTypes/user-creds-types-d";
 
 export type TUserPersonalCredentials = {
   userSettingsData: TUserPersonalData;

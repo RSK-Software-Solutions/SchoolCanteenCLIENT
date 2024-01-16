@@ -1,6 +1,7 @@
+import { adminManagmentOptionsPickerData } from "@/data/adminManagmentOptionsData/AminManagmentOptionsPickerData";
+import { TAdminSelectedOptionProps } from "@/data/dataTypes/data-types-d";
 import React from "react";
-import { adminManagmentOptionsPickerData } from "../../data/adminManagmentOptionsData/AminManagmentOptionsPickerData";
-import { TAdminSelectedOptionProps } from "../../data/dataTypes/data-types-d";
+
 
 const AdminManagmentOptions = ({ selectedOptionByAdmin, setSelectedOptionByAdmin }: TAdminSelectedOptionProps) => {
   return (

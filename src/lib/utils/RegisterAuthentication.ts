@@ -1,5 +1,5 @@
+import { TRegisterCredentials } from "@/data/dataTypes/user-creds-types-d";
 import axios from "axios";
-import { TRegisterCredentials } from "../../data/dataTypes/user-creds-types-d";
 
 const HandleRegisterCompany = async (formData: TRegisterCredentials) => {
   const ApiUrl = process.env.REACT_APP_URL + "/Auth/Register";

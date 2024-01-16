@@ -12,8 +12,6 @@ export type TRegisterCredentials = {
     comapanyName: string;
 };
 
-
-
 export type TUserPersonalData = {
     firstName: string;
     lastName: string;

@@ -1,7 +1,7 @@
 import React, { SetStateAction } from "react";
 import { Link } from "react-router-dom";
-import { navLinks } from "../data/navbarStaticData/NavbarNavigationLinks";
-import MenuIcon from "@mui/icons-material/Menu";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { navLinks } from "@/data/navbarStaticData/NavbarNavigationLinks";
 
 type NavbarProps = {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -13,7 +13,7 @@ const Navbar = ({ setIsOpen }: NavbarProps) => {
       <div className=" flex w-full justify-between self-center">
         <div onClick={() => setIsOpen((prev: boolean) => !prev)} className="ml-5">
           <span>
-            <MenuIcon />
+            <HamburgerMenuIcon className="size-8"/>
           </span>
         </div>
         <div className="flex justify-evenly w-full self-center">
