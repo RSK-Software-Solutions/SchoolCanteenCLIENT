@@ -1,5 +1,6 @@
+import { TUserPersonalData, TUserResidenceData } from "@/data/dataTypes/user-creds-types-d"
 import axios from "axios"
-import { TUserPersonalData, TUserResidenceData } from "../data/dataTypes/user-creds-types-d"
+
 
 export const SaveSettings = async (formdata: TUserPersonalData | TUserResidenceData) => {
     try {

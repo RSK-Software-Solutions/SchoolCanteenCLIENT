@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import AdminPanel from "@/features/adminPanel-AdminDashboard/AdminPanel";
+import AdminManagmentOptions from "@/features/adminPanel-OptionPicker/AdminManagmentOptions";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AdminPanel from "../../features/adminPanel-AdminDashboard/AdminPanel";
-import AdminManagmentOptions from "../../features/adminPanel-OptionPicker/AdminManagmentOptions";
-import React from "react";
+
 
 const AdminProtectedWrapper = () => {
-  const [selectedOptionByAdmin, setSelectedOptionByAdmin] = useState("");
+  const [selectedOptionByAdmin, setSelectedOptionByAdmin] = useState("employees");
   const navigate = useNavigate();
   const localStorageToken = localStorage.getItem("token");
 

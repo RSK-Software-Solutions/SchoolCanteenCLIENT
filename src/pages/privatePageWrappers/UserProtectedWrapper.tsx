@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import Navbar from "../../layout/Navbar";
-import Sidebar from "../../layout/Sidebar";
-import React from "react";
+import Navbar from "@/layout/Navbar";
+import Sidebar from "@/layout/Sidebar";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
+
 
 const UserProtectedWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);

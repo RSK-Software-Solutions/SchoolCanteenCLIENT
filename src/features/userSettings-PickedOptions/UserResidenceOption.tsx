@@ -1,40 +1,50 @@
-import { SetStateAction } from "react";
-import { handleChangeInput } from "../../utils/HandlingChangeInput";
-import React from "react";
-import { TUserResidenceData, TUserSettingsContent } from "../../data/dataTypes/user-creds-types-d";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { TUserResidenceData } from "@/data/dataTypes/user-creds-types-d";
+import { TUserSettingsContent } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
+import { handleChangeInput } from "@/lib/utils/HandlingChangeInput";
+import { SaveSettings } from "@/lib/utils/SaveUserSettings";
+import React, { SetStateAction, useEffect } from "react";
+
 
 type UserResidenceOptionProps = {
   userResidenceData: TUserResidenceData;
   setUserResidenceData: React.Dispatch<SetStateAction<TUserResidenceData>>;
   userResidenceSettings: TUserSettingsContent[];
+  optionPicked: string;
 };
 
 export const UserResidenceOption = ({
   userResidenceData,
   setUserResidenceData,
   userResidenceSettings,
+  optionPicked,
 }: UserResidenceOptionProps) => {
+
+  useEffect(() => {
+    console.log(userResidenceData);
+
+  }, [userResidenceData])
+
   return (
-    <div className="mt-8 p-6 bg-white rounded-md shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Ustawienia Użytkownika</h2>
-      <div className="flex flex-col">
-        {userResidenceSettings.map((settings: TUserSettingsContent) => (
-          <div key={settings.key} className="mb-4">
-            <label className="block text-sm font-medium text-gray-600">{settings.label}</label>
-            <div className="flex">
-              <input
-                type="text"
-                className="mt-1 p-2 w-full border rounded-md"
-                value={userResidenceData[settings.key as keyof TUserResidenceData]}
-                onChange={(e) => handleChangeInput(setUserResidenceData, e, settings)}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-      <button className="flex w-full justify-center bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-        Zapisz Ustawienia
-      </button>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Ustawienia {optionPicked}</CardTitle>
+        <CardDescription>Aktualizuj swoje ustawienia {optionPicked}</CardDescription>
+      </CardHeader>
+      {userResidenceSettings.map(ResidenceSettings => (
+        <form className="flex flex-col gap-4">
+          <CardContent>
+            <Label>{ResidenceSettings.label}</Label>
+            <Input placeholder={ResidenceSettings.label} onChange={(e) => handleChangeInput(setUserResidenceData, e, ResidenceSettings)} />
+          </CardContent>
+        </form>
+      ))}
+      <CardFooter className="border-t p-6">
+        <Button onClick={() => SaveSettings(userResidenceData)}>Save</Button>
+      </CardFooter>
+    </Card>
   );
 };

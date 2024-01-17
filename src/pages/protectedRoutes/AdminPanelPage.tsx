@@ -1,5 +1,5 @@
+import AdminPanel from "@/features/adminPanel-AdminDashboard/AdminPanel";
 import React, { useState } from "react";
-import AdminPanel from "../../features/adminPanel-AdminDashboard/AdminPanel";
 
 const AdminPanelPage = () => {
   const [selectedOptionByAdmin, setSelectedOptionByAdmin] = useState("");

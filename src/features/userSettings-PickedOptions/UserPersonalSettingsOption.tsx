@@ -1,39 +1,45 @@
-import { handleChangeInput } from "../../utils/HandlingChangeInput";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { TUserPersonalData } from "@/data/dataTypes/user-creds-types-d";
+import { TUserSettingsContent } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
+import { handleChangeInput } from "@/lib/utils/HandlingChangeInput";
+import { SaveSettings } from "@/lib/utils/SaveUserSettings";
 import React, { SetStateAction } from "react";
-import { TUserPersonalData, TUserSettingsContent } from "../../data/dataTypes/user-creds-types-d";
 
 export type TUserPersonalCredentials = {
   userSettingsData: TUserPersonalData;
   setUserSettingsData: React.Dispatch<SetStateAction<TUserPersonalData>>;
   userSettings: TUserSettingsContent[];
+  optionPicked: string;
 };
 
 export const UserPersonalSettingsOption = ({
   userSettingsData,
   setUserSettingsData,
   userSettings,
+  optionPicked,
 }: TUserPersonalCredentials) => {
   return (
-    <div className="mt-8 p-6 bg-white rounded-md shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Ustawienia Użytkownika</h2>
-      <div className="flex flex-col">
+    <>
+      <Card>
+        <CardHeader>
+          <CardTitle>Ustawienia {optionPicked}</CardTitle>
+          <CardDescription>Aktualizuj swoje ustawienia {optionPicked}</CardDescription>
+        </CardHeader>
         {userSettings.map((settings) => (
-          <div key={settings.key} className="mb-4">
-            <label className="block text-sm font-medium text-gray-600">{settings.label}</label>
-            <div className="flex">
-              <input
-                type="text"
-                className="mt-1 p-2 w-full border rounded-md"
-                value={userSettingsData[settings.key as keyof TUserPersonalData]}
-                onChange={(e) => handleChangeInput(setUserSettingsData, e, settings)}
-              />
-            </div>
-          </div>
+          <form className="flex flex-col gap-4">
+            <CardContent>
+              <Label>{settings.label}</Label>
+              <Input placeholder={settings.label} onChange={(e) => handleChangeInput(setUserSettingsData, e, settings)} />
+            </CardContent>
+          </form>
         ))}
-      </div>
-      <button className="flex w-full justify-center bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-        Zapisz Ustawienia
-      </button>
-    </div>
+        <CardFooter className="border-t p-6">
+          <Button onClick={() => { SaveSettings(userSettingsData) }}>Save</Button>
+        </CardFooter>
+      </Card>
+    </>
   );
 };
