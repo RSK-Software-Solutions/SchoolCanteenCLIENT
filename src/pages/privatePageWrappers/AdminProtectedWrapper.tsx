@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const AdminProtectedWrapper = () => {
-  const [selectedOptionByAdmin, setSelectedOptionByAdmin] = useState("");
+  const [selectedOptionByAdmin, setSelectedOptionByAdmin] = useState("employees");
   const navigate = useNavigate();
   const localStorageToken = localStorage.getItem("token");
 

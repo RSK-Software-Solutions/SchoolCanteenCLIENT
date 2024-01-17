@@ -73,7 +73,7 @@ const Register = () => {
         </div>
       ))}
       <div className="flex justify-evenly gap-x-5 mt-6">
-        <Button type="button" onClick={handleClick}>
+        <Button type="button" onClick={handleClick} variant={"outline"}>
           Zarejestruj
         </Button>
         <div className="text-center text-sm flex flex-col">

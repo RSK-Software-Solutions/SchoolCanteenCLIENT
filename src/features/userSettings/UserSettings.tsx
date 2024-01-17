@@ -3,9 +3,11 @@ import { options, userSettingsStaticData, userResidenceStaticData } from "@/data
 import React, { useState } from "react";
 import { UserPersonalSettingsOption } from "../userSettings-PickedOptions/UserPersonalSettingsOption";
 import { UserResidenceOption } from "../userSettings-PickedOptions/UserResidenceOption";
-
+import { Link } from "react-router-dom";
 
 const UserSettings = () => {
+  const [optionPicked, setOptionPicked] = useState<string>("Użytkownika");
+
   const [userSettingsData, setUserSettingsData] = useState<TUserPersonalData>({
     firstName: "",
     lastName: "",
@@ -21,39 +23,49 @@ const UserSettings = () => {
     country: "",
   });
 
-  const [optionPicked, setOptionPicked] = useState("Użytkownika");
 
   return (
-    <div className="flex justify-center max-sm:flex-col max-sm:mx-10">
-      <div className="w-[200px] mt-8 bg-white rounded-md shadow-md flex  justify-center max-sm:w-full">
-        <div className=" mb-4 flex flex-col w-full">
-          <span className="flex justify-center text-xl font-semibold mb-8">Ustawienia</span>
-          {options.map((option) => (
-            <button
-              key={option.option}
-              className="text-start w-fit ml-4 my-1"
-              onClick={() => setOptionPicked(option.option)}
-            >
-              {option.option}
-            </button>
-          ))}
+    <div key="1" className="flex flex-col w-full min-h-screen">
+      <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] bg-gray-100/40 flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10 dark:bg-gray-800/40">
+        <div className="max-w-6xl w-full mx-auto grid gap-2">
+          <h1 className="font-semibold text-3xl">Ustawienia</h1>
         </div>
-      </div>
-      {optionPicked === "Użytkownika" ? (
-        <UserPersonalSettingsOption
-          setUserSettingsData={setUserSettingsData}
-          userSettingsData={userSettingsData}
-          userSettings={userSettingsStaticData}
-        />
-      ) : optionPicked === "Zamieszkanie" ? (
-        <UserResidenceOption
-          setUserResidenceData={setUserResidenceData}
-          userResidenceData={userResidenceData}
-          userResidenceSettings={userResidenceStaticData}
-        />
-      ) : null}
+        <div className="grid md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr] items-start gap-6 max-w-6xl w-full mx-auto">
+          <nav className="text-sm text-gray-500 grid gap-4 dark:text-gray-400">
+            {options.map(option => (
+              <Link
+                to="#"
+                onClick={() => setOptionPicked(option.option)}
+                className={`${option.option === optionPicked ? 'text-black underline' : ''}`}
+              >
+                {option.option}
+              </Link>
+            ))}
+
+          </nav>
+          <div className="grid gap-6">
+            {optionPicked === "Użytkownika" ? (
+              <UserPersonalSettingsOption
+                setUserSettingsData={setUserSettingsData}
+                userSettingsData={userSettingsData}
+                userSettings={userSettingsStaticData}
+                optionPicked={optionPicked}
+              />
+            ) : optionPicked === "Zamieszkanie" ? (
+              <UserResidenceOption
+                setUserResidenceData={setUserResidenceData}
+                userResidenceData={userResidenceData}
+                userResidenceSettings={userResidenceStaticData}
+                optionPicked={optionPicked}
+              />
+            ) : null}
+
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
 
 export default UserSettings;
+

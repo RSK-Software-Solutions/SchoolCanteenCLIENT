@@ -1,8 +1,10 @@
 import { navLinks } from "@/data/navbarStaticData/NavbarNavigationLinks";
 import { SidebarLinks } from "@/data/sidebarStaticData/SidebarNavigationLinks";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, Link } from "lucide-react";
+import { X } from "lucide-react";
 import React, { SetStateAction } from "react";
+import rskLogo from "@/assets/Software-removebg-preview.png"
+import { Link } from "react-router-dom";
 
 
 type TSidebarProps = {
@@ -21,12 +23,19 @@ const Sidebar = ({ isOpen, setIsOpen }: TSidebarProps) => {
           transition={{ type: "just", ease: "easeInOut" }}
           className="fixed left-0 top-0 z-50 h-screen w-[250px] border-r bg-white"
         >
-          <div className="flex w-full justify-end">
-            <button onClick={() => setIsOpen(!isOpen)}>
-              <X className="size-8" />
-            </button>
+          <div className="flex w-full justify-center select-none">
+            <Link to='/dashboard' className="flex justify-center">
+              <img src={rskLogo} alt="RSK Logo" className="relative top-0 h-[200px]" />
+            </Link>
+            <div className="flex  justify-end">
+            <div>  
+                <button onClick={() => setIsOpen(!isOpen)}  >
+                  <X className="size-8" />
+                </button>
+              </div>
+            </div>
           </div>
-          <nav className="w-full flex justify-center flex-col gap-y-5 resize-x">
+          <nav className="w-full flex justify-center flex-col gap-y-5 resize-x select-none">
             {SidebarLinks.map((sidebarStatic) => (
               <Link
                 key={sidebarStatic.element}
