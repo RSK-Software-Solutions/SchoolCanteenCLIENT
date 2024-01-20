@@ -1,9 +1,10 @@
+import { Raports } from "@/features/rapportsMain/Raports";
 import React from 'react';
 
 const RaportsPage = () => {
     return (
-        <div>
-            Raports
+        <div className='w-full'>
+            <Raports />
         </div>
     );
 };

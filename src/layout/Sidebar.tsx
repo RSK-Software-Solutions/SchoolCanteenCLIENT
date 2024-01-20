@@ -28,7 +28,7 @@ const Sidebar = ({ isOpen, setIsOpen }: TSidebarProps) => {
               <img src={rskLogo} alt="RSK Logo" className="relative top-0 h-[200px]" />
             </Link>
             <div className="flex  justify-end">
-            <div>  
+              <div>
                 <button onClick={() => setIsOpen(!isOpen)}  >
                   <X className="size-8" />
                 </button>

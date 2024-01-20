@@ -1,9 +1,7 @@
-import { TUserPersonalData, TUserResidenceData } from "@/data/dataTypes/user-creds-types-d";
-import { options, userSettingsStaticData, userResidenceStaticData } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
+import { TUserPersonalData } from "@/data/dataTypes/user-creds-types-d";
+import { options, userSettingsStaticData } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
 import React, { useState } from "react";
 import { UserPersonalSettingsOption } from "../userSettings-PickedOptions/UserPersonalSettingsOption";
-import { UserResidenceOption } from "../userSettings-PickedOptions/UserResidenceOption";
-import { Link } from "react-router-dom";
 
 const UserSettings = () => {
   const [optionPicked, setOptionPicked] = useState<string>("Użytkownika");
@@ -13,10 +11,7 @@ const UserSettings = () => {
     lastName: "",
     surname: "",
     email: "",
-    phoneNumber: "",
-  });
-
-  const [userResidenceData, setUserResidenceData] = useState<TUserResidenceData>({
+    phoneNumber: null,
     street: "",
     state: "",
     city: "",
@@ -33,13 +28,12 @@ const UserSettings = () => {
         <div className="grid md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr] items-start gap-6 max-w-6xl w-full mx-auto">
           <nav className="text-sm text-gray-500 grid gap-4 dark:text-gray-400">
             {options.map(option => (
-              <Link
-                to="#"
+              <button
                 onClick={() => setOptionPicked(option.option)}
                 className={`${option.option === optionPicked ? 'text-black underline' : ''}`}
               >
                 {option.option}
-              </Link>
+              </button>
             ))}
 
           </nav>
@@ -51,15 +45,7 @@ const UserSettings = () => {
                 userSettings={userSettingsStaticData}
                 optionPicked={optionPicked}
               />
-            ) : optionPicked === "Zamieszkanie" ? (
-              <UserResidenceOption
-                setUserResidenceData={setUserResidenceData}
-                userResidenceData={userResidenceData}
-                userResidenceSettings={userResidenceStaticData}
-                optionPicked={optionPicked}
-              />
             ) : null}
-
           </div>
         </div>
       </main>

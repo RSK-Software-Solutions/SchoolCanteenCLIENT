@@ -17,10 +17,7 @@ export type TUserPersonalData = {
     lastName: string;
     surname: string;
     email: string;
-    phoneNumber: string;
-};
-
-export type TUserResidenceData = {
+    phoneNumber: Number | null;
     street: string;
     state: string;
     city: string;
