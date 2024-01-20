@@ -16,9 +16,10 @@ export const userSettingsStaticData: TUserSettingsContent[] = [
     label: "Adres Email",
     key: "email",
   },
-];
-
-export const userResidenceStaticData: TUserSettingsContent[] = [
+  {
+    label: "Numer Telefonu",
+    key: "phoneNumber",
+  },
   {
     label: "Ulica",
     key: "street",
@@ -40,8 +41,5 @@ export const userResidenceStaticData: TUserSettingsContent[] = [
 export const options: Options[] = [
   {
     option: "Użytkownika",
-  },
-  {
-    option: "Zamieszkanie",
   },
 ];

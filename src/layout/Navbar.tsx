@@ -25,7 +25,9 @@ const Navbar = ({ setIsOpen }: NavbarProps) => {
           {navLinks.map((el) => (
             <div key={el.path} className="sm:flex hidden">
               <div className="flex self-center">
-                <Link to={el.path}>{el.element}</Link>
+                <nav>
+                  <Link to={el.path}>{el.element}</Link>
+                </nav>
               </div>
             </div>
           ))}
