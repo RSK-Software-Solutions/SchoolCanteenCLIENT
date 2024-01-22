@@ -1,4 +1,4 @@
-import { TRegisterCredentials } from "@/data/dataTypes/user-creds-types-d";
+import { TRegisterCredentials } from "@/features/authentication/Register";
 import axios from "axios";
 
 const HandleRegisterCompany = async (formData: TRegisterCredentials) => {

@@ -1,4 +1,4 @@
-import { TcompanyForm } from "@/features/adminPanel-CompanyManagment/CompanyManagment";
+import { TcompanyForm } from "@/features/adminPanel/CompanyManagment/CompanyManagment";
 import axios from "axios";
 import { SetStateAction } from "react";
 

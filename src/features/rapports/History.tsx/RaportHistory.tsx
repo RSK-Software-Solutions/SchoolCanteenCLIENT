@@ -21,20 +21,6 @@ export const RaportHistory = () => {
                     <TableCell>John Doe</TableCell>
                     <TableCell>$200</TableCell>
                 </TableRow>
-                <TableRow>
-                    <TableCell>Report 2</TableCell>
-                    <TableCell>2024-01-19</TableCell>
-                    <TableCell>Product B</TableCell>
-                    <TableCell>Jane Doe</TableCell>
-                    <TableCell>$150</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>Report 3</TableCell>
-                    <TableCell>2024-01-18</TableCell>
-                    <TableCell>Product C</TableCell>
-                    <TableCell>John Smith</TableCell>
-                    <TableCell>$250</TableCell>
-                </TableRow>
             </TableBody>
         </Table></div>
     )

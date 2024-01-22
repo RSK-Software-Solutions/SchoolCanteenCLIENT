@@ -1,6 +1,6 @@
 import React from "react"
-import { RaportHistory } from "../rapport-history/RaportHistory"
-import { RaportsGenerator } from "../rapport-generator/RaportsGenerator"
+import { RaportHistory } from "./History.tsx/RaportHistory"
+import { RaportsGenerator } from "./Generator/RaportsGenerator"
 
 export const Raports = () => {
     return (

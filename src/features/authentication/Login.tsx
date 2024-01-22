@@ -2,12 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useAuthContext from "@/context/AuthContext";
-import { TLoginCredentials } from "@/data/dataTypes/user-creds-types-d";
 import { TFormField, handleChangeInput } from "@/lib/utils/HandlingChangeInput";
 import HandleLogin from "@/lib/utils/LoginAuthentication";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+export type TLoginCredentials = {
+  email: string;
+  password: string;
+};
 
 const Login = () => {
   const [formData, setFormData] = useState<TLoginCredentials>({

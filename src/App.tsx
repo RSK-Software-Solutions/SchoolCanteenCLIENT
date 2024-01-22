@@ -19,7 +19,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* employees Routes */}
         <Route path="/" element={<UserProtectedWrapper />}>
+          {/* admin Routes~ must be inside of this wrapper since this UserProtectedWrapper is rendering navbar and sidebar */}
           <Route path="/admin" element={<AdminProtectedWrapper />}>
             <Route path="/admin" element={<AdminPanelPage />} />
           </Route>
@@ -31,6 +33,7 @@ function App() {
           <Route path="/warehouse" element={<InitialWareHousePage />} />
           <Route path="/warehouse/finished" element={<FinishProductsWareHousePage />} />
         </Route>
+        {/* public Routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>

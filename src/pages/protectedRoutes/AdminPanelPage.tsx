@@ -1,4 +1,4 @@
-import AdminPanel from "@/features/adminPanel-AdminDashboard/AdminPanel";
+import AdminPanel from "@/features/adminPanel/AdminPanel";
 import React, { useState } from "react";
 
 const AdminPanelPage = () => {

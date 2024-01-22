@@ -1,4 +1,4 @@
-import { TUserPersonalData } from "@/data/dataTypes/user-creds-types-d"
+import { TUserPersonalData } from "@/features/userSettings/UserSettings"
 import axios from "axios"
 
 
