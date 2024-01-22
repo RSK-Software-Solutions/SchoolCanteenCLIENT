@@ -1,4 +1,4 @@
-import { adminManagmentOptionsPickerData } from "@/data/adminManagmentOptionsData/AminManagmentOptionsPickerData";
+import { adminManagmentOptionsPickerData } from "@/data/adminManagment/AminManagmentOptionsPickerData";
 import { TAdminSelectedOptionProps } from "@/data/dataTypes/data-types-d";
 import React from "react";
 

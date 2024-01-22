@@ -9,8 +9,4 @@ export const adminManagmentOptionsPickerData: TAdminManagmentOptionsData[] = [
         text: "Zarządzanie Firmą",
         key: "company",
     },
-    {
-        text: "Zarządzanie Dochodami",
-        key: "market",
-    },
 ];

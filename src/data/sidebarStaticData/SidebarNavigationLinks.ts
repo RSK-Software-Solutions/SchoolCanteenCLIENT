@@ -1,14 +1,10 @@
 export const SidebarLinks = [
     {
-        path: "",
-        element: "EXAMPLE",
+        path: "/warehouse",
+        element: "Magazyn",
     },
     {
-        path: "",
-        element: "EXAMPLE",
-    },
-    {
-        path: "",
-        element: "EXAMPLE",
+        path: "/warehouse/finished",
+        element: "Magazyn Wyrobów Gotowych",
     },
 ];

@@ -85,7 +85,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 export default function useAuthContext() {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("Must be wrapper inside of ContextProvider");
+    throw new Error("Must be wrapped inside of ContextProvider");
   }
   return context;
 }
