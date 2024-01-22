@@ -1,7 +1,18 @@
-import { TUserPersonalData } from "@/data/dataTypes/user-creds-types-d";
 import { options, userSettingsStaticData } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
 import React, { useState } from "react";
-import { UserPersonalSettingsOption } from "../userSettings-PickedOptions/UserPersonalSettingsOption";
+import { UserPersonalSettingsOption } from "./UserEmployeeOptions/UserPersonalSettingsOption";
+
+export type TUserPersonalData = {
+  firstName: string;
+  lastName: string;
+  surname: string;
+  email: string;
+  phoneNumber: Number | null;
+  street: string;
+  state: string;
+  city: string;
+  country: string;
+};
 
 const UserSettings = () => {
   const [optionPicked, setOptionPicked] = useState<string>("Użytkownika");

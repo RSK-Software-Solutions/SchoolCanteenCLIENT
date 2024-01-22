@@ -2,11 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TUserPersonalData } from "@/data/dataTypes/user-creds-types-d";
 import { TUserSettingsContent } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
 import { handleChangeInput } from "@/lib/utils/HandlingChangeInput";
 import { SaveSettings } from "@/lib/utils/SaveUserSettings";
 import React, { SetStateAction } from "react";
+import { TUserPersonalData } from "../UserSettings";
 
 export type TUserPersonalCredentials = {
   userSettingsData: TUserPersonalData;

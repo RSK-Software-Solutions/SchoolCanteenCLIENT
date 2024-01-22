@@ -1,5 +1,5 @@
-import AdminPanel from "@/features/adminPanel-AdminDashboard/AdminPanel";
-import AdminManagmentOptions from "@/features/adminPanel-OptionPicker/AdminManagmentOptions";
+import AdminPanel from "@/features/adminPanel/AdminPanel";
+import AdminManagmentOptions from "@/features/adminPanel/AdminManagmentOptions";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,9 +9,10 @@ const AdminProtectedWrapper = () => {
   const navigate = useNavigate();
   const localStorageToken = localStorage.getItem("token");
 
-  //TODO SPRAWDZ CZY JEST ADMINEM
+  //TODO in this wrapper we need to check if user is logged in as a Admin - we must decode jwt to check this
   useEffect(() => {
     const handleAuthentication = () => {
+      //! if localStorageToken is set with starting "!"- means it checks for token if you remove this you can use this application without logging in
       if (localStorageToken) {
         navigate("/login");
       }

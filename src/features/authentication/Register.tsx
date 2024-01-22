@@ -1,12 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TRegisterCredentials } from "@/data/dataTypes/user-creds-types-d";
 import { TFormField, handleChangeInput } from "@/lib/utils/HandlingChangeInput";
 import HandleRegisterCompany from "@/lib/utils/RegisterAuthentication";
 import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+export type TRegisterCredentials = {
+  email: string;
+  userName: string;
+  password: string;
+  role: string;
+  comapanyName: string;
+};
+
 
 const Register = () => {
   const [formData, setFormData] = useState<TRegisterCredentials>({

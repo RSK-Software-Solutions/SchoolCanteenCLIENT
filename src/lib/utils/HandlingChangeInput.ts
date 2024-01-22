@@ -1,7 +1,9 @@
 // HandlingChangeInput.tsx
 
-import { TLoginCredentials, TRegisterCredentials, TUserPersonalData } from "@/data/dataTypes/user-creds-types-d";
-import { TcompanyForm } from "@/features/adminPanel-CompanyManagment/CompanyManagment";
+import { TcompanyForm } from "@/features/adminPanel/CompanyManagment/CompanyManagment";
+import { TLoginCredentials } from "@/features/authentication/Login";
+import { TRegisterCredentials } from "@/features/authentication/Register";
+import { TUserPersonalData } from "@/features/userSettings/UserSettings";
 import { SetStateAction, Dispatch } from "react";
 export type TAuthCredentials = TLoginCredentials | TRegisterCredentials | TUserPersonalData | TcompanyForm;
 

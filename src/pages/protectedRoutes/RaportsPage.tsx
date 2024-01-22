@@ -1,4 +1,4 @@
-import { Raports } from "@/features/rapportsMain/Raports";
+import { Raports } from "@/features/rapports/Raports";
 import React from 'react';
 
 const RaportsPage = () => {

@@ -1,6 +1,6 @@
 import React, { SetStateAction } from "react";
-import EmployeesManagment from "../adminPanel-EmployeesManagment/EmployeesManagment";
-import { CompanyManagment } from "../adminPanel-CompanyManagment/CompanyManagment";
+import EmployeesManagment from "./EmployeesManagment/EmployeesManagment";
+import { CompanyManagment } from "./CompanyManagment/CompanyManagment";
 
 const AdminPanel = ({
   selectedOptionByAdmin,
