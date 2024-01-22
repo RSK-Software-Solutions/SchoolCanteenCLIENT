@@ -1,5 +1,6 @@
 import React, { SetStateAction } from "react";
 import EmployeesManagment from "../adminPanel-EmployeesManagment/EmployeesManagment";
+import { CompanyManagment } from "../adminPanel-CompanyManagment/CompanyManagment";
 
 const AdminPanel = ({
   selectedOptionByAdmin,
@@ -11,21 +12,9 @@ const AdminPanel = ({
   return (
     <div className="w-full">
       {selectedOptionByAdmin === "employees" ? (
-        <div className="flex justify-center w-full">
-          <EmployeesManagment />
-        </div>
+        <EmployeesManagment />
       ) : selectedOptionByAdmin === "company" ? (
-        <div>
-          <div>Miejsce Na Komponent</div>
-        </div>
-      ) : selectedOptionByAdmin === "market" ? (
-        <div>
-          <div>Miejsce Na Komponent</div>
-        </div>
-      ) : selectedOptionByAdmin === "jakaś opcja" ? (
-        <div>
-          <div>Miejsce Na Komponent</div>
-        </div>
+        <CompanyManagment />
       ) : null}
     </div>
   );

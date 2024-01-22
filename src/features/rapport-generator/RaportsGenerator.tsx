@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 export const RaportsGenerator = () => {
     return (
         <form>
-            <div className="grid gap-6 mb-8 md:grid-cols-2">
+            <div className="grid gap-6 mb-8 md:grid-cols-2 bg-gray-100">
                 <Input id="reportTitle" placeholder="Report Title" />
                 <Input id="reportDate" type="date" />
                 <Input id="productName" placeholder="Product Name" />

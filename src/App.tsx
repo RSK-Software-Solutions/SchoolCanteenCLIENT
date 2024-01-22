@@ -10,6 +10,8 @@ import UserSettingsPage from "./pages/protectedRoutes/UserSettingsPage";
 import LoginPage from "./pages/publicRoutes/LoginPage";
 import RegisterPage from "./pages/publicRoutes/RegisterPage";
 import MenuPage from "./pages/protectedRoutes/MenuPage";
+import InitialWareHousePage from "./pages/protectedRoutes/InitialWareHousePage";
+import FinishProductsWareHousePage from "./pages/protectedRoutes/FinishProductsWareHousePage";
 
 
 
@@ -26,6 +28,8 @@ function App() {
           <Route path="/raports" element={<RaportsPage />} />
           <Route path="/settings" element={<UserSettingsPage />} />
           <Route path="/menu" element={<MenuPage />} />
+          <Route path="/warehouse" element={<InitialWareHousePage />} />
+          <Route path="/warehouse/finished" element={<FinishProductsWareHousePage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
