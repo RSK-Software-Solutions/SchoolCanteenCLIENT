@@ -15,6 +15,7 @@ const UserProtectedWrapper = () => {
       if (localStorageToken) {
         navigate("/login");
       }
+    
     };
     handleAuthentication();
   }, [navigate, localStorageToken]);

@@ -22,9 +22,9 @@ export default function EmployeesManagment() {
     const fetchEmployees = async (CompanyID: string) => {
       const URL = process.env.REACT_APP_BASE_URL + `/api/User/GetAll?companyId=${CompanyID}`
       try {
-        const { res }: any = await axios.get(URL)
-        console.log(res);
-        setUsers(res)
+        const { data } = await axios.get(URL)
+        console.log(data);
+        setUsers(data)
       } catch (error) {
         console.error(error);
         throw error;

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TUserSettingsContent } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
 import { handleChangeInput } from "@/lib/utils/HandlingChangeInput";
-import { SaveSettings } from "@/lib/utils/SaveUserSettings";
+import { SaveSettings } from "@/features/userSettings/SaveUserSettings";
 import React, { SetStateAction } from "react";
 import { TUserPersonalData } from "../UserSettings";
 

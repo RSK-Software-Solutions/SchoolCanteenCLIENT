@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TFormField, handleChangeInput } from "@/lib/utils/HandlingChangeInput";
-import HandleRegisterCompany from "@/lib/utils/RegisterAuthentication";
+import HandleRegisterCompany from "@/features/authentication/RegisterAuthentication";
 import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";

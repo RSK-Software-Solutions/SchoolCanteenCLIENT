@@ -5,7 +5,7 @@ import React, { useState } from "react"
 import { CompanyManagmentOverview } from "@/features/adminPanel/CompanyManagment/CompanyManagmentOverview"
 import { CompanyManagmentData } from "@/data/adminManagment/CompanyManagmentData"
 import { TFormField, handleChangeInput } from "@/lib/utils/HandlingChangeInput"
-import { saveCompanyEdited } from "@/lib/utils/saveEditedCompany"
+import { saveCompanyEdited } from "@/features/warehouse/saveEditedCompany"
 
 export type TcompanyForm = {
     name: string;
