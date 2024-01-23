@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useAuthContext from "@/context/AuthContext";
 import { TFormField, handleChangeInput } from "@/lib/utils/HandlingChangeInput";
-import HandleLogin from "@/lib/utils/LoginAuthentication";
+import HandleLogin from "@/features/authentication/LoginAuthentication";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
