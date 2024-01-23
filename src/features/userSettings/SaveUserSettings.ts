@@ -1,12 +1,15 @@
-import { TUserPersonalData } from "@/features/userSettings/UserSettings"
-import axios from "axios"
+import { TUserPersonalData } from "@/features/userSettings/UserSettings";
+import axios from "axios";
 
-
-export const SaveSettings = async (formdata: TUserPersonalData) => {
+export const SaveSettings = async (formData: TUserPersonalData) => {
     try {
-        const URL = process.env.REACT_APP_URL + "/" // TODO: add endpoint
-        await axios.post(URL, formdata)
+        const URL = process.env.REACT_APP_URL + "/api/user";
+        await axios.post(URL, formData, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
     } catch (error) {
-        console.error(error)
+        console.error(error);
     }
-}
+};

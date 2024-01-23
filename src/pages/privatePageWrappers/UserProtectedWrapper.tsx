@@ -12,7 +12,7 @@ const UserProtectedWrapper = () => {
   useEffect(() => {
     const handleAuthentication = () => {
       //! if localStorageToken is set with starting "!"- means it checks for token if you remove this you can use this application without logging in
-      if (localStorageToken) {
+      if (!localStorageToken) {
         navigate("/login");
       }
     

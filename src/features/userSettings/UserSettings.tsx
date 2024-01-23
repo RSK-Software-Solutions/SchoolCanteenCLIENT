@@ -5,9 +5,7 @@ import { UserPersonalSettingsOption } from "./UserEmployeeOptions/UserPersonalSe
 export type TUserPersonalData = {
   firstName: string;
   lastName: string;
-  surname: string;
   email: string;
-  phoneNumber: Number | null;
   street: string;
   state: string;
   city: string;
@@ -20,9 +18,7 @@ const UserSettings = () => {
   const [userSettingsData, setUserSettingsData] = useState<TUserPersonalData>({
     firstName: "",
     lastName: "",
-    surname: "",
     email: "",
-    phoneNumber: null,
     street: "",
     state: "",
     city: "",

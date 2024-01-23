@@ -1,24 +1,24 @@
-import { Options } from "../dataTypes/data-types-d";
+export type Options = {
+  option: string;
+};
+
 export type TUserSettingsContent = {
   label: string;
   key: string;
 };
+
 export const userSettingsStaticData: TUserSettingsContent[] = [
   {
     label: "Imię",
-    key: "name",
+    key: "firstName",
   },
   {
     label: "Nazwisko",
-    key: "surname",
+    key: "lastName",
   },
   {
     label: "Adres Email",
     key: "email",
-  },
-  {
-    label: "Numer Telefonu",
-    key: "phoneNumber",
   },
   {
     label: "Ulica",

@@ -1,6 +1,10 @@
 import { adminManagmentOptionsPickerData } from "@/data/adminManagment/AminManagmentOptionsPickerData";
-import { TAdminSelectedOptionProps } from "@/data/dataTypes/data-types-d";
-import React from "react";
+import React, { SetStateAction } from "react";
+
+export type TAdminSelectedOptionProps = {
+  selectedOptionByAdmin: string;
+  setSelectedOptionByAdmin: React.Dispatch<SetStateAction<string>>;
+};
 
 const AdminManagmentOptions = ({ selectedOptionByAdmin, setSelectedOptionByAdmin }: TAdminSelectedOptionProps) => {
   

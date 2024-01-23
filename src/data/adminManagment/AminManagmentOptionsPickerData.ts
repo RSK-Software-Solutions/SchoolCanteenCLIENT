@@ -1,4 +1,9 @@
-import { TAdminManagmentOptionsData } from "../dataTypes/data-types-d";
+// 
+export type TAdminManagmentOptionsData = {
+    text: string;
+    key: string;
+};
+
 
 export const adminManagmentOptionsPickerData: TAdminManagmentOptionsData[] = [
     {
