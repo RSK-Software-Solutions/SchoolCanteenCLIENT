@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import useAuthContext from "@/context/AuthContext";
 import { TFormField, handleChangeInput } from "@/lib/utils/HandlingChangeInput";
 import HandleLogin from "@/features/authentication/LoginAuthentication";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export type TLoginCredentials = {
@@ -18,13 +18,14 @@ const Login = () => {
     password: "",
   });
 
-  const navigate = useNavigate();
-  const AuthContext = useAuthContext();
+  const user = useAuthContext();
+  const nav = useNavigate()
   useEffect(() => {
-    if (AuthContext.token) {
-      navigate("/");
+    const token = user.user.token;
+    if (token) {
+      nav("/dashboard")
     }
-  }, [AuthContext.token, navigate]);
+  }, [user.user.token, nav]);
 
   const formFields: TFormField[] = [
     {
@@ -52,7 +53,7 @@ const Login = () => {
         </div>
       ))}
       <div className="flex justify-center gap-x-5 mt-6">
-        <Button variant={'outline'} type="button" onClick={() => HandleLogin(formData, AuthContext.userSetter)}>
+        <Button variant={'outline'} type="button" onClick={() => HandleLogin(formData, user.tokenSetter)}>
           Zaloguj
         </Button>
         <div className="text-center text-sm flex flex-col">

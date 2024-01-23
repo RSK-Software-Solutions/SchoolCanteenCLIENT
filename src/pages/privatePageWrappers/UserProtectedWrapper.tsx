@@ -1,3 +1,4 @@
+import useAuthContext from "@/context/AuthContext";
 import Navbar from "@/layout/Navbar";
 import Sidebar from "@/layout/Sidebar";
 import React, { useState, useEffect } from "react";
@@ -7,18 +8,16 @@ import { useNavigate, Outlet } from "react-router-dom";
 const UserProtectedWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const localStorageToken = localStorage.getItem("token");
+  const user = useAuthContext()
 
   useEffect(() => {
     const handleAuthentication = () => {
-      //! if localStorageToken is set with starting "!"- means it checks for token if you remove this you can use this application without logging in
-      if (!localStorageToken) {
+      if (!user.user?.token) {
         navigate("/login");
       }
-    
     };
     handleAuthentication();
-  }, [navigate, localStorageToken]);
+  }, [navigate, user.user.token]);
 
   return (
     <div>

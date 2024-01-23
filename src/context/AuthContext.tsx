@@ -1,47 +1,59 @@
-import React, { createContext, useState, useEffect, useContext, ReactNode } from "react";
-import * as jose from "jose";
+import React, { createContext, useState, useContext, type ReactNode, useEffect } from "react";
+import * as jwt from "jose";
 
 type AuthContextProviderProps = {
   children: ReactNode;
 };
 
 type TAuthContext = {
-  token: string;
-  email: string;
-  userName: string;
-  isLoading: boolean;
-  session: boolean;
-  userSetter: (token: string, email: string, userName: string) => void;
+  user: TUser
+  tokenSetter: (token: string) => void;
   clearSession: () => void;
 };
+
+export type TUser = {
+  token: string,
+  id: string,
+  email: string,
+  login: string,
+  roles: string[];
+}
 
 export const AuthContext = createContext<TAuthContext | null>(null);
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  const [token, setToken] = useState("");
-  const [email, setEmail] = useState("");
-  const [userName, setUserName] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [session, setSession] = useState(false);
+  const [user, setUser] = useState<TUser>({
+    token: "",
+    id: "",
+    email: "",
+    login: "",
+    roles: [],
+  });
 
   useEffect(() => {
-    const localStorageToken = localStorage.getItem("token");
-
-    if (localStorageToken) {
-      if (isTokenValid(localStorageToken)) {
-        setToken(localStorageToken);
-        setSession(true);
+    const token = localStorage.getItem("token");
+    if (token) {
+      if (isTokenValid(token)) {
+        const decodedUser = jwt.decodeJwt(token) as Record<string, string>;
+        setUser({
+          token: token,
+          id: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string,
+          email: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] as string,
+          login: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] as string,
+          roles: Array.isArray(decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
+            ? (decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] as string[])
+            : []
+        });
       } else {
         clearSession();
       }
     }
+  }, [setUser]);
 
-    setIsLoading(false);
-  }, []);
 
   const isTokenValid = (token: string) => {
     try {
-      const decodedToken = jose.decodeJwt(token);
+      const decodedToken = jwt.decodeJwt(token);
       return decodedToken.exp !== undefined && decodedToken.exp * 1000 > Date.now();
     } catch (error) {
       console.error("Error decoding token:", error);
@@ -49,34 +61,28 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   };
 
-  const userSetter = (token: string, email: string, userName: string) => {
-    setIsLoading(true);
-
+  const tokenSetter = (token: string) => {
     if (isTokenValid(token)) {
-      setToken(token);
-      setEmail(email);
-      setUserName(userName);
-
       localStorage.setItem("token", token);
-
-      setSession(true);
     } else {
       clearSession();
     }
-
-    setIsLoading(false);
   };
 
   const clearSession = () => {
-    setToken("");
-    setEmail("");
-    setUserName("");
+    setUser({
+      token: "",
+      id: "",
+      email: "",
+      login: "",
+      roles: [],
+    })
     localStorage.removeItem("token");
-    setSession(false);
   };
 
+
   return (
-    <AuthContext.Provider value={{ token, userSetter, isLoading, session, email, userName, clearSession }}>
+    <AuthContext.Provider value={{ user, tokenSetter, clearSession }}>
       {children}
     </AuthContext.Provider>
   );

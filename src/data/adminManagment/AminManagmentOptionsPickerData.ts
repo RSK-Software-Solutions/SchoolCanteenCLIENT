@@ -2,8 +2,8 @@
 export type TAdminManagmentOptionsData = {
     text: string;
     key: string;
-};
-
+  };
+  
 
 export const adminManagmentOptionsPickerData: TAdminManagmentOptionsData[] = [
     {
