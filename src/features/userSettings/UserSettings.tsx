@@ -1,13 +1,10 @@
 import { options, userSettingsStaticData } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserPersonalSettingsOption } from "./UserEmployeeOptions/UserPersonalSettingsOption";
 import useAuthContext from "@/context/AuthContext";
 
 export type TUserPersonalData = {
   id: string;
-  userName: string;
-  email: string;
-  password: string;
   firstName: string;
   lastName: string;
   street: string;
@@ -22,10 +19,7 @@ const UserSettings = () => {
   const [optionPicked, setOptionPicked] = useState<string>("Użytkownika");
   const user = useAuthContext();
   const [userSettingsData, setUserSettingsData] = useState<TUserPersonalData>({
-    id: user.user.id,
-    userName: "",
-    email: "",
-    password: "",
+    id: user.user?.id,
     firstName: "",
     lastName: "",
     street: "",
@@ -33,9 +27,12 @@ const UserSettings = () => {
     city: "",
     state: "",
     country: "",
-    roles: user.user.roles,
+    roles: user.user?.roles
   });
 
+  useEffect(() => {
+    console.log(user);
+  })
 
   return (
     <div key="1" className="flex flex-col w-full min-h-screen">

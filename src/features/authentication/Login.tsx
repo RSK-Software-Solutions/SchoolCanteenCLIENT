@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import useAuthContext from "@/context/AuthContext";
 import { TFormField, handleChangeInput } from "@/lib/utils/HandlingChangeInput";
 import HandleLogin from "@/features/authentication/LoginAuthentication";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import useAuthContext from "@/context/AuthContext";
 
 export type TLoginCredentials = {
   email: string;
@@ -17,16 +17,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-
-  const user = useAuthContext();
-  const nav = useNavigate()
-  useEffect(() => {
-    const token = user.user.token;
-    if (token) {
-      nav("/dashboard")
-    }
-  }, [user.user.token, nav]);
-
+  const user = useAuthContext()
   const formFields: TFormField[] = [
     {
       label: "Email",

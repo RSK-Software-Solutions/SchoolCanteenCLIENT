@@ -7,6 +7,7 @@ import { handleChangeInput } from "@/lib/utils/HandlingChangeInput";
 import { SaveSettings } from "@/features/userSettings/SaveUserSettings";
 import React, { SetStateAction } from "react";
 import { TUserPersonalData } from "../UserSettings";
+import useAuthContext from "@/context/AuthContext";
 
 export type TUserPersonalCredentials = {
   userSettingsData: TUserPersonalData;
@@ -21,6 +22,7 @@ export const UserPersonalSettingsOption = ({
   userSettings,
   optionPicked,
 }: TUserPersonalCredentials) => {
+  const user = useAuthContext()
   return (
     <>
       <Card>
@@ -37,7 +39,7 @@ export const UserPersonalSettingsOption = ({
           </form>
         ))}
         <CardFooter className="border-t p-6">
-          <Button onClick={() => { SaveSettings(userSettingsData) }}>Zapisz</Button>
+          <Button onClick={() => { SaveSettings(userSettingsData, user.token) }}>Zapisz</Button>
         </CardFooter>
       </Card>
     </>

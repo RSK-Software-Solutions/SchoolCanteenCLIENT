@@ -6,13 +6,13 @@ type AuthContextProviderProps = {
 };
 
 type TAuthContext = {
+  token: string
   user: TUser
   tokenSetter: (token: string) => void;
   clearSession: () => void;
 };
 
 export type TUser = {
-  token: string,
   id: string,
   email: string,
   login: string,
@@ -22,8 +22,8 @@ export type TUser = {
 export const AuthContext = createContext<TAuthContext | null>(null);
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
+  const [token, setToken] = useState<string>("")
   const [user, setUser] = useState<TUser>({
-    token: "",
     id: "",
     email: "",
     login: "",
@@ -31,12 +31,17 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   });
 
   useEffect(() => {
+    console.log(token);
+    console.log(user);
+  })
+
+  useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       if (isTokenValid(token)) {
+        setToken(token)
         const decodedUser = jwt.decodeJwt(token) as Record<string, string>;
         setUser({
-          token: token,
           id: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string,
           email: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] as string,
           login: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] as string,
@@ -61,7 +66,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   };
 
-  const tokenSetter = (token: string) => {
+  const tokenSetter = async (token: string) => {
     if (isTokenValid(token)) {
       localStorage.setItem("token", token);
     } else {
@@ -69,9 +74,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   };
 
-  const clearSession = () => {
+  const clearSession = async () => {
+    setToken("")
     setUser({
-      token: "",
       id: "",
       email: "",
       login: "",
@@ -82,7 +87,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
 
   return (
-    <AuthContext.Provider value={{ user, tokenSetter, clearSession }}>
+    <AuthContext.Provider value={{ token, user, tokenSetter, clearSession }}>
       {children}
     </AuthContext.Provider>
   );

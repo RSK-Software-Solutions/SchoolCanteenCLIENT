@@ -1,14 +1,14 @@
-import useAuthContext from "@/context/AuthContext";
 import { TUserPersonalData } from "@/features/userSettings/UserSettings";
 import axios from "axios";
 
-export const SaveSettings = async (formData: TUserPersonalData) => {
-    const user = useAuthContext()
+export const SaveSettings = async (formData: TUserPersonalData, token: string) => {
     try {
-        const URL = process.env.REACT_APP_URL + "/api/user";
-        await axios.post(URL, formData, {
+        console.log(token);
+
+        const URL = process.env.REACT_APP_URL + "/api/users";
+        await axios.put(URL, formData, {
             headers: {
-                Authorization: `Bearer ${user.user?.token}`
+                Authorization: `Bearer ${token}`
             }
         });
     } catch (error) {

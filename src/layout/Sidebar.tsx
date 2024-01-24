@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import React, { SetStateAction } from "react";
 import rskLogo from "@/assets/Software-removebg-preview.png"
 import { Link } from "react-router-dom";
+import { LogoutButton } from "@/features/logout/LogoutButton";
 
 
 type TSidebarProps = {
@@ -55,6 +56,9 @@ const Sidebar = ({ isOpen, setIsOpen }: TSidebarProps) => {
               </Link>
             ))}
           </nav>
+          <div className="w-full text-center">
+            <LogoutButton />
+          </div>
         </motion.section>
       )}
     </AnimatePresence>

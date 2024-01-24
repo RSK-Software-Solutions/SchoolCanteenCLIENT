@@ -19,6 +19,7 @@ export default function EmployeesManagment() {
   //TODO GET COMPANYID 
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const fetchEmployees = async (CompanyID: string) => {
       const URL = process.env.REACT_APP_BASE_URL + `/api/User/GetAll?companyId=${CompanyID}`
       try {
