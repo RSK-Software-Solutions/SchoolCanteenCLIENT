@@ -6,7 +6,7 @@ export const Raports = () => {
     return (
         <div key="1" className="flex h-screen">
             <div className="flex flex-col flex-1 overflow-hidden">
-                <main className="flex-1 overflow-x-hidden overflow-y-auto">
+                <main className="flex-1 overflow-x-hidden bg-gray-100/40 overflow-y-auto">
                     <div className="container mx-auto px-6 py-8">
                         <h3 className=" text-3xl font-medium dark:text-white">Report Form</h3>
                         <div className="mt-8">

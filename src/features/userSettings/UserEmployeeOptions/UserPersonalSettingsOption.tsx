@@ -29,7 +29,7 @@ export const UserPersonalSettingsOption = ({
           <CardDescription>Aktualizuj swoje ustawienia {optionPicked}</CardDescription>
         </CardHeader>
         {userSettings.map((settings) => (
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" key={settings.key}>
             <CardContent>
               <Label>{settings.label}</Label>
               <Input placeholder={settings.label} onChange={(e) => handleChangeInput(setUserSettingsData, e, settings)} />
@@ -37,7 +37,7 @@ export const UserPersonalSettingsOption = ({
           </form>
         ))}
         <CardFooter className="border-t p-6">
-          <Button onClick={() => { SaveSettings(userSettingsData) }}>Save</Button>
+          <Button onClick={() => { SaveSettings(userSettingsData) }}>Zapisz</Button>
         </CardFooter>
       </Card>
     </>

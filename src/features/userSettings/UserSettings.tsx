@@ -1,28 +1,39 @@
 import { options, userSettingsStaticData } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
 import React, { useState } from "react";
 import { UserPersonalSettingsOption } from "./UserEmployeeOptions/UserPersonalSettingsOption";
+import useAuthContext from "@/context/AuthContext";
 
 export type TUserPersonalData = {
+  id: string;
+  userName: string;
+  email: string;
+  password: string;
   firstName: string;
   lastName: string;
-  email: string;
   street: string;
-  state: string;
+  postalCode?: string | null;
   city: string;
+  state: string;
   country: string;
+  roles: string[];
 };
 
 const UserSettings = () => {
   const [optionPicked, setOptionPicked] = useState<string>("Użytkownika");
-
+  const user = useAuthContext();
   const [userSettingsData, setUserSettingsData] = useState<TUserPersonalData>({
+    id: user.user.id,
+    userName: "",
+    email: "",
+    password: "",
     firstName: "",
     lastName: "",
-    email: "",
     street: "",
-    state: "",
+    postalCode: "",
     city: "",
+    state: "",
     country: "",
+    roles: user.user.roles,
   });
 
 
@@ -35,12 +46,14 @@ const UserSettings = () => {
         <div className="grid md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr] items-start gap-6 max-w-6xl w-full mx-auto">
           <nav className="text-sm text-gray-500 grid gap-4 dark:text-gray-400">
             {options.map(option => (
-              <button
-                onClick={() => setOptionPicked(option.option)}
-                className={`${option.option === optionPicked ? 'text-black underline' : ''}`}
-              >
-                {option.option}
-              </button>
+              <React.Fragment key={option.option}>
+                <button
+                  onClick={() => setOptionPicked(option.option)}
+                  className={`${option.option === optionPicked ? 'text-black underline' : ''}`}
+                >
+                  {option.option}
+                </button>
+              </React.Fragment>
             ))}
 
           </nav>
