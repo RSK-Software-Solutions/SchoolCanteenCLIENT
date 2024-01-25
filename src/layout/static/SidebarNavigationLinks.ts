@@ -1,4 +1,6 @@
-export const SidebarLinks = [
+import { TStaticLayoutData } from "./type-static-d";
+
+export const SidebarLinks: TStaticLayoutData[] = [
     {
         path: "/warehouse",
         element: "Magazyn",

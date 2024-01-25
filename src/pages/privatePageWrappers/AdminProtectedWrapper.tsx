@@ -1,33 +1,32 @@
-import AdminPanel from "@/features/adminPanel/AdminPanel";
-import AdminManagmentOptions from "@/features/adminPanel/AdminManagmentOptions";
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import AdminManagmentOptions from "@/layout/adminPanelLayout/AdminManagmentOptions";
+import React, { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import useAuthContext from "@/context/AuthContext";
 
 
 const AdminProtectedWrapper = () => {
-  const [selectedOptionByAdmin, setSelectedOptionByAdmin] = useState("employees");
   const navigate = useNavigate();
   const user = useAuthContext()
 
   useEffect(() => {
     const handleAuthentication = () => {
+      if (user.user?.roles.includes("Parent")) {
+        navigate("/menu")
+      }
       if (!user.user.roles.includes("Admin")) {
         navigate("/dashboard")
       }
+
     };
     handleAuthentication();
   }, [navigate, user]);
 
 
   return (
-    <div className="flex flex-col w-full justify-center">
-      <AdminManagmentOptions
-        setSelectedOptionByAdmin={setSelectedOptionByAdmin}
-        selectedOptionByAdmin={selectedOptionByAdmin}
-      />
+    <div className="flex flex-col w-full h-screen">
+      <AdminManagmentOptions />
       <div className="flex w-full">
-        <AdminPanel setSelectedOptionByAdmin={setSelectedOptionByAdmin} selectedOptionByAdmin={selectedOptionByAdmin} />
+        <Outlet />
       </div>
     </div>
   );

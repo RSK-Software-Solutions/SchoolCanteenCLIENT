@@ -1,13 +1,8 @@
-import AdminPanel from "@/features/adminPanel/AdminPanel";
-import React, { useState } from "react";
+import AdminManagmentOptions from "@/layout/adminPanelLayout/AdminManagmentOptions";
+import React from "react";
 
 const AdminPanelPage = () => {
-  const [selectedOptionByAdmin, setSelectedOptionByAdmin] = useState("");
-  return (
-    <div>
-      <AdminPanel selectedOptionByAdmin={selectedOptionByAdmin} setSelectedOptionByAdmin={setSelectedOptionByAdmin} />
-    </div>
-  );
+  return <AdminManagmentOptions />
 };
 
 export default AdminPanelPage;
