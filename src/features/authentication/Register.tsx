@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TFormField, handleChangeInput } from "@/lib/utils/HandlingChangeInput";
-import HandleRegisterCompany from "@/features/authentication/RegisterAuthentication";
+import { TFormField, handleChangeInput } from "@/lib/handleChangeInput";
+import HandleRegisterCompany from "@/features/authentication/api/RegisterAuthentication";
 import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";

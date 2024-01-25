@@ -30,6 +30,39 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     roles: [],
   });
 
+  //!@UserKacper isTokenValid function get's token this token get's decoded and is checked if its not expired
+  const isTokenValid = (token: string) => {
+    try {
+      const decodedToken = jwt.decodeJwt(token);
+      return decodedToken.exp !== undefined && decodedToken.exp * 1000 > Date.now();
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return false;
+    }
+  };
+
+  //!@UserKacper tokenSetter function get's token validates it to check if is not expired if not sets it as localstorage
+  const tokenSetter = async (token: string) => {
+    if (isTokenValid(token)) {
+      localStorage.setItem("token", token);
+    } else {
+      clearSession();
+    }
+  };
+
+  //!@UserKacper clearSession function is used in logout button which clears session/token removes localstorage
+  const clearSession = async () => {
+    setToken("")
+    setUser({
+      id: "",
+      email: "",
+      login: "",
+      roles: [],
+    })
+    localStorage.removeItem("token");
+  };
+
+  //!@UserKacper this useEffect is checking if token is valid and setting user on every re-render so state after login is always there to get data 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -50,43 +83,18 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   }, [setUser]);
 
-
-  const isTokenValid = (token: string) => {
-    try {
-      const decodedToken = jwt.decodeJwt(token);
-      return decodedToken.exp !== undefined && decodedToken.exp * 1000 > Date.now();
-    } catch (error) {
-      console.error("Error decoding token:", error);
-      return false;
-    }
-  };
-
-  const tokenSetter = async (token: string) => {
-    if (isTokenValid(token)) {
-      localStorage.setItem("token", token);
-    } else {
-      clearSession();
-    }
-  };
-
-  const clearSession = async () => {
-    setToken("")
-    setUser({
-      id: "",
-      email: "",
-      login: "",
-      roles: [],
-    })
-    localStorage.removeItem("token");
-  };
-
-
   return (
     <AuthContext.Provider value={{ token, user, tokenSetter, clearSession }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+
+//!@UserKacper this is a custom hook to use this context you can:
+//! const user = useAuthContext();
+//! now you have access to data from context
+//? const token = user.token 
 
 export default function useAuthContext() {
   const context = useContext(AuthContext);

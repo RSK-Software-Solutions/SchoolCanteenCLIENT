@@ -16,6 +16,7 @@ import { CompanyManagment } from "./features/adminPanel/companyManagment/Company
 import AddUserToCompanyPage from "./pages/protectedRoutes/AddUserToCompanyPage";
 
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -31,8 +32,9 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/raports" element={<RaportsPage />} />
-          <Route path="/settings" element={<UserSettingsPage />} />
           <Route path="/menu" element={<MenuPage />} />
+
+          <Route path="/settings" element={<UserSettingsPage />} />
           <Route path="/warehouse" element={<InitialWareHousePage />} />
           <Route path="/warehouse/finished" element={<FinishProductsWareHousePage />} />
         </Route>

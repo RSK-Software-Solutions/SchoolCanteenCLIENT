@@ -1,4 +1,4 @@
-import AdminManagmentOptions from "@/layout/AdminManagmentOptions";
+import AdminManagmentOptions from "@/layout/adminPanelLayout/AdminManagmentOptions";
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import useAuthContext from "@/context/AuthContext";
@@ -10,9 +10,13 @@ const AdminProtectedWrapper = () => {
 
   useEffect(() => {
     const handleAuthentication = () => {
+      if (user.user?.roles.includes("Parent")) {
+        navigate("/menu")
+      }
       if (!user.user.roles.includes("Admin")) {
         navigate("/dashboard")
       }
+
     };
     handleAuthentication();
   }, [navigate, user]);

@@ -1,4 +1,4 @@
-import AdminManagmentOptions from "@/layout/AdminManagmentOptions";
+import AdminManagmentOptions from "@/layout/adminPanelLayout/AdminManagmentOptions";
 import React from "react";
 
 const AdminPanelPage = () => {

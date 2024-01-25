@@ -1,7 +1,7 @@
 import React, { SetStateAction } from "react";
 import { Link } from "react-router-dom";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { navLinks } from "@/data/navbarStaticData/NavbarNavigationLinks";
+import { navLinks } from "@/layout/static/NavbarNavigationLinks";
 import rskLogo from "@/assets/Software-removebg-preview.png"
 type NavbarProps = {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;

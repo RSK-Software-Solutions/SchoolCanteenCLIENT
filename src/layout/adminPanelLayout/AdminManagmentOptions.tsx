@@ -1,4 +1,4 @@
-import { adminManagmentOptionsPickerData } from "@/data/adminManagment/AminManagmentOptionsPickerData";
+import { adminManagmentOptionsPickerData } from "@/layout/static/adminManagmentOptions";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -23,8 +23,8 @@ const AdminManagmentOptions = () => {
         value={selected}
         onChange={(event) => handleSelectChange(event)}>
         {adminManagmentOptionsPickerData.map((option) => (
-          <option key={option.key} defaultValue={"wybierz"} value={option.path} className="p-4 text-center">
-            {option.text}
+          <option key={option.element} defaultValue={"wybierz"} value={option.path} className="p-4 text-center">
+            {option.element}
           </option>
         ))}
       </select>

@@ -12,12 +12,15 @@ const UserProtectedWrapper = () => {
 
   useEffect(() => {
     const handleAuthentication = () => {
+      if (user.user?.roles.includes("Parent")) {
+        navigate("/menu")
+      }
       if (!user.token) {
         navigate("/login");
       }
     };
     handleAuthentication();
-  }, [navigate, user.token]);
+  }, [navigate, user.token, user.user?.roles]);
 
   return (
     <div>

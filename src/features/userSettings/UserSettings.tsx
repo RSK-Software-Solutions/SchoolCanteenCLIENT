@@ -1,6 +1,6 @@
-import { options, userSettingsStaticData } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
+import { options, userSettingsStaticData } from "@/features/userSettings/static/UserEditSettingsStaticData";
 import React, { useState } from "react";
-import { UserPersonalSettingsOption } from "./UserEmployeeOptions/UserPersonalSettingsOption";
+import { UserPersonalSettingsOption } from "./UserEmployeeOptions/UserSettings-edit";
 import useAuthContext from "@/context/AuthContext";
 
 export type TUserPersonalData = {

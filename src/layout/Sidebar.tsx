@@ -1,11 +1,11 @@
-import { navLinks } from "@/data/navbarStaticData/NavbarNavigationLinks";
-import { SidebarLinks } from "@/data/sidebarStaticData/SidebarNavigationLinks";
+import { navLinks } from "@/layout/static/NavbarNavigationLinks";
+import { SidebarLinks } from "@/layout/static/SidebarNavigationLinks";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import React, { SetStateAction } from "react";
 import rskLogo from "@/assets/Software-removebg-preview.png"
 import { Link } from "react-router-dom";
-import { LogoutButton } from "@/features/logout/LogoutButton";
+import { LogoutButton } from "@/features/authentication/logout/LogoutButton";
 
 
 type TSidebarProps = {
