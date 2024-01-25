@@ -31,11 +31,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   });
 
   useEffect(() => {
-    console.log(token);
-    console.log(user);
-  })
-
-  useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       if (isTokenValid(token)) {

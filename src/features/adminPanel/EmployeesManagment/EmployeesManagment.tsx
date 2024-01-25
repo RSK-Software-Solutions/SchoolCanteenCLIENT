@@ -3,6 +3,7 @@ import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 type TUser = {
@@ -14,9 +15,9 @@ type TUser = {
 }
 
 export default function EmployeesManagment() {
-  const [user, setUsers] = useState<TUser[] | undefined>([])
-
-  //TODO GET COMPANYID 
+  const [users, setUsers] = useState<TUser[] | undefined>([])
+  const navigate = useNavigate()
+  //TODO GET COMPANYID
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,44 +32,45 @@ export default function EmployeesManagment() {
         throw error;
       }
     }
-    //fetchEmployees(/* place for company id*/)
+    //TODO: fetchEmployees(/* place for company id*/)
   })
 
   return (
     <>
-      <Table className="w-full">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">userId</TableHead>
-            <TableHead>login</TableHead>
-            <TableHead>firstName</TableHead>
-            <TableHead>lastName</TableHead>
-            <TableHead>roles</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-
-          {user?.map(users => (
+      <div className="w-full flex justify-center flex-col">
+        <Table className="w-full">
+          <TableHeader>
             <TableRow>
-              <TableCell className="font-medium">{users.userid}</TableCell>
-              <TableCell>{users.firstName}</TableCell>
-              <TableCell>{users.lastName}</TableCell>
-              <TableCell>{users.login}</TableCell>
-              <TableCell>{users.roles}</TableCell>
-              <TableCell>
-                <Button size="sm" variant="outline">
-                  Edit
-                </Button>
-                <Button className="ml-2" size="sm" variant="outline">
-                  Delete
-                </Button>
-              </TableCell>
+              <TableHead className="w-[100px]">userId</TableHead>
+              <TableHead>login</TableHead>
+              <TableHead>firstName</TableHead>
+              <TableHead>lastName</TableHead>
+              <TableHead>roles</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
-          ))}
-
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {users?.map(users => (
+              <TableRow>
+                <TableCell className="font-medium">{users.userid}</TableCell>
+                <TableCell>{users.firstName}</TableCell>
+                <TableCell>{users.lastName}</TableCell>
+                <TableCell>{users.login}</TableCell>
+                <TableCell>{users.roles}</TableCell>
+                <TableCell>
+                  <Button size="sm" variant="outline">
+                    Edit
+                  </Button>
+                  <Button className="ml-2" size="sm" variant="outline">
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <Button variant={"outline"} className="mt-5" onClick={() => navigate('/admin/employees/adduser')}>Add User</Button>
+      </div>
     </>
   );
 }

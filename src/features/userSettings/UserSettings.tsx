@@ -1,5 +1,5 @@
 import { options, userSettingsStaticData } from "@/data/userSettingsStaticData/UserEditSettingsStaticData";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { UserPersonalSettingsOption } from "./UserEmployeeOptions/UserPersonalSettingsOption";
 import useAuthContext from "@/context/AuthContext";
 
@@ -29,10 +29,6 @@ const UserSettings = () => {
     country: "",
     roles: user.user?.roles
   });
-
-  useEffect(() => {
-    console.log(user);
-  })
 
   return (
     <div key="1" className="flex flex-col w-full min-h-screen">
