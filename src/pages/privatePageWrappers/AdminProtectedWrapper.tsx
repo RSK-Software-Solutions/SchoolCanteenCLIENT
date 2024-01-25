@@ -10,13 +10,10 @@ const AdminProtectedWrapper = () => {
 
   useEffect(() => {
     const handleAuthentication = () => {
-      if (user.user?.roles.includes("Parent")) {
-        navigate("/menu")
-      }
       if (!user.user.roles.includes("Admin")) {
         navigate("/dashboard")
       }
-
+      navigate("/admin/empoyees")
     };
     handleAuthentication();
   }, [navigate, user]);

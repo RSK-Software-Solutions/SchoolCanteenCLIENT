@@ -21,7 +21,6 @@ export default function EmployeesManagment() {
   const [users, setUsers] = useState<TUser[] | undefined>([])
   const navigate = useNavigate()
   const { token } = useAuthContext()
-  //TODO GET COMPANYID
 
   useEffect(() => {
     const fetchEmployees = async () => {
