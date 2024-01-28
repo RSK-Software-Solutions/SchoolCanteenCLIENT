@@ -13,7 +13,6 @@ const AdminProtectedWrapper = () => {
       if (!user.user.roles.includes("Admin")) {
         navigate("/dashboard")
       }
-      navigate("/admin/empoyees")
     };
     handleAuthentication();
   }, [navigate, user]);

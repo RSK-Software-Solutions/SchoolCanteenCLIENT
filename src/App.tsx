@@ -25,7 +25,7 @@ function App() {
         <Route path="/" element={<UserProtectedWrapper />}>
           {/* admin Routes~ must be inside of this wrapper since this UserProtectedWrapper is rendering navbar and sidebar */}
           <Route path="/admin" element={<AdminProtectedWrapper />}>
-            <Route path="/admin/employees/adduser" element={<AddUserToCompanyPage />} />
+            <Route path="/admin/employees/adduser" element={<AddUserToCompanyPage/>} />
             <Route path="/admin/employees" element={<EmployeesManagment />} />
             <Route path="/admin/company" element={<CompanyManagment />} />
           </Route>
@@ -33,7 +33,6 @@ function App() {
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/raports" element={<RaportsPage />} />
           <Route path="/menu" element={<MenuPage />} />
-
           <Route path="/settings" element={<UserSettingsPage />} />
           <Route path="/warehouse" element={<InitialWareHousePage />} />
           <Route path="/warehouse/finished" element={<FinishProductsWareHousePage />} />

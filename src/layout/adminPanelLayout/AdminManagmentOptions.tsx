@@ -1,5 +1,5 @@
 import { adminManagmentOptionsPickerData } from "@/layout/static/adminManagmentOptions";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AdminManagmentOptions = () => {
@@ -11,10 +11,6 @@ const AdminManagmentOptions = () => {
     setSelected(selectedValue);
     navigate(selectedValue);
   };
-
-  useEffect(() => {
-    console.log(selected);
-  }, [selected]);
 
   return (
     <div className="p-4 flex w-full text-center">

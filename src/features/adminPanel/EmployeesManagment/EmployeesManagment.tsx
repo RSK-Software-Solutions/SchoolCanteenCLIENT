@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "@/components/ui/table";
-import useAuthContext from "@/context/AuthContext";
+import fetchReducer, { initialState } from "@/reducer/reducerFetching";
 import axios from "axios";
-import { Delete, Edit } from "lucide-react";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import useFetchEmployees from "./api/fetchEmployees";
+import { GridLoader } from "react-spinners";
+import useAuthContext from "@/context/AuthContext";
+import { Input } from "@/components/ui/input";
 
 type TUser = {
   id: string;
@@ -18,65 +19,115 @@ type TUser = {
 }
 
 export default function EmployeesManagment() {
-  const [users, setUsers] = useState<TUser[] | undefined>([])
+  const [state, dispatch] = useReducer(fetchReducer, initialState)
+  const user = useAuthContext()
+  const token = localStorage.getItem('token')
+
   const navigate = useNavigate()
-  const { token } = useAuthContext()
+  const fetchEmployees = useFetchEmployees(dispatch, token)
+
+  const [isEditable, setIsEditable] = useState(false)
+  const [editedUserData, setEditedUserData] = useState<TUser>({
+    id: user.user?.id,
+    userName: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    roles: [],
+  })
+
 
   useEffect(() => {
-    const fetchEmployees = async () => {
-      const URL = process.env.REACT_APP_URL + "/api/users"
-      try {
-        const { data } = await axios.get(URL, {
-          headers: {
-            Authorization: `bearer ${token} `
-          }
-        })
-        console.log(data);
-        setUsers(data)
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
+    fetchEmployees();
+  }, [fetchEmployees]);
+
+  const deleteUser = async (userId: string) => {
+    const URL = process.env.REACT_APP_URL + `/api/users?id=${userId}`;
+    try {
+      await axios.delete(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      fetchEmployees();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      throw new Error("Error in function: deleteUser");
     }
-    fetchEmployees()
-  }, [setUsers, token])
+  };
+
+  const updateUser = async (userId: string) => {
+    const URL = process.env.REACT_APP_URL + `/api/users?id=${userId}`;
+    try {
+      await axios.put(URL, editedUserData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      fetchEmployees();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      throw new Error("Error in function: deleteUser");
+    }
+  }
+
 
   return (
     <>
-      <div className="w-full flex justify-center flex-col">
-        <Table className="w-full">
-          <TableHeader>
-            <TableRow>
-              <TableHead>firstName</TableHead>
-              <TableHead>lastName</TableHead>
-              <TableHead>userName</TableHead>
-              <TableHead>email</TableHead>
-              <TableHead>roles</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users?.map(users => (
-              <TableRow key={users.id}>
-                <TableCell>{users.firstName}</TableCell>
-                <TableCell>{users.lastName}</TableCell>
-                <TableCell>{users.userName}</TableCell>
-                <TableCell>{users.email}</TableCell>
-                <TableCell>{users.roles}</TableCell>
-                <TableCell>
-                  <Button size="sm" variant="outline">
-                    <Edit />
-                  </Button>
-                  <Button size="sm" variant="outline">
-                    <Delete />
-                  </Button>
-                </TableCell>
+      {state.isLoading && <div className="pt-48 flex justify-center w-full">
+        <GridLoader />
+      </div>}
+      {state.error && <p>Error fetching data</p>}
+      {!state.isLoading && !state.error && (
+        <div className="w-full flex justify-center flex-col">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                <TableHead>firstName</TableHead>
+                <TableHead>lastName</TableHead>
+                <TableHead>userName</TableHead>
+                <TableHead>email</TableHead>
+                <TableHead>roles</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <Button variant={"outline"} className="mt-5" onClick={() => navigate('/admin/employees/adduser')}>Dodaj Użytkownika</Button>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {state.data?.map((user: TUser) => (
+                <TableRow key={user.id}>
+                  {isEditable ? (<>
+                    <Input placeholder={user.firstName} />
+                    <Input placeholder={user.lastName} />
+                    <Input placeholder={user.userName} />
+                    <Input placeholder={user.email} />
+                    <Input placeholder={user.roles.join(" ")} />
+                  </>
+                  ) :
+                    (<>
+                      <TableCell>{user.firstName}</TableCell>
+                      <TableCell>{user.lastName}</TableCell>
+                      <TableCell>{user.userName}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.roles}</TableCell>
+                    </>)}
+
+                  <TableCell>
+                    <Button size="sm" variant="outline" onClick={() => setIsEditable(prev => !prev)}>
+                      Edytuj
+                    </Button>
+                    {isEditable && <Button size="sm" variant="outline" onClick={() => updateUser(user.id)}>
+                      Zapisz
+                    </Button>}
+                    <Button size="sm" variant="outline" onClick={() => deleteUser(user.id)}>
+                      Usuń
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Button variant={"outline"} className="mt-5" onClick={() => navigate('/admin/employees/adduser')}>Dodaj Użytkownika</Button>
+        </div>
+      )}
     </>
   );
 }

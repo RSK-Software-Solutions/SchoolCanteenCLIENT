@@ -6,8 +6,8 @@ type AuthContextProviderProps = {
 };
 
 type TAuthContext = {
-  token: string
-  user: TUser
+  token: string;
+  user: TUser;
   tokenSetter: (token: string) => void;
   clearSession: () => void;
 };
@@ -61,6 +61,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     })
     localStorage.removeItem("token");
   };
+
 
   //!@UserKacper this useEffect is checking if token is valid and setting user on every re-render so state after login is always there to get data 
   useEffect(() => {

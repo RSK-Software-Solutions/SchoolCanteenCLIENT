@@ -3,11 +3,12 @@ import { CardContent, CardTitle } from '@/components/ui/card'
 import { handleChangeInput } from '@/lib/handleChangeInput'
 import { Label } from '@radix-ui/react-label'
 import React, { useEffect, useState } from 'react'
-import { submitUser } from '../employeesManagment/api/submitUser'
+import { submitUser } from './api/submitUser'
 import { Input } from '@/components/ui/input'
 import axios from 'axios'
 import useAuthContext from '@/context/AuthContext'
 import { AddUserFormData } from './static/newEmployeesFormData'
+import { useNavigate } from 'react-router-dom'
 
 export type TNewUserForm = {
     userName: string;
@@ -23,9 +24,11 @@ const NewEmployeesForm = () => {
         password: "",
         roleName: "",
     })
-    const [roles, setRoles] = useState<string[]>([])
 
+    const [roles, setRoles] = useState<string[]>([])
+    const navigate = useNavigate()
     const { token } = useAuthContext()
+    
     useEffect(() => {
         const URL = process.env.REACT_APP_URL + "/api/roles"
         const getAllroles = async () => {
@@ -75,7 +78,7 @@ const NewEmployeesForm = () => {
                     </select>
                 </CardContent>
                 <div className='flex justify-center mb-10 mt-4'>
-                    <Button onClick={(e) => submitUser(newUserForm, token, e)}>Dodaj</Button>
+                    <Button onClick={(e) => submitUser(newUserForm, token, e, navigate)}>Dodaj</Button>
                 </div>
             </form>
         </div >
