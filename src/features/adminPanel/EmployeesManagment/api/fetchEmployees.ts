@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import axios from 'axios';
 import { FetchAction, StatusInidicator } from '@/reducer/reducerFetching';
 import { type TUser } from '@/context/AuthContext';
@@ -19,10 +19,6 @@ const useFetchEmployees = (dispatch: (value: FetchAction) => void, token: string
             console.error("Error fetching employees:", error);
         }
     }, [token, dispatch]);
-
-    useEffect(() => {
-        fetchEmployees();
-    }, [fetchEmployees]);
 
     return fetchEmployees;
 };

@@ -94,13 +94,13 @@ export default function EmployeesManagment() {
             <TableBody>
               {state.data?.map((user: TUser) => (
                 <TableRow key={user.id}>
-                  {isEditable ? (<>
+                  {isEditable ? (<div className="flex gap-x-5">
                     <Input placeholder={user.firstName} />
                     <Input placeholder={user.lastName} />
                     <Input placeholder={user.userName} />
                     <Input placeholder={user.email} />
                     <Input placeholder={user.roles.join(" ")} />
-                  </>
+                  </div>
                   ) :
                     (<>
                       <TableCell>{user.firstName}</TableCell>
