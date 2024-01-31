@@ -1,11 +1,8 @@
+import Dashboard from '@/features/main-dashboard/dashboard';
 import React from 'react';
 const DashboardPage = () => {
 
-    return (
-        <div>
-            Content
-        </div>
-    );
+    return <Dashboard />
 };
 
 export default DashboardPage;

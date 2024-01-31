@@ -5,7 +5,7 @@ import { TFormField, handleChangeInput } from "@/lib/handleChangeInput";
 import HandleRegisterCompany from "@/features/authentication/api/RegisterAuthentication";
 import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export type TRegisterCredentials = {
   email: string;
@@ -25,6 +25,8 @@ const Register = () => {
     comapanyName: "",
   });
   const [showPass, setShowPass] = useState<boolean>(false);
+
+  const navigate = useNavigate()
 
   const formFields: TFormField[] = [
     {
@@ -46,7 +48,7 @@ const Register = () => {
   ];
 
   const handleClick = () => {
-    HandleRegisterCompany(formData);
+    HandleRegisterCompany(formData, navigate);
   };
 
   return (

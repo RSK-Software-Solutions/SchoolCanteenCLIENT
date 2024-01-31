@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { TFormField, handleChangeInput } from "@/lib/handleChangeInput";
 import HandleLogin from "@/features/authentication/api/LoginAuthentication";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuthContext from "@/context/AuthContext";
 
 export type TLoginCredentials = {
@@ -17,7 +17,8 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const user = useAuthContext()
+  const user = useAuthContext();
+  const navigate = useNavigate();
   const formFields: TFormField[] = [
     {
       label: "Email",
@@ -29,9 +30,13 @@ const Login = () => {
     },
   ];
 
+  const handleLoginclick = async () => {
+    await HandleLogin(formData, user, navigate)
+  }
+
   return (
     <div className="shadow-md p-10 rounded-md bg-white">
-      <div className="text-xl font-semibold text-center mb-6">Logowanie</div>
+      <div className="text-xl font-semibold text-center mb-6  select-none">Logowanie</div>
       {formFields.map((field) => (
         <div key={field.key} className="mt-5">
           <Label className="block text-gray-700 text-sm font-bold">{field.label}</Label>
@@ -44,7 +49,7 @@ const Login = () => {
         </div>
       ))}
       <div className="flex justify-center gap-x-5 mt-6">
-        <Button variant={'outline'} type="button" onClick={() => HandleLogin(formData, user.tokenSetter)}>
+        <Button variant={'outline'} type="button" onClick={handleLoginclick}>
           Zaloguj
         </Button>
         <div className="text-center text-sm flex flex-col">

@@ -4,17 +4,14 @@ import "./globals.css"
 import { AuthContextProvider } from "@/context/AuthContext";
 import App from "./App";
 
-import { QueryClient, QueryClientProvider } from "react-query";
-const queryClient = new QueryClient();
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <QueryClientProvider client={queryClient}>
-        <div className="font-medium">
-          <App />
-        </div>
-      </QueryClientProvider>
+      <div className="font-medium">
+        <App />
+      </div>
     </AuthContextProvider>
-  </React.StrictMode >
+  </React.StrictMode>
 );
