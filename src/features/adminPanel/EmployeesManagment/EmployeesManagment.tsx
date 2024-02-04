@@ -1,133 +1,211 @@
 import { Button } from "@/components/ui/button";
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "@/components/ui/table";
 import fetchReducer, { initialState } from "@/reducer/reducerFetching";
-import axios from "axios";
 import React, { useEffect, useReducer, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useFetchEmployees from "./api/fetchEmployees";
 import { GridLoader } from "react-spinners";
-import useAuthContext from "@/context/AuthContext";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { AddUserFormData } from "../addNewEmployees/static/newEmployeesFormData";
+import { handleChangeInput } from "@/lib/handleChangeInput";
+import { submitUser } from "../addNewEmployees/api/submitUser";
+import useGetAllRoles from "./api/fetchRoles";
+import { deleteUser } from "./api/deleteUser";
+import { updateUser } from "./api/updateUser";
+import { UserData } from "./static/TableHeadersData";
 
-type TUser = {
-  id: string;
-  userName: string;
-  email: string;
+export type TEditedUserForm = {
+  id: string | null;
   firstName: string;
   lastName: string;
-  roles: string[];
+  userName: string;
+  street: string;
+  postalCode: string;
+  email: string;
+  state: string;
+  city: string;
+  country: string;
+  roles: string;
+  [key: string]: string | null;
+}
+
+export type TNewUserForm = {
+  userName: string;
+  email: string;
+  password: string;
+  roleName: string;
 }
 
 export default function EmployeesManagment() {
-  const [state, dispatch] = useReducer(fetchReducer, initialState)
-  const user = useAuthContext()
-  const token = localStorage.getItem('token')
+  const [state, dispatch] = useReducer(fetchReducer, initialState);
+  const token = localStorage.getItem('token');
+  const [roles, setRoles] = useState<string[]>([]);
+  const [toggleAddUser, setToggleAddUser] = useState<boolean>(false);
 
-  const navigate = useNavigate()
-  const fetchEmployees = useFetchEmployees(dispatch, token)
+  const fetchEmployees = useFetchEmployees(dispatch, token);
+  const getRoles = useGetAllRoles(token)
+  const [isEditable, setIsEditable] = useState<string | null>("");
 
-  const [isEditable, setIsEditable] = useState(false)
-  const [editedUserData, setEditedUserData] = useState<TUser>({
-    id: user.user?.id,
-    userName: "",
-    email: "",
+  const [editedUserData, setEditedUserData] = useState<TEditedUserForm>({
+    id: isEditable,
     firstName: "",
     lastName: "",
-    roles: [],
-  })
+    userName: "",
+    street: "",
+    postalCode: "",
+    city: "",
+    state: "",
+    country: "",
+    email: "",
+    roles: "",
+  });
 
+  const [newUserForm, setNewUserForm] = useState<TNewUserForm>({
+    userName: "",
+    email: "",
+    password: "",
+    roleName: "User",
+  });
 
   useEffect(() => {
+    const setRolesFromApi = async () => {
+      setRoles(await getRoles())
+    }
+
     fetchEmployees();
-  }, [fetchEmployees]);
-
-  const deleteUser = async (userId: string) => {
-    const URL = process.env.REACT_APP_URL + `/api/users?id=${userId}`;
-    try {
-      await axios.delete(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      fetchEmployees();
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      throw new Error("Error in function: deleteUser");
-    }
-  };
-
-  const updateUser = async (userId: string) => {
-    const URL = process.env.REACT_APP_URL + `/api/users?id=${userId}`;
-    try {
-      await axios.put(URL, editedUserData, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      fetchEmployees();
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      throw new Error("Error in function: deleteUser");
-    }
-  }
-
+    setRolesFromApi();
+  }, [fetchEmployees, getRoles]);
 
   return (
     <>
-      {state.isLoading && <div className="pt-48 flex justify-center w-full">
+      {state.isLoading && <div className=" flex justify-center w-full">
         <GridLoader />
       </div>}
       {state.error && <p>Error fetching data</p>}
       {!state.isLoading && !state.error && (
-        <div className="w-full flex justify-center flex-col">
-          <Table className="w-full">
+        <div className="w-full flex justify-center  flex-col mx-5">
+          <div className="w-full flex justify-end pr-36 my-5">
+            <Button variant="outline" className="w-fit " onClick={() => setToggleAddUser(prev => !prev)}>{toggleAddUser ? "Anuluj" : "Dodaj użytkownika"}</Button>
+          </div>
+          <Table className="w-full border">
             <TableHeader>
-              <TableRow>
-                <TableHead>firstName</TableHead>
-                <TableHead>lastName</TableHead>
-                <TableHead>userName</TableHead>
-                <TableHead>email</TableHead>
-                <TableHead>roles</TableHead>
-                <TableHead>Actions</TableHead>
+              <TableRow >
+                {UserData.map(headers =>
+                  <TableHead key={headers.key}>{headers.label}</TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
-              {state.data?.map((user: TUser) => (
+              {state.data?.map((user: TEditedUserForm) => (
                 <TableRow key={user.id}>
-                  {isEditable ? (<div className="flex gap-x-5">
-                    <Input placeholder={user.firstName} />
-                    <Input placeholder={user.lastName} />
-                    <Input placeholder={user.userName} />
-                    <Input placeholder={user.email} />
-                    <Input placeholder={user.roles.join(" ")} />
-                  </div>
-                  ) :
-                    (<>
+                  {isEditable === user.id ? (
+                    <>
+                      {
+                        UserData.map(userForm => (
+                          <TableCell key={userForm.label}>
+                            {userForm.key === 'roles' ? (
+                              // Display value without input for 'roles' and 'akcje'
+                              <select
+                                value={editedUserData.roles}
+                                onChange={(e) =>
+                                  setEditedUserData({
+                                    ...editedUserData,
+                                    id: user.id,
+                                    roles: e.target.value,
+                                  })}
+                              >
+                                {roles.map((role: undefined | any) => (
+                                  <option key={role?.name} value={role?.name}>
+                                    {role?.name}
+                                  </option>
+                                ))}
+                              </select>
+                            ) : userForm.key === "akcje" ? (<TableCell className="flex">
+                              {isEditable && (
+                                <Button size="sm" variant="outline" onClick={() => setIsEditable("")}>
+                                  Anuluj
+                                </Button>
+                              )}
+                              <Button size="sm" variant="outline" onClick={() => updateUser(token, fetchEmployees, editedUserData)}>
+                                Zapisz
+                              </Button>
+                            </TableCell>) : (
+                              <Input
+                                className="m-0"
+                                placeholder={user[userForm.key] as string}
+                                onChange={(e) => handleChangeInput(setEditedUserData, e, userForm)}
+                              />
+                            )}
+                          </TableCell>
+                        ))
+                      }
+                    </>
+                  ) : (
+                    <>
                       <TableCell>{user.firstName}</TableCell>
                       <TableCell>{user.lastName}</TableCell>
                       <TableCell>{user.userName}</TableCell>
+                      <TableCell>{user.street}</TableCell>
+                      <TableCell>{user.postalCode}</TableCell>
+                      <TableCell>{user.city}</TableCell>
+                      <TableCell>{user.state}</TableCell>
+                      <TableCell>{user.country}</TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>{user.roles}</TableCell>
-                    </>)}
-
-                  <TableCell>
-                    <Button size="sm" variant="outline" onClick={() => setIsEditable(prev => !prev)}>
-                      Edytuj
-                    </Button>
-                    {isEditable && <Button size="sm" variant="outline" onClick={() => updateUser(user.id)}>
-                      Zapisz
-                    </Button>}
-                    <Button size="sm" variant="outline" onClick={() => deleteUser(user.id)}>
-                      Usuń
-                    </Button>
-                  </TableCell>
+                      <TableCell className="flex">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setIsEditable(user.id)}
+                        >
+                          Edytuj
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={() => deleteUser(user.id, token, fetchEmployees)}>
+                          Usuń
+                        </Button>
+                      </TableCell>
+                    </>
+                  )}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-          <Button variant={"outline"} className="mt-5" onClick={() => navigate('/admin/employees/adduser')}>Dodaj Użytkownika</Button>
-        </div>
-      )}
+
+          {/* Add User Form to refactor */}
+
+          {toggleAddUser ? (
+            <div className="flex flex-col mx-5 mt-10">
+              {AddUserFormData.map(userForm => (
+                <div className='pt-2' key={userForm.key}>
+                  <Label>{userForm.label}</Label>
+                  <Input placeholder={userForm.value} onChange={(e) => handleChangeInput(setNewUserForm, e, userForm)} />
+                </div>
+              ))}
+              <select
+                className="mt-5"
+                value={newUserForm.roleName}
+                onChange={(e) =>
+                  setNewUserForm({
+                    ...newUserForm,
+                    roleName: e.target.value,
+                  })}
+              >
+                {roles.map((role: undefined | any) => (
+                  <option key={role?.name} value={role?.name}>
+                    {role?.name}
+                  </option>
+                ))}
+              </select>
+
+              <div className="flex flex-col gap-y-10 mx-auto">
+                <Button variant={'outline'} onClick={(e) => submitUser(newUserForm, token, e, fetchEmployees)}>Dodaj</Button>
+              </div>
+
+            </div>) : (null)}
+
+        </div >
+      )
+      }
     </>
   );
 }

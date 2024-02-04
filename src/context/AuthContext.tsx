@@ -72,14 +72,13 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     localStorage.removeItem("token");
   };
 
-
   //!@UserKacper this useEffect is checking if token is valid and setting user on every re-render so state after login is always there to get data 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       if (isTokenValid(storedToken)) {
         setToken(storedToken);
-        const decodedUser = jwt.decodeJwt(token) as Record<string, string>;
+        const decodedUser = jwt.decodeJwt(storedToken) as Record<string, string>;
         setUser({
           id: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string,
           email: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] as string,
@@ -92,8 +91,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         clearSession();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setUser]);
+  }, [setUser, setToken]);
+
+
 
   return (
     <AuthContext.Provider value={{ token, user, tokenSetter, clearSession }}>

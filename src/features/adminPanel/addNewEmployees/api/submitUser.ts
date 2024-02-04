@@ -1,24 +1,22 @@
-import { TNewUserForm } from '../NewEmployeesForm';
 import axios from "axios"
 import React from "react";
-import { NavigateFunction } from 'react-router-dom';
+import { TNewUserForm } from "../../employeesManagment/EmployeesManagment";
 
-export const submitUser = async (newUserFormData: TNewUserForm, token: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>, navigate: NavigateFunction) => {
-    const URL = process.env.REACT_APP_URL + "/api/users"
+export const submitUser = async (newUserFormData: TNewUserForm, token: string | null, e: React.MouseEvent<HTMLButtonElement, MouseEvent>, fetchEmployees: () => Promise<void>) => {
+    const URL = process.env.REACT_APP_URL + "/api/user"
+
     e.preventDefault()
-
-    if (!newUserFormData) throw new Error(`newUserFormData: ${newUserFormData}: is missing/null`)
-    if (!token) throw new Error(`newUserFormData: ${token}: is missing/null`)
-
     try {
+        if (!newUserFormData) return new Error(`newUserFormData: ${newUserFormData}: is missing/null`)
+        if (!token) return new Error(`newUserFormData: ${token}: is missing/null`)
         await axios.post(URL, newUserFormData, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
-        navigate("/admin/employees")
+        fetchEmployees()
     } catch (error) {
         console.error(error)
         throw new Error("submitUser: error while trying to submit user in function submitUser")
     }
-}
+}  

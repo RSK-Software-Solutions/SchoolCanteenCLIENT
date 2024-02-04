@@ -1,13 +1,13 @@
-// HandlingChangeInput.tsx
 
 import { TcompanyForm } from "@/features/adminPanel/companyManagment/CompanyManagment";
+import { TEditedUserForm, TNewUserForm } from "@/features/adminPanel/employeesManagment/EmployeesManagment";
 import { TLoginCredentials } from "@/features/authentication/Login";
 import { TRegisterCredentials } from "@/features/authentication/Register";
 import { TUserPersonalData } from "@/features/userSettings/UserSettings";
 import { SetStateAction, Dispatch } from "react";
 
 // TODO: these types could be refactored for better read-ability
-export type TAuthCredentials = TLoginCredentials | TRegisterCredentials | TUserPersonalData | TcompanyForm;
+export type TAuthCredentials = TLoginCredentials | TRegisterCredentials | TUserPersonalData | TcompanyForm | TNewUserForm | TEditedUserForm;
 
 export type TFormField = {
   label: string;
