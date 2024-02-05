@@ -4,6 +4,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { Button } from "@/components/ui/button"
+import { Minus, Plus } from "lucide-react"
+import AddProductForm from "./add-products-form/productFormData"
 
 type TUnit = {
     name: string
@@ -17,12 +19,17 @@ type TProduct = {
     productId: number;
 }
 
-export default function Component() {
+export default function InitialWareHouseProducts() {
     const [products, setProducts] = useState([])
+    const [amount, setAmount] = useState({
+        quantity: 1,
+    })
+    const [isAddProductToggled, setIsAddProductToggled] = useState<boolean>(false);
+
+    const token = localStorage.getItem('token')
 
     const getAllProducts = async () => {
         const URL = process.env.REACT_APP_URL + '/api/products'
-        const token = localStorage.getItem('token')
         try {
             const { data } = await axios.get(URL, {
                 headers: {
@@ -42,7 +49,27 @@ export default function Component() {
     const incrementQuantityOfProduct = async (productId: number) => {
         const URL = process.env.REACT_APP_URL + `/api/product/${productId}/increase-quantity`
         try {
-            await axios.post(URL,)
+            await axios.post(URL, amount, {
+                headers: {
+                    Authorization: `bearer ${token}`
+                }
+            })
+            getAllProducts();
+        } catch (error) {
+            console.error(error)
+            return error;
+        }
+    }
+
+    const decrementQuantityOfProduct = async (productId: number) => {
+        const URL = process.env.REACT_APP_URL + `/api/product/${productId}/decrease-quantity`
+        try {
+            await axios.post(URL, amount, {
+                headers: {
+                    Authorization: `bearer ${token}`
+                }
+            })
+            getAllProducts();
         } catch (error) {
             console.error(error)
             return error;
@@ -52,6 +79,7 @@ export default function Component() {
 
     useEffect(() => {
         getAllProducts()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -81,15 +109,15 @@ export default function Component() {
                         </TableHeader>
                         <TableBody>
                             {products.map((product: TProduct) => (
-                                <TableRow>
+                                <TableRow key={product.productId}>
                                     <>
                                         <TableCell className="font-medium">{product.name}</TableCell>
                                         <TableCell>{product.quantity}</TableCell>
                                         <TableCell>{product.price}</TableCell>
                                         <TableCell>{product.unit.name}</TableCell>
                                         <TableCell className="flex">
-                                            <Button variant={'outline'} onClick={() => incrementQuantityOfProduct(product.productId)}>Inc</Button>
-                                            <Button variant={'outline'}>Dec</Button>
+                                            <Button variant={'outline'} onClick={() => incrementQuantityOfProduct(product.productId)}><Plus /></Button>
+                                            <Button variant={'outline'} onClick={() => decrementQuantityOfProduct(product.productId)}><Minus /></Button>
                                         </TableCell>
                                     </>
                                 </TableRow>
@@ -98,6 +126,13 @@ export default function Component() {
                     </Table>
                 </ScrollArea>
             </main>
+            <section className="flex justify-center">
+                <Button variant={"outline"} onClick={() => setIsAddProductToggled(prev => !prev)}>{isAddProductToggled ? "Anuluj" : "Dodaj Produkt"}</Button>
+            </section>
+            {isAddProductToggled && (
+                <AddProductForm />
+            )}
+
         </div>
     )
 }
