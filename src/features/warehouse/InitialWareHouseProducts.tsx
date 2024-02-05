@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Minus, Plus } from "lucide-react"
@@ -83,7 +83,7 @@ export default function InitialWareHouseProducts() {
     }, [])
 
     return (
-        <div className="flex flex-col h-auto h-max-[500px] w-full">
+        <div className="flex flex-col w-full">
             <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800">
                 <h1 className="text-2xl font-semibold">Stock Management</h1>
                 <form className="relative w-64">
@@ -96,8 +96,8 @@ export default function InitialWareHouseProducts() {
                 </form>
             </header>
             <main className="flex-1 overflow-auto p-4">
-                <ScrollArea className="h-full border rounded-md">
-                    <Table>
+                <Table>
+                    <ScrollArea className="h-[500px] border rounded-md">
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Item Name</TableHead>
@@ -123,8 +123,8 @@ export default function InitialWareHouseProducts() {
                                 </TableRow>
                             ))}
                         </TableBody>
-                    </Table>
-                </ScrollArea>
+                    </ScrollArea>
+                </Table>
             </main>
             <section className="flex justify-center">
                 <Button variant={"outline"} onClick={() => setIsAddProductToggled(prev => !prev)}>{isAddProductToggled ? "Anuluj" : "Dodaj Produkt"}</Button>
