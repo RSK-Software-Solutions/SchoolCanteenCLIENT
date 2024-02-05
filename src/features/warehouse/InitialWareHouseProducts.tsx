@@ -130,7 +130,7 @@ export default function InitialWareHouseProducts() {
                 <Button variant={"outline"} onClick={() => setIsAddProductToggled(prev => !prev)}>{isAddProductToggled ? "Anuluj" : "Dodaj Produkt"}</Button>
             </section>
             {isAddProductToggled && (
-                <AddProductForm />
+                <AddProductForm getAllProducts={getAllProducts} setIsAddProductToggled={setIsAddProductToggled} />
             )}
 
         </div>

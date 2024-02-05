@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { handleChangeInput } from "@/lib/handleChangeInput"
-import React, { useEffect, useState } from "react"
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { productFormData } from "../static/AddProductFormData"
 import axios from "axios"
 import { Button } from "@/components/ui/button"
@@ -20,7 +20,7 @@ type TUnit = {
     unitId: number;
 }
 
-const AddProductForm = () => {
+const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProducts: () => Promise<unknown>, setIsAddProductToggled: Dispatch<SetStateAction<boolean>> }) => {
     const [addProductForm, setAddProductForm] = useState<TAddProductForm>({
         unitId: 0,
         name: "",
@@ -50,8 +50,9 @@ const AddProductForm = () => {
         }
     }
 
-    const handleAddProduct = async () => {
+    const handleAddProduct = async (e: React.FormEvent<HTMLFormElement>) => {
         const URL = process.env.REACT_APP_URL + '/api/product'
+        e.preventDefault()
         try {
             console.log(addProductForm, URL);
             await axios.post(URL, addProductForm, {
@@ -59,6 +60,8 @@ const AddProductForm = () => {
                     Authorization: `bearer ${token}`
                 }
             })
+            setIsAddProductToggled(false)
+            getAllProducts()
         } catch (error) {
             console.error(error);
             return error;
@@ -75,7 +78,7 @@ const AddProductForm = () => {
     return (
         <main className="w-full flex justify-center mt-5 flex-col">
             <Label className="flex w-full justify-center">Dodaj Produkt!</Label>
-            <form onSubmit={handleAddProduct} className="w-full flex justify-center">
+            <form onSubmit={(e) => handleAddProduct(e)} className="w-full flex justify-center">
                 <div className="w-fit flex justify-center flex-col">
                     {productFormData.map((products) => (
                         <React.Fragment key={products.key}>
@@ -87,7 +90,7 @@ const AddProductForm = () => {
                                     unitId: parseInt(e.target.value)
                                 })}
                             >
-                                {/* <option value={"select"}>Wybierz...</option> */}
+                                <option value={"select"}>Wybierz...</option>
 
                                 {units.map((unit) => (
                                     <option key={unit.unitId} value={unit.unitId}>{unit.name}</option>
