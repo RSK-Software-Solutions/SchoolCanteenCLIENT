@@ -5,14 +5,12 @@ import React, { useEffect, useReducer, useState } from "react";
 import useFetchEmployees from "./api/fetchEmployees";
 import { GridLoader } from "react-spinners";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { AddUserFormData } from "../addNewEmployees/static/newEmployeesFormData";
 import { handleChangeInput } from "@/lib/handleChangeInput";
-import { submitUser } from "../addNewEmployees/api/submitUser";
 import useGetAllRoles from "./api/fetchRoles";
 import { deleteUser } from "./api/deleteUser";
 import { updateUser } from "./api/updateUser";
 import { UserData } from "./static/TableHeadersData";
+import NewEmployeesForm from "../addNewEmployees/NewEmployeesForm";
 
 export type TEditedUserForm = {
   id: string | null;
@@ -173,35 +171,9 @@ export default function EmployeesManagment() {
 
           {/* Add User Form to refactor */}
 
-          {toggleAddUser ? (
-            <div className="flex flex-col mx-5 mt-10">
-              {AddUserFormData.map(userForm => (
-                <div className='pt-2' key={userForm.key}>
-                  <Label>{userForm.label}</Label>
-                  <Input placeholder={userForm.value} onChange={(e) => handleChangeInput(setNewUserForm, e, userForm)} />
-                </div>
-              ))}
-              <select
-                className="mt-5"
-                value={newUserForm.roleName}
-                onChange={(e) =>
-                  setNewUserForm({
-                    ...newUserForm,
-                    roleName: e.target.value,
-                  })}
-              >
-                {roles.map((role: undefined | any) => (
-                  <option key={role?.name} value={role?.name}>
-                    {role?.name}
-                  </option>
-                ))}
-              </select>
-
-              <div className="flex flex-col gap-y-10 mx-auto">
-                <Button variant={'outline'} onClick={(e) => submitUser(newUserForm, token, e, fetchEmployees)}>Dodaj</Button>
-              </div>
-
-            </div>) : (null)}
+          {toggleAddUser ? (<> <NewEmployeesForm setNewUserForm={setNewUserForm} newUserForm={newUserForm} roles={roles} token={token} fetchEmployees={fetchEmployees} />
+          </>
+          ) : (null)}
 
         </div >
       )
