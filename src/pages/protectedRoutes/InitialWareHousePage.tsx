@@ -1,4 +1,4 @@
-import InitialWareHouseProducts from '@/features/warehouse/InitialWareHouseProducts'
+import InitialWareHouseProducts from '@/features/warehouse/initial-warehouse/InitialWareHouseProducts'
 import React from 'react'
 
 const InitialWareHousePage = () => {

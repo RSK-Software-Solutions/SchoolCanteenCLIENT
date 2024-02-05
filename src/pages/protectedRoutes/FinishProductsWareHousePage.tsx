@@ -1,9 +1,8 @@
+import FinishProductsWareHouse from '@/features/warehouse/finished-products-warehouse/FinishedProductsWarehouse'
 import React from 'react'
 
 const FinishProductsWareHousePage = () => {
-    return (
-        <div className='w-full flex justify-center'>FinishProductsWareHousePage</div>
-    )
+    return <FinishProductsWareHouse />
 }
 
 export default FinishProductsWareHousePage

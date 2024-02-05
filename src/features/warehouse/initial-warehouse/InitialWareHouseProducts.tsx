@@ -1,17 +1,17 @@
 import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Minus, Plus } from "lucide-react"
-import AddProductForm from "./add-products-form/productFormData"
+import AddProductForm from "./add-products-form/AddProductForm"
 
 type TUnit = {
     name: string
 }
 
-type TProduct = {
+export type TProduct = {
     name: string;
     price: number;
     quantity: number;

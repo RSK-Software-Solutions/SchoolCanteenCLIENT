@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { handleChangeInput } from "@/lib/handleChangeInput"
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { productFormData } from "../static/AddProductFormData"
+import { productFormData } from "../../static/AddProductFormData"
 import axios from "axios"
 import { Button } from "@/components/ui/button"
 
