@@ -1,9 +1,59 @@
 import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from "axios"
+import { Button } from "@/components/ui/button"
+
+type TUnit = {
+    name: string
+}
+
+type TProduct = {
+    name: string;
+    price: number;
+    quantity: number;
+    unit: TUnit;
+    productId: number;
+}
 
 export default function Component() {
+    const [products, setProducts] = useState([])
+
+    const getAllProducts = async () => {
+        const URL = process.env.REACT_APP_URL + '/api/products'
+        const token = localStorage.getItem('token')
+        try {
+            const { data } = await axios.get(URL, {
+                headers: {
+                    Authorization: `bearer ${token}`
+                }
+            })
+            setProducts(data)
+            console.log(data);
+
+        } catch (error) {
+            console.error(error)
+            return error;
+        }
+
+    }
+
+    const incrementQuantityOfProduct = async (productId: number) => {
+        const URL = process.env.REACT_APP_URL + `/api/product/${productId}/increase-quantity`
+        try {
+            await axios.post(URL,)
+        } catch (error) {
+            console.error(error)
+            return error;
+        }
+    }
+
+
+    useEffect(() => {
+        getAllProducts()
+    }, [])
+
     return (
         <div className="flex flex-col h-auto h-max-[500px] w-full">
             <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800">
@@ -24,17 +74,26 @@ export default function Component() {
                             <TableRow>
                                 <TableHead>Item Name</TableHead>
                                 <TableHead>Quantity</TableHead>
-                                <TableHead>Category</TableHead>
                                 <TableHead>Price</TableHead>
+                                <TableHead>Unit</TableHead>
+                                <TableHead>Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow>
-                                <TableCell className="font-medium">Apple</TableCell>
-                                <TableCell>100</TableCell>
-                                <TableCell>Fruits</TableCell>
-                                <TableCell>$1.00</TableCell>
-                            </TableRow>
+                            {products.map((product: TProduct) => (
+                                <TableRow>
+                                    <>
+                                        <TableCell className="font-medium">{product.name}</TableCell>
+                                        <TableCell>{product.quantity}</TableCell>
+                                        <TableCell>{product.price}</TableCell>
+                                        <TableCell>{product.unit.name}</TableCell>
+                                        <TableCell className="flex">
+                                            <Button variant={'outline'} onClick={() => incrementQuantityOfProduct(product.productId)}>Inc</Button>
+                                            <Button variant={'outline'}>Dec</Button>
+                                        </TableCell>
+                                    </>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </ScrollArea>

@@ -13,7 +13,7 @@ import InitialWareHousePage from "./pages/protectedRoutes/InitialWareHousePage";
 import FinishProductsWareHousePage from "./pages/protectedRoutes/FinishProductsWareHousePage";
 import EmployeesManagment from "./features/adminPanel/employeesManagment/EmployeesManagment";
 import { CompanyManagment } from "./features/adminPanel/companyManagment/CompanyManagment";
-import AddUserToCompanyPage from "./pages/protectedRoutes/AddUserToCompanyPage";
+
 
 
 
@@ -25,7 +25,6 @@ function App() {
         <Route path="/" element={<UserProtectedWrapper />}>
           {/* admin Routes~ must be inside of this wrapper since this UserProtectedWrapper is rendering navbar and sidebar */}
           <Route path="/admin" element={<AdminProtectedWrapper />}>
-            <Route path="/admin/employees/adduser" element={<AddUserToCompanyPage/>} />
             <Route path="/admin/employees" element={<EmployeesManagment />} />
             <Route path="/admin/company" element={<CompanyManagment />} />
           </Route>
