@@ -68,14 +68,17 @@ export default function FinishProductsWareHouse() {
         <div className="flex flex-col w-full">
             <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800">
                 <h1 className="text-2xl font-semibold">Finished Product's Management</h1>
-                <form className="relative w-64">
-                    <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
-                    <Input
-                        className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
-                        placeholder="Search items..."
-                        type="search"
-                    />
-                </form>
+                <div className="flex gap-5">
+                    <Button variant={"outline"} onClick={() => setIsAddProductToggled(prev => !prev)}>{isAddProductToggled ? "Anuluj" : "Dodaj Produkt"}</Button>
+                    <form className="relative w-64">
+                        <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+                        <Input
+                            className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
+                            placeholder="Search items..."
+                            type="search"
+                        />
+                    </form>
+                </div>
             </header>
             <main className="flex-1 overflow-auto p-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -94,7 +97,7 @@ export default function FinishProductsWareHouse() {
                             </TableHeader>
                             <TableBody>
                                 {finishedProducts.map((finishedProduct: TFinishedProducts) => (
-                                    <TableRow onClick={() => setChosenProduct(finishedProduct.finishedProductId)} key={finishedProduct.finishedProductId}>
+                                    <TableRow className="cursor-pointer" onClick={() => setChosenProduct(finishedProduct.finishedProductId)} key={finishedProduct.finishedProductId}>
                                         <>
                                             <TableCell className="font-medium" >{finishedProduct.name}</TableCell>
                                             <TableCell>{finishedProduct.quantity}</TableCell>
@@ -142,9 +145,6 @@ export default function FinishProductsWareHouse() {
                     )}
                 </div>
             </main >
-            <section className="flex justify-center">
-                <Button variant={"outline"} onClick={() => setIsAddProductToggled(prev => !prev)}>{isAddProductToggled ? "Anuluj" : "Dodaj Produkt"}</Button>
-            </section>
             {
                 isAddProductToggled && (
                     <div></div>

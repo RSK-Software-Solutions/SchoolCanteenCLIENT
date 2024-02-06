@@ -1,4 +1,3 @@
-import AdminManagmentOptions from "@/layout/adminPanelLayout/AdminManagmentOptions";
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import useAuthContext from "@/context/AuthContext";
@@ -19,11 +18,8 @@ const AdminProtectedWrapper = () => {
 
 
   return (
-    <div className="flex flex-col w-full h-screen">
-      <AdminManagmentOptions />
-      <div className="flex w-full">
-        <Outlet />
-      </div>
+    <div className="flex flex-col w-full">
+      <Outlet />
     </div>
   );
 };

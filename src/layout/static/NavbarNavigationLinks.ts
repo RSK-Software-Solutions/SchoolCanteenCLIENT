@@ -3,18 +3,19 @@ import { TStaticLayoutData } from "./type-static-d";
 export const navLinks: TStaticLayoutData[] = [
     {
         path: "/admin/employees",
-        element: "Panel admina",
+        label: "Panel admina",
     },
     {
         path: "/menu",
-        element: "Menu",
+        label: "Menu",
     },
     {
-        path: "/raports",
-        element: "Raporty",
+        path: "/warehouse",
+        label: "Magazyn",
     },
+
     {
         path: "/settings",
-        element: "Ustawienia",
-    }
+        label: "Ustawienia",
+    },
 ];
