@@ -6,14 +6,13 @@ export const navLinks: TStaticLayoutData[] = [
         label: "Panel admina",
     },
     {
-        path: "/menu",
-        label: "Menu",
-    },
-    {
         path: "/warehouse",
         label: "Magazyn",
     },
-
+    {
+        path: "/menu",
+        label: "Menu",
+    },
     {
         path: "/settings",
         label: "Ustawienia",

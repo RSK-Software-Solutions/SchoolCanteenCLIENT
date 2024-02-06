@@ -1,11 +1,20 @@
 import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Minus, Plus, SearchIcon, Trash } from "lucide-react"
 import AddProductForm from "./add-products-form/AddProductForm"
+import { changeQuantityOfProduct } from "../api/changeQuantityOfProduct"
+import { deleteProduct } from "../api/delete-product"
+import { handleSearchSubmit } from "../api/searchInput"
+
+
+export enum TypeOfAction {
+    INC = "increase-quantity",
+    DEC = "decrease-quantity"
+}
 
 type TUnit = {
     name: string
@@ -32,7 +41,6 @@ export default function InitialWareHouseProducts() {
     const getAllProducts = async () => {
         const URL = process.env.REACT_APP_URL + `/api/products?name=${searchInput}`
         try {
-
             const { data } = await axios.get(URL, {
                 headers: {
                     Authorization: `bearer ${token}`
@@ -45,58 +53,7 @@ export default function InitialWareHouseProducts() {
         }
     }
 
-    const incrementQuantityOfProduct = async (productId: number) => {
-        const URL = process.env.REACT_APP_URL + `/api/product/${productId}/increase-quantity`
-        try {
-            await axios.post(URL, amount, {
-                headers: {
-                    Authorization: `bearer ${token}`
-                }
-            })
-            getAllProducts();
-        } catch (error) {
-            console.error(error)
-            return error;
-        }
-    }
 
-    const decrementQuantityOfProduct = async (productId: number) => {
-        const URL = process.env.REACT_APP_URL + `/api/product/${productId}/decrease-quantity`
-        try {
-            await axios.post(URL, amount, {
-                headers: {
-                    Authorization: `bearer ${token}`
-                }
-            })
-            getAllProducts();
-        } catch (error) {
-            console.error(error)
-            return error;
-        }
-    }
-
-    const deleteProduct = async (productId: number) => {
-        const URL = process.env.REACT_APP_URL + `/api/product/?id=${productId}`
-        console.log(URL);
-        try {
-            await axios.delete(URL, {
-                headers: {
-                    Authorization: `bearer ${token}`
-                }
-            })
-            getAllProducts();
-        } catch (error) {
-            console.error(error)
-            return error;
-        }
-    }
-    const handleInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchInput(e.target.value)
-    }
-    const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        getAllProducts();
-    }
     useEffect(() => {
         getAllProducts()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -112,10 +69,10 @@ export default function InitialWareHouseProducts() {
                         e.preventDefault()
                         setIsAddProductToggled(prev => !prev)
                     }}>{isAddProductToggled ? "Anuluj" : "Dodaj Produkt"}</Button>
-                    <form className="relative w-64" onSubmit={handleSearchSubmit}>
+                    <form className="relative w-64" onSubmit={(e) => handleSearchSubmit(e, getAllProducts)}>
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                         <Input
-                            onChange={(e) => handleInputChange(e)}
+                            onChange={(e) => setSearchInput(e.target.value)}
                             value={searchInput}
                             className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
                             placeholder="Search products..."
@@ -139,17 +96,15 @@ export default function InitialWareHouseProducts() {
                         <TableBody>
                             {products.map((product: TProduct) => (
                                 <TableRow key={product.productId}>
-
                                     <TableCell className="font-medium">{product.name}</TableCell>
                                     <TableCell>{product.quantity}</TableCell>
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.unit.name}</TableCell>
                                     <TableCell className="flex">
-                                        <Button variant={'outline'} onClick={() => incrementQuantityOfProduct(product.productId)}><Plus /></Button>
-                                        <Button variant={'outline'} onClick={() => decrementQuantityOfProduct(product.productId)}><Minus /></Button>
-                                        <Button variant={'outline'} onClick={() => deleteProduct(product.productId)}><Trash /></Button>
+                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.INC, amount.quantity, token, getAllProducts)}><Plus /></Button>
+                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.DEC, amount.quantity, token, getAllProducts)}><Minus /></Button>
+                                        <Button variant={'outline'} onClick={() => deleteProduct(product.productId, token, getAllProducts)}><Trash /></Button>
                                     </TableCell>
-
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -159,7 +114,6 @@ export default function InitialWareHouseProducts() {
             {isAddProductToggled && (
                 <AddProductForm getAllProducts={getAllProducts} setIsAddProductToggled={setIsAddProductToggled} />
             )}
-
         </div>
     )
 }
