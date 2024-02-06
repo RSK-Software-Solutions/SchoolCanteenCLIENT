@@ -70,8 +70,6 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
 
     useEffect(() => {
         getAllUnits();
-        console.log(addProductForm);
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [addProductForm])
 

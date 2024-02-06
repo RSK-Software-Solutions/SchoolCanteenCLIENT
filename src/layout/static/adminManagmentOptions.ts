@@ -2,11 +2,11 @@ import { TStaticLayoutData } from "./type-static-d";
 
 export const adminManagmentOptionsPickerData: TStaticLayoutData[] = [
     {
-        path: "/admin/employees",
-        element: "Zarządzanie Użytkownikami"
+        label: "Zarządzanie Użytkownikami",
+        path: "/admin/employees"
     },
     {
-        path: "/admin/company",
-        element: "Zarządzanie Firmą"
+        label: "Zarządzanie Firmą",
+        path: "/admin/company"
     },
 ];

@@ -4,7 +4,6 @@ import AdminProtectedWrapper from "./pages/privatePageWrappers/AdminProtectedWra
 import UserProtectedWrapper from "./pages/privatePageWrappers/UserProtectedWrapper";
 import DashboardPage from "./pages/protectedRoutes/DashboardPage";
 import NotificationsPage from "./pages/protectedRoutes/NotificationsPage";
-import RaportsPage from "./pages/protectedRoutes/RaportsPage";
 import UserSettingsPage from "./pages/protectedRoutes/UserSettingsPage";
 import LoginPage from "./pages/publicRoutes/LoginPage";
 import RegisterPage from "./pages/publicRoutes/RegisterPage";
@@ -30,7 +29,7 @@ function App() {
           </Route>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
-          <Route path="/raports" element={<RaportsPage />} />
+          {/* <Route path="/raports" element={<RaportsPage />} /> */}
           <Route path="/menu" element={<MenuPage />} />
           <Route path="/settings" element={<UserSettingsPage />} />
           <Route path="/warehouse" element={<InitialWareHousePage />} />

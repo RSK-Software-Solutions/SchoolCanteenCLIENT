@@ -1,4 +1,4 @@
 export type TStaticLayoutData = {
-    element: string;
+    label: string;
     path: string;
 }
