@@ -1,10 +1,10 @@
 import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import axios from "axios"
 import { Button } from "@/components/ui/button"
-import { Minus, Plus, SearchIcon } from "lucide-react"
+import { Delete, Minus, Plus, Trash } from "lucide-react"
 import AddProductForm from "./add-products-form/AddProductForm"
 
 type TUnit = {
@@ -26,12 +26,13 @@ export default function InitialWareHouseProducts() {
         quantity: 1,
     })
     const [isAddProductToggled, setIsAddProductToggled] = useState<boolean>(false);
-
+    const [searchInput, setSearchInput] = useState<string>("");
     const token = localStorage.getItem('token')
 
     const getAllProducts = async () => {
-        const URL = process.env.REACT_APP_URL + '/api/products'
+        const URL = process.env.REACT_APP_URL + `/api/products?name=${searchInput}`
         try {
+
             const { data } = await axios.get(URL, {
                 headers: {
                     Authorization: `bearer ${token}`
@@ -42,7 +43,6 @@ export default function InitialWareHouseProducts() {
             console.error(error)
             return error;
         }
-
     }
 
     const incrementQuantityOfProduct = async (productId: number) => {
@@ -75,7 +75,28 @@ export default function InitialWareHouseProducts() {
         }
     }
 
-
+    const deleteProduct = async (productId: number) =>{
+        const URL = process.env.REACT_APP_URL + `/api/product/?id=${productId}`
+        console.log(URL);
+        try {
+            await axios.delete(URL, {
+                headers: {
+                    Authorization: `bearer ${token}`
+                }
+            })
+            getAllProducts();
+        } catch (error) {
+            console.error(error)
+            return error;
+        }
+    }
+    const handleInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchInput(e.target.value)
+    }
+    const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        getAllProducts();
+    }
     useEffect(() => {
         getAllProducts()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -85,6 +106,7 @@ export default function InitialWareHouseProducts() {
         <div className="flex flex-col w-full">
             <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800">
                 <h1 className="text-2xl font-semibold">Stock Management</h1>
+
                 <div className="flex gap-5">
                     <Button variant={"outline"} onClick={(e) => {
                         e.preventDefault()
@@ -115,6 +137,7 @@ export default function InitialWareHouseProducts() {
                         <TableBody>
                             {products.map((product: TProduct) => (
                                 <TableRow key={product.productId}>
+
                                     <TableCell className="font-medium">{product.name}</TableCell>
                                     <TableCell>{product.quantity}</TableCell>
                                     <TableCell>{product.price}</TableCell>
@@ -129,6 +152,7 @@ export default function InitialWareHouseProducts() {
                                             decrementQuantityOfProduct(product.productId)
                                         }}><Minus /></Button>
                                     </TableCell>
+
                                 </TableRow>
                             ))}
                         </TableBody>

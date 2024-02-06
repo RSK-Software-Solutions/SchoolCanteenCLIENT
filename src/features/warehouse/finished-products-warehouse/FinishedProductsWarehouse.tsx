@@ -23,12 +23,12 @@ type TProductStorages = {
 }
 
 type TFinishedProducts = {
-    cost: number;
+    costs: number;
     name: string;
     price: number;
     quantity: number;
     finishedProductId: number;
-    totalCost: number;
+    totalCosts: number;
     totalPrice: number;
     productStorages: TProductStorages[]
 }
@@ -102,8 +102,8 @@ export default function FinishProductsWareHouse() {
                                             <TableCell className="font-medium" >{finishedProduct.name}</TableCell>
                                             <TableCell>{finishedProduct.quantity}</TableCell>
                                             <TableCell>{finishedProduct.price}</TableCell>
-                                            <TableCell>{finishedProduct.cost}</TableCell>
-                                            <TableCell>{finishedProduct.totalCost}</TableCell>
+                                            <TableCell>{finishedProduct.costs}</TableCell>
+                                            <TableCell>{finishedProduct.totalCosts}</TableCell>
                                             <TableCell>{finishedProduct.totalPrice}</TableCell>
                                         </>
                                     </TableRow>
@@ -132,8 +132,8 @@ export default function FinishProductsWareHouse() {
                                                 finishedProduct.productStorages.map((productDetails: TProductStorages) => (
                                                     <TableRow key={productDetails.productId}>
                                                         <TableCell className="font-medium">{productDetails.product.name}</TableCell>
-                                                        <TableCell>{productDetails.product.quantity}</TableCell>
                                                         <TableCell>{productDetails.quantity}</TableCell>
+                                                        <TableCell>{productDetails.price}</TableCell>
                                                     </TableRow>
                                                 ))
                                             )}
