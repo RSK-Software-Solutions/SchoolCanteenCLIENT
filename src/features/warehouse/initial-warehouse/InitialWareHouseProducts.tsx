@@ -4,8 +4,9 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { Button } from "@/components/ui/button"
-import { Minus, Plus } from "lucide-react"
+import { Delete, Minus, Plus, Trash } from "lucide-react"
 import AddProductForm from "./add-products-form/AddProductForm"
+import { TrashIcon } from "@radix-ui/react-icons"
 
 type TUnit = {
     name: string
@@ -76,6 +77,21 @@ export default function InitialWareHouseProducts() {
         }
     }
 
+    const deleteProduct = async (productId: number) =>{
+        const URL = process.env.REACT_APP_URL + `/api/product/?id=${productId}`
+        console.log(URL);
+        try {
+            await axios.delete(URL, {
+                headers: {
+                    Authorization: `bearer ${token}`
+                }
+            })
+            getAllProducts();
+        } catch (error) {
+            console.error(error)
+            return error;
+        }
+    }
 
     useEffect(() => {
         getAllProducts()
@@ -110,7 +126,7 @@ export default function InitialWareHouseProducts() {
                         <TableBody>
                             {products.map((product: TProduct) => (
                                 <TableRow key={product.productId}>
-                                    <>
+
                                         <TableCell className="font-medium">{product.name}</TableCell>
                                         <TableCell>{product.quantity}</TableCell>
                                         <TableCell>{product.price}</TableCell>
@@ -118,8 +134,9 @@ export default function InitialWareHouseProducts() {
                                         <TableCell className="flex">
                                             <Button variant={'outline'} onClick={() => incrementQuantityOfProduct(product.productId)}><Plus /></Button>
                                             <Button variant={'outline'} onClick={() => decrementQuantityOfProduct(product.productId)}><Minus /></Button>
+                                            <Button variant={'outline'} onClick={() => deleteProduct(product.productId)}><Trash /></Button>
                                         </TableCell>
-                                    </>
+
                                 </TableRow>
                             ))}
                         </TableBody>
