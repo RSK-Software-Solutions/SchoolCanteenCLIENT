@@ -1,12 +1,11 @@
 import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Delete, Minus, Plus, Trash } from "lucide-react"
 import AddProductForm from "./add-products-form/AddProductForm"
-import { TrashIcon } from "@radix-ui/react-icons"
 
 type TUnit = {
     name: string
@@ -26,12 +25,13 @@ export default function InitialWareHouseProducts() {
         quantity: 1,
     })
     const [isAddProductToggled, setIsAddProductToggled] = useState<boolean>(false);
-
+    const [searchInput, setSearchInput] = useState<string>("");
     const token = localStorage.getItem('token')
 
     const getAllProducts = async () => {
-        const URL = process.env.REACT_APP_URL + '/api/products'
+        const URL = process.env.REACT_APP_URL + `/api/products?name=${searchInput}`
         try {
+
             const { data } = await axios.get(URL, {
                 headers: {
                     Authorization: `bearer ${token}`
@@ -39,12 +39,12 @@ export default function InitialWareHouseProducts() {
             })
             setProducts(data)
             console.log(data);
+            console.log(URL, searchInput)
 
         } catch (error) {
             console.error(error)
             return error;
         }
-
     }
 
     const incrementQuantityOfProduct = async (productId: number) => {
@@ -92,7 +92,13 @@ export default function InitialWareHouseProducts() {
             return error;
         }
     }
-
+    const handleInputChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchInput(e.target.value)
+    }
+    const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        getAllProducts();
+    }
     useEffect(() => {
         getAllProducts()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -102,11 +108,13 @@ export default function InitialWareHouseProducts() {
         <div className="flex flex-col w-full">
             <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800">
                 <h1 className="text-2xl font-semibold">Stock Management</h1>
-                <form className="relative w-64">
+                <form className="relative w-64" onSubmit={handleSearchSubmit}>
                     <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                     <Input
                         className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
                         placeholder="Search items..."
+                        onChange = {(e) => handleInputChange(e)}
+                        value = {searchInput}
                         type="search"
                     />
                 </form>
