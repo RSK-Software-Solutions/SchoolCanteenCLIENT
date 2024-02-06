@@ -4,7 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import axios from "axios"
 import { Button } from "@/components/ui/button"
-import { Delete, Minus, Plus, Trash } from "lucide-react"
+import { Minus, Plus, SearchIcon, Trash } from "lucide-react"
 import AddProductForm from "./add-products-form/AddProductForm"
 
 type TUnit = {
@@ -75,7 +75,7 @@ export default function InitialWareHouseProducts() {
         }
     }
 
-    const deleteProduct = async (productId: number) =>{
+    const deleteProduct = async (productId: number) => {
         const URL = process.env.REACT_APP_URL + `/api/product/?id=${productId}`
         console.log(URL);
         try {
@@ -112,9 +112,11 @@ export default function InitialWareHouseProducts() {
                         e.preventDefault()
                         setIsAddProductToggled(prev => !prev)
                     }}>{isAddProductToggled ? "Anuluj" : "Dodaj Produkt"}</Button>
-                    <form className="relative w-64 flex">
+                    <form className="relative w-64" onSubmit={handleSearchSubmit}>
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                         <Input
+                            onChange={(e) => handleInputChange(e)}
+                            value={searchInput}
                             className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
                             placeholder="Search products..."
                             type="search"
@@ -143,14 +145,9 @@ export default function InitialWareHouseProducts() {
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.unit.name}</TableCell>
                                     <TableCell className="flex">
-                                        <Button variant={'outline'} onClick={(e) => {
-                                            e.preventDefault()
-                                            incrementQuantityOfProduct(product.productId)
-                                        }}><Plus /></Button>
-                                        <Button variant={'outline'} onClick={(e) => {
-                                            e.preventDefault()
-                                            decrementQuantityOfProduct(product.productId)
-                                        }}><Minus /></Button>
+                                        <Button variant={'outline'} onClick={() => incrementQuantityOfProduct(product.productId)}><Plus /></Button>
+                                        <Button variant={'outline'} onClick={() => decrementQuantityOfProduct(product.productId)}><Minus /></Button>
+                                        <Button variant={'outline'} onClick={() => deleteProduct(product.productId)}><Trash /></Button>
                                     </TableCell>
 
                                 </TableRow>
