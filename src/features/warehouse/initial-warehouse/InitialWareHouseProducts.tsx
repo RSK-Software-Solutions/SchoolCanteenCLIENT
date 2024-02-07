@@ -65,10 +65,11 @@ export default function InitialWareHouseProducts() {
                 <h1 className="text-2xl font-semibold">Stock Management</h1>
 
                 <div className="flex gap-5">
-                    <Button variant={"outline"} onClick={(e) => {
-                        e.preventDefault()
-                        setIsAddProductToggled(prev => !prev)
-                    }}>{isAddProductToggled ? "Anuluj" : "Dodaj Produkt"}</Button>
+                <Button variant={"outline"} className={isAddProductToggled ? "hidden" : ""} onClick={(e) => {
+                    e.preventDefault();
+                    setIsAddProductToggled(prev => !prev);
+                }}>Dodaj Produkt</Button>
+
                     <form className="relative w-64" onSubmit={(e) => handleSearchSubmit(e, getAllProducts)}>
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                         <Input
