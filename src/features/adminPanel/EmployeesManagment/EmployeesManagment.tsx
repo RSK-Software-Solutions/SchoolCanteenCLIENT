@@ -42,8 +42,8 @@ export default function EmployeesManagment() {
   const [roles, setRoles] = useState<string[]>([]);
   const [toggleAddUser, setToggleAddUser] = useState<boolean>(false);
 
-  const fetchEmployees = useFetchEmployees(dispatch, token);
-  const getRoles = useGetAllRoles(token)
+  const fetchEmployees = useFetchEmployees(dispatch);
+  const getRoles = useGetAllRoles()
 
   const [isEditableByUserId, setIsEditableByUserId] = useState<string | null>("");
   const [editedUserData, setEditedUserData] = useState<TEditedUserForm>({
@@ -77,9 +77,8 @@ export default function EmployeesManagment() {
     })
     fetchEmployees();
     setRolesFromApi();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchEmployees, getRoles, isEditableByUserId]);
-  console.log(editedUserData);
 
   return (
     <>
@@ -151,7 +150,7 @@ export default function EmployeesManagment() {
                                     Anuluj
                                   </Button>
                                 )}
-                                <Button size="sm" variant="outline" onClick={() => updateUser(token, fetchEmployees, editedUserData, setEditedUserData, isEditableByUserId)}>
+                                <Button size="sm" variant="outline" onClick={() => updateUser(fetchEmployees, editedUserData, setEditedUserData, isEditableByUserId)}>
                                   Zapisz
                                 </Button>
                               </TableCell>) : (
@@ -186,7 +185,7 @@ export default function EmployeesManagment() {
                           >
                             Edytuj
                           </Button>
-                          <Button size="sm" variant="outline" onClick={() => deleteUser(user.id, token, fetchEmployees)}>
+                          <Button size="sm" variant="outline" onClick={() => deleteUser(user.id, fetchEmployees)}>
                             Usuń
                           </Button>
                         </TableCell>

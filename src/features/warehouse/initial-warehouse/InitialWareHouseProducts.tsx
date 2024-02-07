@@ -8,7 +8,6 @@ import { Minus, Plus, SearchIcon, Trash } from "lucide-react"
 import AddProductForm from "./add-products-form/AddProductForm"
 import { changeQuantityOfProduct } from "../api/changeQuantityOfProduct"
 import { deleteProduct } from "../api/delete-product"
-import { handleSearchSubmit } from "../api/searchInput"
 
 
 export enum TypeOfAction {
@@ -69,7 +68,10 @@ export default function InitialWareHouseProducts() {
                         e.preventDefault()
                         setIsAddProductToggled(prev => !prev)
                     }}>{isAddProductToggled ? "Anuluj" : "Dodaj Produkt"}</Button>
-                    <form className="relative w-64" onSubmit={(e) => handleSearchSubmit(e, getAllProducts)}>
+                    <form className="relative w-64" onSubmit={(e) => {
+                        e.preventDefault();
+                        getAllProducts();
+                    }}>
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                         <Input
                             onChange={(e) => setSearchInput(e.target.value)}
@@ -80,7 +82,7 @@ export default function InitialWareHouseProducts() {
                         />
                     </form>
                 </div>
-            </header>
+            </header >
             <main className="flex-1 overflow-auto p-4">
                 <ScrollArea className="h-[500px] border rounded-md">
                     <Table>
@@ -101,9 +103,9 @@ export default function InitialWareHouseProducts() {
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.unit.name}</TableCell>
                                     <TableCell className="flex">
-                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.INC, amount.quantity, token, getAllProducts)}><Plus /></Button>
-                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.DEC, amount.quantity, token, getAllProducts)}><Minus /></Button>
-                                        <Button variant={'outline'} onClick={() => deleteProduct(product.productId, token, getAllProducts)}><Trash /></Button>
+                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.INC, amount.quantity, getAllProducts)}><Plus /></Button>
+                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.DEC, amount.quantity, getAllProducts)}><Minus /></Button>
+                                        <Button variant={'outline'} onClick={() => deleteProduct(product.productId, getAllProducts)}><Trash /></Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -111,10 +113,12 @@ export default function InitialWareHouseProducts() {
                     </Table>
                 </ScrollArea>
             </main>
-            {isAddProductToggled && (
-                <AddProductForm getAllProducts={getAllProducts} setIsAddProductToggled={setIsAddProductToggled} />
-            )}
-        </div>
+            {
+                isAddProductToggled && (
+                    <AddProductForm getAllProducts={getAllProducts} setIsAddProductToggled={setIsAddProductToggled} />
+                )
+            }
+        </div >
     )
 }
 

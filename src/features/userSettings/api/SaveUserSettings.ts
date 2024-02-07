@@ -1,17 +1,11 @@
 import { TUserPersonalData } from "@/features/userSettings/UserSettings";
-import axios from "axios";
+import { api } from "@/lib/axios.interceptors";
 
-export const SaveSettings = async (formData: TUserPersonalData, token: string | null) => {
+export const SaveSettings = async (formData: TUserPersonalData) => {
     try {
-        console.log(formData);
-
         const URL = process.env.REACT_APP_URL + "/api/user";
-        await axios.put(URL, formData, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        await api.put(URL, formData);
     } catch (error) {
-        console.error(error);
+        return new Error("error while saving settings in SaveSettings function")
     }
 };

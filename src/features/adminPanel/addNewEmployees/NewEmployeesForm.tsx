@@ -43,7 +43,7 @@ const NewEmployeesForm = ({ setNewUserForm, newUserForm, roles, token, fetchEmpl
             </select>
 
             <div className="flex  gap-y-10 mx-auto mt-3 gap-4">
-                <Button variant={'outline'} onClick={(e) => submitUser(newUserForm, token, e, fetchEmployees)}>Zapisz</Button>
+                <Button variant={'outline'} onClick={(e) => submitUser(newUserForm, e, fetchEmployees)}>Zapisz</Button>
                 <Button variant={'outline'} onClick={() => setToggleAddUser(false)}>Anuluj</Button>
             </div>
         </div>

@@ -1,13 +1,9 @@
-import axios from "axios";
+import { api } from "@/lib/axios.interceptors";
 
-export const deleteUser = async (userId: string | null, token: string | null, fetchEmployees: () => void) => {
+export const deleteUser = async (userId: string | null, fetchEmployees: () => void) => {
     const URL = process.env.REACT_APP_URL + `/api/user?id=${userId}`;
     try {
-        await axios.delete(URL, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        await api.delete(URL);
         fetchEmployees();
     } catch (error) {
         console.error("Error deleting user:", error);
