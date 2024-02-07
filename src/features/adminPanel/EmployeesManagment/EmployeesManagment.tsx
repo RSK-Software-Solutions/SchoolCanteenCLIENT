@@ -25,8 +25,8 @@ export type TEditedUserForm = {
   state: string;
   city: string;
   country: string;
-  roles: string;
-  [key: string]: string | null;
+  roles: string[];
+  [key: string]: string | null | string[];
 }
 
 export type TNewUserForm = {
@@ -44,10 +44,10 @@ export default function EmployeesManagment() {
 
   const fetchEmployees = useFetchEmployees(dispatch, token);
   const getRoles = useGetAllRoles(token)
-  const [isEditable, setIsEditable] = useState<string | null>("");
 
+  const [isEditableByUserId, setIsEditableByUserId] = useState<string | null>("");
   const [editedUserData, setEditedUserData] = useState<TEditedUserForm>({
-    id: isEditable,
+    id: "",
     firstName: "",
     lastName: "",
     userName: "",
@@ -57,7 +57,7 @@ export default function EmployeesManagment() {
     state: "",
     country: "",
     email: "",
-    roles: "",
+    roles: [],
   });
 
   const [newUserForm, setNewUserForm] = useState<TNewUserForm>({
@@ -71,17 +71,22 @@ export default function EmployeesManagment() {
     const setRolesFromApi = async () => {
       setRoles(await getRoles())
     }
-
+    setEditedUserData({
+      ...editedUserData,
+      id: isEditableByUserId
+    })
     fetchEmployees();
     setRolesFromApi();
-  }, [fetchEmployees, getRoles]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchEmployees, getRoles, isEditableByUserId]);
+  console.log(editedUserData);
 
   return (
     <>
-      {state.isLoading && <div className=" flex justify-center w-full">
+      {state.isLoading && <div className="flex justify-center w-full">
         <GridLoader />
       </div>}
-      {state.error && <p>Error fetching data</p>}
+      {state.error && <p className="flex justify-center w-full">Error fetching data</p>}
       {!state.isLoading && !state.error && (
         <div className="w-full flex justify-center flex-col">
           <div className="w-full flex justify-end my-5 gap-5 px-5">
@@ -112,20 +117,27 @@ export default function EmployeesManagment() {
               <TableBody>
                 {state.data?.map((user: TEditedUserForm) => (
                   <TableRow key={user.id}>
-                    {isEditable === user.id ? (
+                    {isEditableByUserId === user.id ? (
                       <>
                         {
                           UserData.map(userForm => (
                             <TableCell key={userForm.label}>
                               {userForm.key === 'roles' ? (
                                 <select
+                                  multiple
                                   value={editedUserData.roles}
-                                  onChange={(e) =>
+                                  onChange={(e) => {
+                                    const selectedRoles = Array.from(
+                                      e.target.selectedOptions,
+                                      (option) => option.value
+                                    );
+
                                     setEditedUserData({
                                       ...editedUserData,
                                       id: user.id,
-                                      roles: e.target.value,
-                                    })}
+                                      roles: selectedRoles,
+                                    });
+                                  }}
                                 >
                                   {roles.map((role: undefined | any) => (
                                     <option key={role?.name} value={role?.name}>
@@ -134,12 +146,12 @@ export default function EmployeesManagment() {
                                   ))}
                                 </select>
                               ) : userForm.key === "akcje" ? (<TableCell className="flex">
-                                {isEditable && (
-                                  <Button size="sm" variant="outline" onClick={() => setIsEditable("")}>
+                                {isEditableByUserId && (
+                                  <Button size="sm" variant="outline" onClick={() => setIsEditableByUserId("")}>
                                     Anuluj
                                   </Button>
                                 )}
-                                <Button size="sm" variant="outline" onClick={() => updateUser(token, fetchEmployees, editedUserData)}>
+                                <Button size="sm" variant="outline" onClick={() => updateUser(token, fetchEmployees, editedUserData, setEditedUserData, isEditableByUserId)}>
                                   Zapisz
                                 </Button>
                               </TableCell>) : (
@@ -147,6 +159,7 @@ export default function EmployeesManagment() {
                                   className="m-0"
                                   placeholder={user[userForm.key] as string}
                                   onChange={(e) => handleChangeInput(setEditedUserData, e, userForm)}
+                                  disabled={["userName", "email"].includes(userForm.key) && isEditableByUserId !== null}
                                 />
                               )}
                             </TableCell>
@@ -169,7 +182,7 @@ export default function EmployeesManagment() {
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => setIsEditable(user.id)}
+                            onClick={() => setIsEditableByUserId(user.id)}
                           >
                             Edytuj
                           </Button>
