@@ -30,6 +30,7 @@ type TFinishedProducts = {
     finishedProductId: number;
     totalCosts: number;
     totalPrice: number;
+    createdAt: Date;
     productStorages: TProductStorages[]
 }
 
@@ -93,6 +94,7 @@ export default function FinishProductsWareHouse() {
                                     <TableHead>Cost</TableHead>
                                     <TableHead>Total Cost</TableHead>
                                     <TableHead>Total Price</TableHead>
+                                    <TableHead>CreatedAt</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -105,6 +107,7 @@ export default function FinishProductsWareHouse() {
                                             <TableCell>{finishedProduct.costs}</TableCell>
                                             <TableCell>{finishedProduct.totalCosts}</TableCell>
                                             <TableCell>{finishedProduct.totalPrice}</TableCell>
+                                            <TableCell>{new Date(finishedProduct.createdAt).toLocaleString()}</TableCell>
                                         </>
                                     </TableRow>
                                 ))}
