@@ -84,23 +84,28 @@ export default function EmployeesManagment() {
       {state.error && <p>Error fetching data</p>}
       {!state.isLoading && !state.error && (
         <div className="w-full flex justify-center flex-col">
-          <div className="w-full flex justify-end pr-36 my-5 gap-5">
-            <Button variant="outline" className="w-fit " onClick={() => setToggleAddUser(prev => !prev)}>{toggleAddUser ? "Anuluj" : "Dodaj użytkownika"}</Button>
+          <div className="w-full flex justify-end my-5 gap-5 px-5">
+            {!toggleAddUser && (
+              <Button variant="outline" className="w-fit " onClick={() => setToggleAddUser(prev => !prev)}>Dodaj użytkownika</Button>
+            )}
             <form className="relative w-64">
               <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
               <Input
-                className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
+                className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950 mr-5"
                 placeholder="Search users..."
                 type="search"
               />
             </form>
           </div>
+          {toggleAddUser ? (<> <NewEmployeesForm setToggleAddUser={setToggleAddUser} setNewUserForm={setNewUserForm} newUserForm={newUserForm} roles={roles} token={token} fetchEmployees={fetchEmployees} />
+          </>
+          ) : (null)}
           <ScrollArea className="border rounded-md mx-5">
             <Table>
               <TableHeader>
                 <TableRow >
                   {UserData.map(headers =>
-                    <TableHead key={headers.key}>{headers.label}</TableHead>
+                    <TableHead className="bg-muted" key={headers.key}>{headers.label}</TableHead>
                   )}
                 </TableRow>
               </TableHeader>
@@ -150,16 +155,16 @@ export default function EmployeesManagment() {
                       </>
                     ) : (
                       <>
-                        <TableCell>{user.firstName}</TableCell>
-                        <TableCell>{user.lastName}</TableCell>
-                        <TableCell>{user.userName}</TableCell>
-                        <TableCell>{user.street}</TableCell>
-                        <TableCell>{user.postalCode}</TableCell>
-                        <TableCell>{user.city}</TableCell>
-                        <TableCell>{user.state}</TableCell>
-                        <TableCell>{user.country}</TableCell>
-                        <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.roles}</TableCell>
+                        <TableCell >{user.firstName}</TableCell>
+                        <TableCell >{user.lastName}</TableCell>
+                        <TableCell >{user.userName}</TableCell>
+                        <TableCell >{user.street}</TableCell>
+                        <TableCell >{user.postalCode}</TableCell>
+                        <TableCell >{user.city}</TableCell>
+                        <TableCell >{user.state}</TableCell>
+                        <TableCell >{user.country}</TableCell>
+                        <TableCell >{user.email}</TableCell>
+                        <TableCell >{user.roles}</TableCell>
                         <TableCell className="flex">
                           <Button
                             size="sm"
@@ -179,9 +184,7 @@ export default function EmployeesManagment() {
               </TableBody>
             </Table>
           </ScrollArea>
-          {toggleAddUser ? (<> <NewEmployeesForm setNewUserForm={setNewUserForm} newUserForm={newUserForm} roles={roles} token={token} fetchEmployees={fetchEmployees} />
-          </>
-          ) : (null)}
+
 
         </div >
       )

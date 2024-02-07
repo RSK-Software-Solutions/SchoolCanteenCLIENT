@@ -1,16 +1,33 @@
-import React, { SetStateAction } from "react";
-import { Link } from "react-router-dom";
+import React, { SetStateAction, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { navLinks } from "@/layout/static/NavbarNavigationLinks";
 import rskLogo from "@/assets/Software-removebg-preview.png"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { adminManagmentOptionsPickerData } from "./static/adminManagmentOptions";
 import { warehouseData } from "./static/warehouse-naviagation";
+import { myAccountData } from "./static/my-accountData";
+import useAuthContext from "@/context/AuthContext";
 type NavbarProps = {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
 };
 
 const Navbar = ({ setIsOpen }: NavbarProps) => {
+  const user = useAuthContext();
+  const [selectedOption, setSelectedOption] = useState<string>("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleLogout = async () => {
+      if (selectedOption === "wyloguj") {
+        await user.clearSession();
+        navigate('/login')
+        // Perform any additional actions after the session is cleared
+      }
+    };
+
+    handleLogout();
+  }, [selectedOption, user, navigate]);
 
   return (
     <div className="h-[80px] border-b flex text-xl shadow-md self-center select-none">
@@ -52,9 +69,24 @@ const Navbar = ({ setIsOpen }: NavbarProps) => {
                         ))}
                       </DropdownMenuContent>
                     </DropdownMenu>
-                  ) : (
-                    <Link to={el.path}>{el.label}</Link>
-                  )}
+                  ) : el.label === "Moje Konto" ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Link to={''}
+                          onClick={() => setIsOpen(false)}>{el.label}</Link>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-56">
+                        {myAccountData.map((options) => (
+                          <React.Fragment key={options.label}>
+                            <DropdownMenuRadioItem value={options.label} onClick={() => setSelectedOption(options.label)}><Link to={options.path} onClick={() => setIsOpen(false)}>{options.label}</Link></DropdownMenuRadioItem>
+                          </React.Fragment>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) :
+                    (
+                      <Link to={el.path}>{el.label}</Link>
+                    )}
                 </nav>
               </div>
             </div>

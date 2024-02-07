@@ -15,6 +15,8 @@ const useFetchEmployees = (dispatch: (value: FetchAction) => void, token: string
                     Authorization: `bearer ${token}`
                 }
             });
+            console.log(data);
+
             dispatch({ type: StatusInidicator.GET, payload: data as TUser[] });
         } catch (error) {
             dispatch({ type: StatusInidicator.FAILED, payload: null });

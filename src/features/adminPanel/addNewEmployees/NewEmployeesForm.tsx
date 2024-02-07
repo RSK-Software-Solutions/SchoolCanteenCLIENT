@@ -13,19 +13,21 @@ type TNewEmloyeesForm = {
     roles: string[];
     token: string | null;
     fetchEmployees: () => Promise<void>;
+    setToggleAddUser: React.Dispatch<SetStateAction<boolean>>
 }
 
-const NewEmployeesForm = ({ setNewUserForm, newUserForm, roles, token, fetchEmployees }: TNewEmloyeesForm) => {
+const NewEmployeesForm = ({ setNewUserForm, newUserForm, roles, token, fetchEmployees, setToggleAddUser }: TNewEmloyeesForm) => {
     return (
-        <div className="flex flex-col mx-5 mt-10">
+        <div className="flex flex-col max-sm:mx-5 mx-48 my-10 border p-8 rounded-md bg-muted shadow-lg">
             {AddUserFormData.map(userForm => (
                 <div className='pt-2' key={userForm.key}>
                     <Label>{userForm.label}</Label>
                     <Input placeholder={userForm.value} onChange={(e) => handleChangeInput(setNewUserForm, e, userForm)} />
                 </div>
             ))}
+            <Label className='mt-2'>Rola</Label>
             <select
-                className="mt-5"
+                className="mt-2 border"
                 value={newUserForm.roleName}
                 onChange={(e) =>
                     setNewUserForm({
@@ -40,10 +42,10 @@ const NewEmployeesForm = ({ setNewUserForm, newUserForm, roles, token, fetchEmpl
                 ))}
             </select>
 
-            <div className="flex flex-col gap-y-10 mx-auto">
-                <Button variant={'outline'} onClick={(e) => submitUser(newUserForm, token, e, fetchEmployees)}>Dodaj</Button>
+            <div className="flex  gap-y-10 mx-auto mt-3 gap-4">
+                <Button variant={'outline'} onClick={(e) => submitUser(newUserForm, token, e, fetchEmployees)}>Zapisz</Button>
+                <Button variant={'outline'} onClick={() => setToggleAddUser(false)}>Anuluj</Button>
             </div>
-
         </div>
     )
 }

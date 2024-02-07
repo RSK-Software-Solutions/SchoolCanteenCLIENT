@@ -15,6 +15,6 @@ export const navLinks: TStaticLayoutData[] = [
     },
     {
         path: "/settings",
-        label: "Ustawienia",
+        label: "Moje Konto",
     },
 ];
