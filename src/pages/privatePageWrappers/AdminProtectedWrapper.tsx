@@ -1,20 +1,19 @@
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import useAuthContext from "@/context/AuthContext";
+import getCookie from "@/lib/getCookieByName";
 
 
 const AdminProtectedWrapper = () => {
   const navigate = useNavigate();
-  const user = useAuthContext()
-
+  const roles = getCookie("userRoles");
   useEffect(() => {
     const handleAuthentication = () => {
-      if (!user.user.roles.includes("Admin")) {
+      if (!roles?.includes("Admin")) {
         navigate("/dashboard")
       }
     };
     handleAuthentication();
-  }, [navigate, user]);
+  }, [navigate, roles]);
 
 
   return (

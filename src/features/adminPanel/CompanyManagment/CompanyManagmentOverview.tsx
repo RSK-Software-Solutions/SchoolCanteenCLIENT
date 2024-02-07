@@ -3,14 +3,12 @@ import { CardDescription, CardTitle, CardHeader, Card } from "@/components/ui/ca
 export const CompanyManagmentOverview = () => {
 
     return (
-        <>
-            <Card className="flex flex-col" >
-                <CardHeader>
-                    <CardDescription></CardDescription>
-                    <CardTitle></CardTitle>
-                </CardHeader>
-            </Card>
-        </>
+        <Card className="flex flex-col" >
+            <CardHeader>
+                <CardDescription></CardDescription>
+                <CardTitle></CardTitle>
+            </CardHeader>
+        </Card>
     )
 }
 

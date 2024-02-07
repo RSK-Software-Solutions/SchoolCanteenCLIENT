@@ -18,11 +18,10 @@ export const UserPersonalSettingsOption = ({
   userSettingsData,
   optionPicked,
 }: TUserPersonalCredentials) => {
-  const token = localStorage.getItem('token')
   const userId = getCookie("userID");
   const userRoles = getCookie("userRoles");
   const userRolesArr = userRoles ? userRoles.split(",") : [];
-  
+
   const [userSettings, setUserSettings] = useState<TUserPersonalData>({
     id: userId,
     firstName: "",
@@ -51,7 +50,7 @@ export const UserPersonalSettingsOption = ({
           </form>
         ))}
         <CardFooter className="border-t p-6">
-          <Button onClick={() => { SaveSettings(userSettings, token) }}>Zapisz</Button>
+          <Button onClick={() => { SaveSettings(userSettings) }}>Zapisz</Button>
         </CardFooter>
       </Card>
     </>

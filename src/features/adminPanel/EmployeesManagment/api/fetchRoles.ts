@@ -1,21 +1,17 @@
 import { useCallback } from 'react';
-import axios from 'axios';
+import { api } from '@/lib/axios.interceptors';
 
-const useGetAllRoles = (token: string | null) => {
+const useGetAllRoles = () => {
     const getAllroles = useCallback(async () => {
         const URL = process.env.REACT_APP_URL + "/api/roles";
         try {
-            const { data } = await axios.get(URL, {
-                headers: {
-                    Authorization: `bearer ${token}`
-                }
-            });
+            const { data } = await api.get(URL);
             return data;
         } catch (error) {
 
             console.error("Error fetching employees:", error);
         }
-    }, [token]);
+    },[]);
 
     return getAllroles;
 };

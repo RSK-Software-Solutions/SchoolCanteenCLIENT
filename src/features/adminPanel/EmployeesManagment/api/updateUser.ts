@@ -1,8 +1,8 @@
 import { TEditedUserForm } from '@/features/adminPanel/employeesManagment/EmployeesManagment';
-import axios from "axios";
+import { api } from '@/lib/axios.interceptors';
 import { SetStateAction } from 'react';
 
-export const updateUser = async (token: string | null, fetchEmployees: () => void, editedUserData: TEditedUserForm, setEditedUserData: React.Dispatch<SetStateAction<TEditedUserForm>>, userId: string | null) => {
+export const updateUser = async (fetchEmployees: () => void, editedUserData: TEditedUserForm, setEditedUserData: React.Dispatch<SetStateAction<TEditedUserForm>>, userId: string | null) => {
   const URL = process.env.REACT_APP_URL + `/api/user`;
   setEditedUserData({
     ...editedUserData,
@@ -10,11 +10,7 @@ export const updateUser = async (token: string | null, fetchEmployees: () => voi
   })
 
   try {
-    await axios.put(URL, editedUserData, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    await api.put(URL, editedUserData);
     fetchEmployees();
   } catch (error) {
     console.error("Error updating user:", error);

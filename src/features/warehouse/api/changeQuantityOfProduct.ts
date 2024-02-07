@@ -1,17 +1,12 @@
-import axios from "axios";
 import { TypeOfAction } from "../initial-warehouse/InitialWareHouseProducts";
+import { api } from "@/lib/axios.interceptors";
 
-export const changeQuantityOfProduct = async (productId: number, typeOfAction: TypeOfAction, amount: number, token: string | null, getAllProducts: () => Promise<unknown>) => {
+export const changeQuantityOfProduct = async (productId: number, typeOfAction: TypeOfAction, amount: number, getAllProducts: () => Promise<unknown>) => {
     const URL = process.env.REACT_APP_URL + `/api/product/${productId}/${typeOfAction}`
     try {
-        await axios.post(URL, amount, {
-            headers: {
-                Authorization: `bearer ${token}`
-            }
-        })
+        await api.post(URL, amount)
         getAllProducts();
     } catch (error) {
-        console.error(error)
-        return error;
+        return new Error("error while changing quantity of product in function: changeQuantityOfProduct");
     }
 }
