@@ -16,6 +16,10 @@ export enum TypeOfAction {
     DEC = "decrease-quantity"
 }
 
+export type TQuantity = {
+    quantity: number;
+}
+
 type TUnit = {
     name: string
 }
@@ -31,7 +35,7 @@ export type TProduct = {
 export default function InitialWareHouseProducts() {
     const [products, setProducts] = useState([])
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [amount, setAmount] = useState({
+    const [amount, setAmount] = useState<TQuantity>({
         quantity: 1,
     })
     const [isAddProductToggled, setIsAddProductToggled] = useState<boolean>(false);
@@ -101,8 +105,8 @@ export default function InitialWareHouseProducts() {
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.unit.name}</TableCell>
                                     <TableCell className="flex">
-                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.INC, amount.quantity, token, getAllProducts)}><Plus /></Button>
-                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.DEC, amount.quantity, token, getAllProducts)}><Minus /></Button>
+                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.INC, amount, token, getAllProducts)}><Plus /></Button>
+                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.DEC, amount, token, getAllProducts)}><Minus /></Button>
                                         <Button variant={'outline'} onClick={() => deleteProduct(product.productId, token, getAllProducts)}><Trash /></Button>
                                     </TableCell>
                                 </TableRow>

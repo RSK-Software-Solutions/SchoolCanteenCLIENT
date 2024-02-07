@@ -4,8 +4,13 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { Button } from "@/components/ui/button"
+import { Minus, Plus, Trash } from "lucide-react"
 import { Label } from "@/components/ui/label"
+import { changeQuantityOfFinishedProduct } from "../api/changeQuantityOfFinishedProduct"
 
+export type TQuantity = {
+    quantity: number;
+}
 
 type TProduct = {
     name: string;
@@ -70,7 +75,7 @@ export default function FinishProductsWareHouse() {
             <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800">
                 <h1 className="text-2xl font-semibold">Finished Product's Management</h1>
                 <div className="flex gap-5">
-                    <Button variant={"outline"} onClick={() => setIsAddProductToggled(prev => !prev)}>{isAddProductToggled ? "Anuluj" : "Dodaj Produkt"}</Button>
+                    <Button variant={"outline"} onClick={() => setIsAddProductToggled(prev => !prev)}>{isAddProductToggled ? "Cancel" : "Create Finished Product based on the recipe"}</Button>
                     <form className="relative w-64">
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                         <Input
@@ -82,44 +87,50 @@ export default function FinishProductsWareHouse() {
                 </div>
             </header>
             <main className="flex-1 overflow-auto p-4">
-                <div className="grid grid-cols-2 gap-4">
-                    <ScrollArea className="h-[500px] border rounded-md">
-                        <Label className="w-full flex justify-center">Finished Product's</Label>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Product Name</TableHead>
-                                    <TableHead>Quantity</TableHead>
-                                    <TableHead>Price</TableHead>
-                                    <TableHead>Cost</TableHead>
-                                    <TableHead>Total Cost</TableHead>
-                                    <TableHead>Total Price</TableHead>
-                                    <TableHead>CreatedAt</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {finishedProducts.map((finishedProduct: TFinishedProducts) => (
-                                    <TableRow className="cursor-pointer" onClick={() => setChosenProduct(finishedProduct.finishedProductId)} key={finishedProduct.finishedProductId}>
-                                        <>
-                                            <TableCell className="font-medium" >{finishedProduct.name}</TableCell>
-                                            <TableCell>{finishedProduct.quantity}</TableCell>
-                                            <TableCell>{finishedProduct.price}</TableCell>
-                                            <TableCell>{finishedProduct.costs}</TableCell>
-                                            <TableCell>{finishedProduct.totalCosts}</TableCell>
-                                            <TableCell>{finishedProduct.totalPrice}</TableCell>
-                                            <TableCell>{new Date(finishedProduct.createdAt).toLocaleString()}</TableCell>
-                                        </>
+                <div className="flex flex-col">
+                    <div className="flex-1 mb-4"> 
+                        <ScrollArea className="h-full border rounded-md">
+                            <Label className="w-full flex justify-center mt-5 border-b border-gray-300 pb-5">Finished Product's</Label>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Product Name</TableHead>
+                                        <TableHead>Quantity</TableHead>
+                                        <TableHead>Price</TableHead>
+                                        <TableHead>Cost</TableHead>
+                                        <TableHead>Total Cost</TableHead>
+                                        <TableHead>Total Price</TableHead>
+                                        <TableHead>CreatedAt</TableHead>
+                                        <TableHead>Actions</TableHead>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </ScrollArea>
+                                </TableHeader>
+                                <TableBody>
+                                    {finishedProducts.map((finishedProduct: TFinishedProducts) => (
+                                        <TableRow className="cursor-pointer" onClick={() => setChosenProduct(finishedProduct.finishedProductId)} key={finishedProduct.finishedProductId}>
+                                            <>
+                                                <TableCell className="font-medium" >{finishedProduct.name}</TableCell>
+                                                <TableCell>{finishedProduct.quantity}</TableCell>
+                                                <TableCell>{finishedProduct.price}</TableCell>
+                                                <TableCell>{finishedProduct.costs}</TableCell>
+                                                <TableCell>{finishedProduct.totalCosts}</TableCell>
+                                                <TableCell>{finishedProduct.totalPrice}</TableCell>
+                                                <TableCell>{new Date(finishedProduct.createdAt).toLocaleString()}</TableCell>
+                                                <TableCell className="flex">
+                                                    <Button variant={'outline'} onClick={() => changeQuantityOfFinishedProduct(token)}>Serve a meal</Button>
+                                                </TableCell>
+                                            </>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </ScrollArea>
+                    </div>
                     {!chosenProduct ? (
-                        <div className="w-full flex text-xl justify-center self-center">Wybierz Produkt aby zobaczyć detale</div>
+                        <div className="flex-1 w-full flex text-xl justify-center self-center">Select Product to see details</div>
                     ) : (
-
-                        <ScrollArea className="h-[500px]  border rounded-md">
-                            <Label className="w-full flex justify-center">Finished Product details</Label>
+                    <div className="flex-3 h-[400px] border rounded-md">
+                        <ScrollArea className="h-full">
+                            <Label className="w-full flex justify-center mt-5 border-b border-gray-300 pb-5">Finished Product details.</Label>
                             <Table>
                                 <TableHeader>
                                     <TableRow>
@@ -145,6 +156,7 @@ export default function FinishProductsWareHouse() {
                                 </TableBody>
                             </Table>
                         </ScrollArea>
+                    </div>
                     )}
                 </div>
             </main >
