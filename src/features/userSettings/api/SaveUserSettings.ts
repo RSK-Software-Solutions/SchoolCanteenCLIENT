@@ -1,11 +1,11 @@
 import { TUserPersonalData } from "@/features/userSettings/UserSettings";
 import axios from "axios";
 
-export const SaveSettings = async (formData: TUserPersonalData, token: string) => {
+export const SaveSettings = async (formData: TUserPersonalData, token: string | null) => {
     try {
-        console.log(token);
+        console.log(formData);
 
-        const URL = process.env.REACT_APP_URL + "/api/users";
+        const URL = process.env.REACT_APP_URL + "/api/user";
         await axios.put(URL, formData, {
             headers: {
                 Authorization: `Bearer ${token}`

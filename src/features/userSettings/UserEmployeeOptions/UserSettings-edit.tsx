@@ -5,24 +5,36 @@ import { Label } from "@/components/ui/label";
 import { type TUserSettingsContent } from "@/features/userSettings/static/UserEditSettingsStaticData";
 import { handleChangeInput } from "@/lib/handleChangeInput";
 import { SaveSettings } from "@/features/userSettings/api/SaveUserSettings";
-import React, { SetStateAction } from "react";
+import React, { useState } from "react";
 import { type TUserPersonalData } from "../UserSettings";
-import useAuthContext from "@/context/AuthContext";
+import getCookie from "@/lib/getCookieByName";
 
 export type TUserPersonalCredentials = {
-  userSettingsData: TUserPersonalData;
-  setUserSettingsData: React.Dispatch<SetStateAction<TUserPersonalData>>;
-  userSettings: TUserSettingsContent[];
+  userSettingsData: TUserSettingsContent[];
   optionPicked: string;
 };
 
 export const UserPersonalSettingsOption = ({
   userSettingsData,
-  setUserSettingsData,
-  userSettings,
   optionPicked,
 }: TUserPersonalCredentials) => {
-  const user = useAuthContext()
+  const token = localStorage.getItem('token')
+  const userId = getCookie("userID");
+  const userRoles = getCookie("userRoles");
+  const userRolesArr = userRoles ? userRoles.split(",") : [];
+  
+  const [userSettings, setUserSettings] = useState<TUserPersonalData>({
+    id: userId,
+    firstName: "",
+    lastName: "",
+    street: "",
+    postalCode: "",
+    city: "",
+    state: "",
+    country: "",
+    roles: userRolesArr,
+  });
+
   return (
     <>
       <Card>
@@ -30,16 +42,16 @@ export const UserPersonalSettingsOption = ({
           <CardTitle>Ustawienia {optionPicked}</CardTitle>
           <CardDescription>Aktualizuj swoje ustawienia {optionPicked}</CardDescription>
         </CardHeader>
-        {userSettings.map((settings) => (
+        {userSettingsData.map((settings) => (
           <form className="flex flex-col gap-4" key={settings.key}>
             <CardContent>
               <Label>{settings.label}</Label>
-              <Input placeholder={settings.label} onChange={(e) => handleChangeInput(setUserSettingsData, e, settings)} />
+              <Input placeholder={settings.label} onChange={(e) => handleChangeInput(setUserSettings, e, settings)} />
             </CardContent>
           </form>
         ))}
         <CardFooter className="border-t p-6">
-          <Button onClick={() => { SaveSettings(userSettingsData, user.token) }}>Zapisz</Button>
+          <Button onClick={() => { SaveSettings(userSettings, token) }}>Zapisz</Button>
         </CardFooter>
       </Card>
     </>

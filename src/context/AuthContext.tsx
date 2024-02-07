@@ -79,6 +79,10 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (isTokenValid(storedToken)) {
         setToken(storedToken);
         const decodedUser = jwt.decodeJwt(storedToken) as Record<string, string>;
+        document.cookie = `userRoles=${Array.isArray(decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
+          ? (decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] as string[])
+          : []}; expires=` + new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toUTCString()
+        document.cookie = `userID=${decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string};expires=` + new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toUTCString()
         setUser({
           id: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string,
           email: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] as string,
@@ -87,13 +91,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
             ? (decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] as string[])
             : []
         });
+        
       } else {
         clearSession();
       }
     }
-  }, [setUser, setToken]);
-
-
+  }, [setToken]);
 
   return (
     <AuthContext.Provider value={{ token, user, tokenSetter, clearSession }}>
@@ -115,3 +118,4 @@ export default function useAuthContext() {
   }
   return context;
 }
+

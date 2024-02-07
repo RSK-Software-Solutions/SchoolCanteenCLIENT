@@ -82,8 +82,8 @@ export default function InitialWareHouseProducts() {
                 </div>
             </header>
             <main className="flex-1 overflow-auto p-4">
-                <Table>
-                    <ScrollArea className="h-[500px] border rounded-md">
+                <ScrollArea className="h-[500px] border rounded-md">
+                    <Table>
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Item Name</TableHead>
@@ -108,8 +108,8 @@ export default function InitialWareHouseProducts() {
                                 </TableRow>
                             ))}
                         </TableBody>
-                    </ScrollArea>
-                </Table>
+                    </Table>
+                </ScrollArea>
             </main>
             {isAddProductToggled && (
                 <AddProductForm getAllProducts={getAllProducts} setIsAddProductToggled={setIsAddProductToggled} />
