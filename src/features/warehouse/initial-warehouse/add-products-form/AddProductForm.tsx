@@ -77,31 +77,41 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
         <main className="w-full flex justify-center mt-5 flex-col">
             <Label className="flex w-full justify-center">Dodaj Produkt!</Label>
             <form onSubmit={(e) => handleAddProduct(e)} className="w-full flex justify-center">
-                <div className="w-fit flex justify-center flex-col">
+                <div className="w-2/5 p-6 flex justify-center flex-col rounded-xl shadow-lg bg-gray-50 shadow-gray-500">
                     {productFormData.map((products) => (
                         <React.Fragment key={products.key}>
                             <Label className="mt-5">{products.label}</Label>
-                            {products.key === "unitId" ? <select
-                                value={addProductForm.unitId}
-                                onChange={(e) => setAddProductForm({
-                                    ...addProductForm,
-                                    unitId: parseInt(e.target.value)
-                                })}
-                            >
-                                <option value={"select"}>Wybierz...</option>
-
-                                {units.map((unit) => (
-                                    <option key={unit.unitId} value={unit.unitId}>{unit.name}</option>
-                                ))}
-                            </select> :
-                                <Input onChange={(e) => handleChangeInput(setAddProductForm, e, products)} />}
+                            {products.key === "unitId" ? (
+                                <select
+                                    value={addProductForm.unitId}
+                                    onChange={(e) => setAddProductForm({
+                                        ...addProductForm,
+                                        unitId: parseInt(e.target.value)
+                                    })}
+                                    className="mt-2 p-2 border rounded-md"
+                                >
+                                    <option value={"select"}>Wybierz...</option>
+                                    {units.map((unit) => (
+                                        <option key={unit.unitId} value={unit.unitId}>{unit.name}</option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <Input
+                                    onChange={(e) => handleChangeInput(setAddProductForm, e, products)}
+                                    className="mt-2 p-2 border rounded-md"
+                                />
+                            )}
                         </React.Fragment>
                     ))}
-                    <Button className="mt-3" type="submit" variant={"outline"}>Zapisz</Button>
+                    <Button className="mt-3" type="submit" variant={"outline"}>
+                        Zapisz
+                    </Button>
                 </div>
             </form>
         </main>
-    )
+    );
+    
+    
 }
 
 export default AddProductForm

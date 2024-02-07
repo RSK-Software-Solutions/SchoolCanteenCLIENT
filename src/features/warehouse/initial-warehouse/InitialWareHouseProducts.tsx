@@ -81,6 +81,10 @@ export default function InitialWareHouseProducts() {
                     </form>
                 </div>
             </header>
+            <>
+            {isAddProductToggled && (
+                <AddProductForm getAllProducts={getAllProducts} setIsAddProductToggled={setIsAddProductToggled} />
+            )}</>
             <main className="flex-1 overflow-auto p-4">
                 <ScrollArea className="h-[500px] border rounded-md">
                     <Table>
@@ -111,9 +115,6 @@ export default function InitialWareHouseProducts() {
                     </Table>
                 </ScrollArea>
             </main>
-            {isAddProductToggled && (
-                <AddProductForm getAllProducts={getAllProducts} setIsAddProductToggled={setIsAddProductToggled} />
-            )}
         </div>
     )
 }
