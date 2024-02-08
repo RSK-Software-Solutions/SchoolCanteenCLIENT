@@ -3,8 +3,8 @@ import { Label } from "@/components/ui/label"
 import { handleChangeInput } from "@/lib/handleChangeInput"
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { productFormData } from "../../static/AddProductFormData"
-import axios from "axios"
 import { Button } from "@/components/ui/button"
+import { api, baseApiURL } from "@/lib/axios.interceptors"
 
 export type TAddProductForm = {
     unitId: number;
@@ -13,6 +13,7 @@ export type TAddProductForm = {
     quantity: number;
     validityPeriod: number;
     active: boolean;
+    minQuantity: number;
 }
 
 type TUnit = {
@@ -26,24 +27,17 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
         name: "",
         price: 0,
         quantity: 0,
+        minQuantity: 0,
         validityPeriod: 0,
         active: true
     })
-
     const [units, setUnits] = useState<TUnit[]>([])
 
-    const token = localStorage.getItem('token')
 
     const getAllUnits = async () => {
-        const URL = process.env.REACT_APP_URL + '/api/units'
         try {
-            const { data } = await axios.get(URL, {
-                headers: {
-                    Authorization: `bearer ${token}`
-                }
-            })
+            const { data } = await api.get(baseApiURL + '/api/units')
             setUnits(data)
-
         } catch (error) {
             console.error(error)
             return error;
@@ -51,15 +45,9 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
     }
 
     const handleAddProduct = async (e: React.FormEvent<HTMLFormElement>) => {
-        const URL = process.env.REACT_APP_URL + '/api/product'
         e.preventDefault()
         try {
-            console.log(addProductForm, URL);
-            await axios.post(URL, addProductForm, {
-                headers: {
-                    Authorization: `bearer ${token}`
-                }
-            })
+            await api.post(baseApiURL + '/api/product', addProductForm)
             setIsAddProductToggled(false)
             getAllProducts()
         } catch (error) {
@@ -103,17 +91,17 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
                             )}
                         </React.Fragment>
                     ))}
-                        <div className="flex  gap-y-10 mx-auto mt-3 gap-4">
-                            <Button variant={"outline"}>Zapisz</Button>
-                            <Button variant={'outline'} onClick={() => setIsAddProductToggled(false)}>Anuluj</Button>
-                        </div>
+                    <div className="flex  gap-y-10 mx-auto mt-3 gap-4">
+                        <Button variant={"outline"}>Zapisz</Button>
+                        <Button variant={'outline'} onClick={() => setIsAddProductToggled(false)}>Anuluj</Button>
+                    </div>
 
                 </div>
             </form>
         </main>
     );
-    
-    
+
+
 }
 
 export default AddProductForm

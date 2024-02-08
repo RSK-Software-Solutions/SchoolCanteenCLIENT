@@ -2,10 +2,10 @@ import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import React, { useEffect, useState } from 'react'
-import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { changeQuantityOfFinishedProduct } from "../api/changeQuantityOfFinishedProduct"
+import { api } from "@/lib/axios.interceptors"
 
 export enum TypeOfAction {
     INC = "increase-quantity",
@@ -45,17 +45,10 @@ export default function FinishProductsWareHouse() {
 
     const [chosenProduct, setChosenProduct] = useState<number | null>();
 
-    const token = localStorage.getItem('token')
-
     const getAllFinishedProducts = async () => {
         const URL = process.env.REACT_APP_URL + '/api/articles'
         try {
-            const { data } = await axios.get(URL, {
-                headers: {
-                    Authorization: `bearer ${token}`
-                }
-            })
-            console.log(data);
+            const { data } = await api.get(URL)
 
             setFinishedProducts(data)
         } catch (error) {
@@ -88,7 +81,7 @@ export default function FinishProductsWareHouse() {
             </header>
             <main className="flex-1 overflow-auto p-4">
                 <div className="flex flex-col">
-                    <div className="flex-1 mb-4"> 
+                    <div className="flex-1 mb-4">
                         <ScrollArea className="h-full border rounded-md">
                             <Label className="w-full flex justify-center mt-5 border-b border-gray-300 pb-5">Finished Product's</Label>
                             <Table>
@@ -116,11 +109,11 @@ export default function FinishProductsWareHouse() {
                                                 <TableCell>{finishedProduct.totalPrice}</TableCell>
                                                 <TableCell>{new Date(finishedProduct.createdAt).toLocaleString()}</TableCell>
                                                 <TableCell className="flex">
-                                                    <Button variant={'outline'} 
-                                                        onClick={() => changeQuantityOfFinishedProduct(finishedProduct.finishedProductId, 
-                                                                                                        TypeOfAction.DEC, 
-                                                                                                        1, 
-                                                                                                        getAllFinishedProducts)}>Serve a meal</Button>
+                                                    <Button variant={'outline'}
+                                                        onClick={() => changeQuantityOfFinishedProduct(finishedProduct.finishedProductId,
+                                                            TypeOfAction.DEC,
+                                                            1,
+                                                            getAllFinishedProducts)}>Serve a meal</Button>
                                                 </TableCell>
                                             </>
                                         </TableRow>
@@ -132,35 +125,35 @@ export default function FinishProductsWareHouse() {
                     {!chosenProduct ? (
                         <div className="flex-1 w-full flex text-xl justify-center self-center">Select Product to see details</div>
                     ) : (
-                    <div className="flex-3 h-[400px] border rounded-md">
-                        <ScrollArea className="h-full">
-                            <Label className="w-full flex justify-center mt-5 border-b border-gray-300 pb-5">Finished Product details.</Label>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Product Name</TableHead>
-                                        <TableHead>Product Quantity</TableHead>
-                                        <TableHead>Product Cost</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {finishedProducts.map((finishedProduct: TFinishedProducts) => (
-                                        <React.Fragment key={finishedProduct.finishedProductId}>
-                                            {chosenProduct === finishedProduct.finishedProductId && (
-                                                finishedProduct.productStorages.map((productDetails: TProductStorages) => (
-                                                    <TableRow key={productDetails.productId}>
-                                                        <TableCell className="font-medium">{productDetails.product.name}</TableCell>
-                                                        <TableCell>{productDetails.quantity}</TableCell>
-                                                        <TableCell>{productDetails.price}</TableCell>
-                                                    </TableRow>
-                                                ))
-                                            )}
-                                        </React.Fragment>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </ScrollArea>
-                    </div>
+                        <div className="flex-3 h-[400px] border rounded-md">
+                            <ScrollArea className="h-full">
+                                <Label className="w-full flex justify-center mt-5 border-b border-gray-300 pb-5">Finished Product details.</Label>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Product Name</TableHead>
+                                            <TableHead>Product Quantity</TableHead>
+                                            <TableHead>Product Cost</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {finishedProducts.map((finishedProduct: TFinishedProducts) => (
+                                            <React.Fragment key={finishedProduct.finishedProductId}>
+                                                {chosenProduct === finishedProduct.finishedProductId && (
+                                                    finishedProduct.productStorages.map((productDetails: TProductStorages) => (
+                                                        <TableRow key={productDetails.productId}>
+                                                            <TableCell className="font-medium">{productDetails.product.name}</TableCell>
+                                                            <TableCell>{productDetails.quantity}</TableCell>
+                                                            <TableCell>{productDetails.price}</TableCell>
+                                                        </TableRow>
+                                                    ))
+                                                )}
+                                            </React.Fragment>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </ScrollArea>
+                        </div>
                     )}
                 </div>
             </main >

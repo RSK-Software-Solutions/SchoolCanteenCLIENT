@@ -8,10 +8,9 @@ const useGetAllRoles = () => {
             const { data } = await api.get(URL);
             return data;
         } catch (error) {
-
             console.error("Error fetching employees:", error);
         }
-    },[]);
+    }, []);
 
     return getAllroles;
 };

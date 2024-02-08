@@ -8,10 +8,8 @@ export const updateUser = async (fetchEmployees: () => void, editedUserData: TEd
     ...editedUserData,
     id: userId
   })
-
   try {
     await api.put(URL, editedUserData);
-    fetchEmployees();
   } catch (error) {
     console.error("Error updating user:", error);
     throw new Error("Error in function: updateUser");
