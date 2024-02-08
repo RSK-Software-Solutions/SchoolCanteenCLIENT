@@ -42,17 +42,24 @@ type TRecipe = {
   validityPeriod: number;
 };
 
+type TFinishedProductCreate = {
+  recipeId: number | null;
+  quantity: number;
+  profit: number;
+};
+
 const RecipesWareHouse = () => {
   const [recipes, setRecipes] = useState<TRecipe[]>([]);
   const [chosenRecipe, setChosenRecipe] = useState<number | null>(null);
+  const [finishedProduct, setFinishedProduct] = useState<TFinishedProductCreate>({ recipeId : 0, quantity:0, profit :0 });
   const [detailsChosenRecipe, setDetailsChosenRecipe] = useState<TRecipeDetail[]>();
   const [isAddRecipeToggled, setIsAddRecipeToggled] = useState<boolean>(false);
+  const [isCreateFinishedProductToggled, setIsCreateFinishedProductToggled] = useState<{ [key: string]: boolean }>({});
 
   const getAllRecipes = async () => {
     const URL = `${process.env.REACT_APP_URL}/api/recipes`;
     try {
       const { data } = await api.get(URL);
-      console.log(data);
       setRecipes(data);
     } catch (error) {
       console.error(error);
@@ -66,13 +73,49 @@ const RecipesWareHouse = () => {
     const URL = `${process.env.REACT_APP_URL}/api/recipe?id=${chosenRecipe}`;
     try {
       const { data } = await api.get(URL);
-      console.log(data);
       setDetailsChosenRecipe(data.details);
     } catch (error) {
       console.error(error);
       return error;
     }
   };
+
+  const createFinishedProduct = async () => {
+    if (finishedProduct.quantity === 0) return;
+    if (finishedProduct.recipeId === null) return;
+
+    const URL = `${process.env.REACT_APP_URL}/api/article`;
+    try {
+      const { data } = await api.post(URL, finishedProduct );
+      setDetailsChosenRecipe(data.details);
+      handleCreateFinishedProduct(finishedProduct.recipeId);
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  }
+
+  const handleChangeInputProfit = (e : string) => {
+    setFinishedProduct({
+      ...finishedProduct,
+      recipeId : chosenRecipe, 
+      profit : parseInt(e)
+    })
+  }
+
+  const handleChangeInputQuantity = (e : string) => {
+    setFinishedProduct({
+      ...finishedProduct,
+      recipeId : chosenRecipe, 
+      quantity : parseInt(e)
+    })
+  }
+  const handleCreateFinishedProduct = (recipeId: number) => {
+    setIsCreateFinishedProductToggled((prev) => ({
+      ...prev,
+      [recipeId]: !prev[recipeId], 
+    }));
+  }
 
   useEffect(() => {
     getAllRecipes();
@@ -89,6 +132,8 @@ const RecipesWareHouse = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chosenRecipe]);
+  
+  console.log(finishedProduct);
 
   return (
     <div className="flex flex-col w-full">
@@ -126,25 +171,50 @@ const RecipesWareHouse = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Recipe Name</TableHead>
-                    <TableHead>Quantity</TableHead>
-                    <TableHead>Validity Period [days]</TableHead>
-                    <TableHead>Details</TableHead>
+                    <TableHead className="w-4/8">Recipe Name</TableHead>
+                    <TableHead className="w-1/8">Quantity</TableHead>
+                    <TableHead className="w-1/8">Validity Period [days]</TableHead>
+                    <TableHead className="w-2/8">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {recipes.map((recipe: TRecipe) => (
+                  {recipes.map((recipe: TRecipe, index: number) => (
                     <TableRow
                       className="cursor-pointer"
                       onClick={() => setChosenRecipe(recipe.recipeId)}
                       key={recipe.recipeId}
                     >
                       <>
-                        <TableCell className="font-medium">{recipe.name}</TableCell>
-                        <TableCell>{recipe.quantity}</TableCell>
-                        <TableCell>{recipe.validityPeriod}</TableCell>
-                        <TableCell>
-                          <button>Click to see details</button>
+                        <TableCell className="font-medium w-4/8">{recipe.name}</TableCell>
+                        <TableCell className="w-1/8">{recipe.quantity}</TableCell>
+                        <TableCell className="w-1/8">{recipe.validityPeriod}</TableCell>
+                        <TableCell className="w-2/8 grid grid-cols-4 gap-3">
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleCreateFinishedProduct(recipe.recipeId)}
+                          >
+                            {isCreateFinishedProductToggled[recipe.recipeId] ? "Cancel" : "Set Profit"}
+                          </Button>
+                          {isCreateFinishedProductToggled[recipe.recipeId] && ( 
+                            <>
+                                      <Input
+                                      className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
+                                      placeholder="profit %"
+                                      type="number"
+                                      onChange={(e) => handleChangeInputProfit(e.target.value)}
+                                      />
+                                      <Input
+                                      className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
+                                      placeholder="quantity"
+                                      type="number"
+                                      onChange={(e) => handleChangeInputQuantity(e.target.value)}
+                                      />
+                                      <Button size="sm"
+                                      variant="outline"
+                                      onClick={() => createFinishedProduct()}>Create based on this recipe</Button>
+                            </>
+                            )}
                         </TableCell>
                       </>
                     </TableRow>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { changeQuantityOfFinishedProduct } from "../api/changeQuantityOfFinishedProduct"
 import { api, baseApiURL } from "@/lib/axios.interceptors"
+import { useNavigate } from "react-router-dom"
 
 export enum TypeOfAction {
     INC = "increase-quantity",
@@ -61,12 +62,14 @@ export default function FinishProductsWareHouse() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const navigate = useNavigate();
+
     return (
         <div className="flex flex-col w-full">
             <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800">
                 <h1 className="text-2xl font-semibold">Finished Product's Management</h1>
                 <div className="flex gap-5">
-                    <Button variant={"outline"} onClick={() => setIsAddProductToggled(prev => !prev)}>{isAddProductToggled ? "Cancel" : "Create Finished Product based on the recipe"}</Button>
+                    <Button variant={"outline"} onClick={() => navigate("/warehouse/recipes")}>Create Finished Product based on the recipe</Button>
                     <form className="relative w-64">
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                         <Input
