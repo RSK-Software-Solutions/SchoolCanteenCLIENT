@@ -72,7 +72,7 @@ const AddRecipeForm = ({ getAllRecipes: getAllRecipes, setIsAddRecipeToggled }: 
                                     })}
                                     className="mt-2 p-2 border rounded-md"
                                 >
-                                    <option value={"select"}>Select...</option>
+                                    <option value={"select"}>Select ...</option>
                                     {units.map((unit) => (
                                         <option key={unit.unitId} value={unit.unitId}>{unit.name}</option>
                                     ))}
