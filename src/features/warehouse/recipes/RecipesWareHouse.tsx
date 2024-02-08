@@ -6,6 +6,7 @@ import { Label } from '@radix-ui/react-label';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { SearchIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import AddRecipeForm from "./add-recipe-form/AddRecipeForm"
 
 type TUnit = {
   unitId: number;
@@ -38,12 +39,14 @@ type TRecipe = {
   quantity: number;
   createdAt: string;
   details: TRecipeDetail[];
+  validityPeriod: number;
 };
 
 const RecipesWareHouse = () => {
   const [recipes, setRecipes] = useState<TRecipe[]>([]);
   const [chosenRecipe, setChosenRecipe] = useState<number | null>(null);
   const [detailsChosenRecipe, setDetailsChosenRecipe] = useState<TRecipeDetail[]>();
+  const [isAddRecipeToggled, setIsAddRecipeToggled] = useState<boolean>(false);
 
   const getAllRecipes = async () => {
     const URL = `${process.env.REACT_APP_URL}/api/recipes`;
@@ -91,8 +94,15 @@ const RecipesWareHouse = () => {
       <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800 w-full">
         <h1 className="text-2xl font-semibold">Recipes</h1>
         <div className="flex gap-5">
-          <Button variant={"outline"}>Create recipe</Button>
-          <form className="relative w-64">
+        <Button variant={"outline"} className={isAddRecipeToggled ? "hidden" : ""} onClick={(e) => {
+                        e.preventDefault();
+                        setIsAddRecipeToggled(prev => !prev);
+                    }}>Create new recipe</Button>
+                    <form className="relative w-64" onSubmit={(e) => {
+                        e.preventDefault();
+                        getAllRecipes();
+                    }}>
+
             <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
               className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
@@ -102,6 +112,11 @@ const RecipesWareHouse = () => {
           </form>
         </div>
       </header>
+      <>
+                {isAddRecipeToggled && (
+                    <AddRecipeForm getAllRecipes={getAllRecipes} setIsAddRecipeToggled={setIsAddRecipeToggled} />
+                )}
+            </>
       <main className="flex-1 overflow-auto p-4">
         <div className="flex flex-col">
           <div className="flex-1 mb-4">
@@ -112,6 +127,7 @@ const RecipesWareHouse = () => {
                   <TableRow>
                     <TableHead>Recipe Name</TableHead>
                     <TableHead>Quantity</TableHead>
+                    <TableHead>Validity Period [days]</TableHead>
                     <TableHead>Details</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -125,6 +141,7 @@ const RecipesWareHouse = () => {
                       <>
                         <TableCell className="font-medium">{recipe.name}</TableCell>
                         <TableCell>{recipe.quantity}</TableCell>
+                        <TableCell>{recipe.validityPeriod}</TableCell>
                         <TableCell>
                           <button>Click to see details</button>
                         </TableCell>
@@ -146,6 +163,7 @@ const RecipesWareHouse = () => {
                     <TableHead>Product Name</TableHead>
                     <TableHead>Product Price</TableHead>
                     <TableHead>Product Quantity</TableHead>
+                    
                   </TableRow>
                 </TableHeader>
                 <TableBody>
