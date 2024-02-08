@@ -87,6 +87,7 @@ const RecipesWareHouse = () => {
       console.log(chosenRecipe);
       getDetailsRecipe();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chosenRecipe]);
 
   return (
@@ -94,14 +95,14 @@ const RecipesWareHouse = () => {
       <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800 w-full">
         <h1 className="text-2xl font-semibold">Recipes</h1>
         <div className="flex gap-5">
-        <Button variant={"outline"} className={isAddRecipeToggled ? "hidden" : ""} onClick={(e) => {
-                        e.preventDefault();
-                        setIsAddRecipeToggled(prev => !prev);
-                    }}>Create new recipe</Button>
-                    <form className="relative w-64" onSubmit={(e) => {
-                        e.preventDefault();
-                        getAllRecipes();
-                    }}>
+          <Button variant={"outline"} className={isAddRecipeToggled ? "hidden" : ""} onClick={(e) => {
+            e.preventDefault();
+            setIsAddRecipeToggled(prev => !prev);
+          }}>Create new recipe</Button>
+          <form className="relative w-64" onSubmit={(e) => {
+            e.preventDefault();
+            getAllRecipes();
+          }}>
 
             <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
@@ -113,10 +114,10 @@ const RecipesWareHouse = () => {
         </div>
       </header>
       <>
-                {isAddRecipeToggled && (
-                    <AddRecipeForm getAllRecipes={getAllRecipes} setIsAddRecipeToggled={setIsAddRecipeToggled} />
-                )}
-            </>
+        {isAddRecipeToggled && (
+          <AddRecipeForm getAllRecipes={getAllRecipes} setIsAddRecipeToggled={setIsAddRecipeToggled} />
+        )}
+      </>
       <main className="flex-1 overflow-auto p-4">
         <div className="flex flex-col">
           <div className="flex-1 mb-4">
@@ -163,7 +164,7 @@ const RecipesWareHouse = () => {
                     <TableHead>Product Name</TableHead>
                     <TableHead>Product Price</TableHead>
                     <TableHead>Product Quantity</TableHead>
-                    
+
                   </TableRow>
                 </TableHeader>
                 <TableBody>

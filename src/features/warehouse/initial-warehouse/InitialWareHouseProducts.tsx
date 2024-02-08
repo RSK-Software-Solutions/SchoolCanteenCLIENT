@@ -102,7 +102,6 @@ export default function InitialWareHouseProducts() {
                                 <TableHead>Item Name</TableHead>
                                 <TableHead>Quantity</TableHead>
                                 <TableHead>Min Quantity</TableHead>
-                                <TableHead>Validity Period</TableHead>
                                 <TableHead>Price</TableHead>
                                 <TableHead>Unit</TableHead>
                                 <TableHead>Actions</TableHead>
@@ -114,7 +113,6 @@ export default function InitialWareHouseProducts() {
                                     <TableCell className="font-medium">{product.name}</TableCell>
                                     <TableCell>{product.quantity}</TableCell>
                                     <TableCell>{product.minQuantity}</TableCell>
-                                    <TableCell>{product.validityPeriod}</TableCell>
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.unit.name}</TableCell>
                                     <TableCell className="flex">

@@ -18,7 +18,7 @@ type TUnit = {
     unitId: number;
 }
 
-const AddRecipeForm = ({ getAllRecipes: getAllRecipes, setIsAddRecipeToggled }: { getAllRecipes: () => Promise<unknown>, setIsAddRecipeToggled: Dispatch<SetStateAction<boolean>> }) => {
+const AddRecipeForm = ({ getAllRecipes, setIsAddRecipeToggled }: { getAllRecipes: () => Promise<unknown>, setIsAddRecipeToggled: Dispatch<SetStateAction<boolean>> }) => {
     const [addRecipeForm, setAddRecipeForm] = useState<TAddRecipeForm>({
         unitId: 0,
         name: "",
@@ -89,7 +89,6 @@ const AddRecipeForm = ({ getAllRecipes: getAllRecipes, setIsAddRecipeToggled }: 
                         <Button variant={"outline"}>Save Recipe</Button>
                         <Button variant={'outline'} onClick={() => setIsAddRecipeToggled(false)}>Cancel</Button>
                     </div>
-
                 </div>
             </form>
         </main>

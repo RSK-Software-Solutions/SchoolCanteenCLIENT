@@ -12,7 +12,6 @@ export type TAddProductForm = {
     name: string;
     price: number;
     quantity: number;
-    validityPeriod: number;
     active: boolean;
     minQuantity: number;
 }
@@ -29,7 +28,6 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
         price: 0,
         quantity: 0,
         minQuantity: 0,
-        validityPeriod: 0,
         active: true
     })
     const [units, setUnits] = useState<TUnit[]>([])
