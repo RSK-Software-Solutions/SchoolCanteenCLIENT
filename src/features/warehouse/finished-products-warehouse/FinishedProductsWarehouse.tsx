@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { changeQuantityOfFinishedProduct } from "../api/changeQuantityOfFinishedProduct"
-import { api } from "@/lib/axios.interceptors"
+import { api, baseApiURL } from "@/lib/axios.interceptors"
 
 export enum TypeOfAction {
     INC = "increase-quantity",
@@ -46,10 +46,8 @@ export default function FinishProductsWareHouse() {
     const [chosenProduct, setChosenProduct] = useState<number | null>();
 
     const getAllFinishedProducts = async () => {
-        const URL = process.env.REACT_APP_URL + '/api/articles'
         try {
-            const { data } = await api.get(URL)
-
+            const { data } = await api.get(baseApiURL + '/api/articles')
             setFinishedProducts(data)
         } catch (error) {
             console.error(error)
@@ -162,7 +160,6 @@ export default function FinishProductsWareHouse() {
                     <div></div>
                 )
             }
-
         </div >
     )
 }

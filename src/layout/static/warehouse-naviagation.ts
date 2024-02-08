@@ -2,11 +2,11 @@ import { TStaticLayoutData } from "./type-static-d";
 
 export const warehouseData: TStaticLayoutData[] = [
     {
-        label: "Produkty Podstawowe",
+        label: "Initial Products",
         path: "/warehouse"
     },
     {
-        label: "Produkty Wykończone",
+        label: "Finished Products",
         path: "/warehouse/finished"
     },
     {

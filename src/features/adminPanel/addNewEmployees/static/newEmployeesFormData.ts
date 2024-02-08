@@ -1,7 +1,7 @@
 export const AddUserFormData = [
     {
-        label: "Nazwa użytkownika",
-        value: "nazwa użytkownika...",
+        label: "Username",
+        value: "username...",
         key: "userName"
     },
     {
@@ -10,8 +10,8 @@ export const AddUserFormData = [
         key: "email"
     },
     {
-        label: "Hasło",
-        value: "hasło...",
+        label: "Password",
+        value: "password...",
         key: "password"
     },
 ]

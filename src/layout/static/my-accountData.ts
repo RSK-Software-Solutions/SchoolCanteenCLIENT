@@ -1,10 +1,10 @@
 export const myAccountData = [
     {
-        label: "Ustawienia",
+        label: "Settings",
         path: "/settings"
     },
     {
-        label: "wyloguj",
+        label: "Logout",
         path: ''
     }
 ]

@@ -7,7 +7,8 @@ import { Minus, Plus, SearchIcon, Trash } from "lucide-react"
 import AddProductForm from "./add-products-form/AddProductForm"
 import { changeQuantityOfProduct } from "../api/changeQuantityOfProduct"
 import { deleteProduct } from "../api/delete-product"
-import { api } from "@/lib/axios.interceptors"
+import { api, baseApiURL } from "@/lib/axios.interceptors"
+import { useToast } from "@/components/ui/use-toast"
 
 
 export enum TypeOfAction {
@@ -41,13 +42,17 @@ export default function InitialWareHouseProducts() {
     })
     const [isAddProductToggled, setIsAddProductToggled] = useState<boolean>(false);
     const [searchInput, setSearchInput] = useState<string>("");
-
+    const { toast } = useToast();
     const getAllProducts = async () => {
-        const URL = process.env.REACT_APP_URL + `/api/products?name=${searchInput}`
         try {
-            const { data } = await api.get(URL)
-            setProducts(data)
+            const { data } = await api.get(baseApiURL + `/api/products?name=${searchInput}`)
+            if (searchInput) toast({ title: "SUCCESS", description: `Successfully searched for product's similar too: ${searchInput}` })
+            if (!data) toast({ variant: "destructive", title: "FAILED", description: `product ${searchInput} not found` })
+            if (data) {
+                setProducts(data)
+            }
         } catch (error) {
+            toast({ variant: "destructive", title: "ERROR", description: `Error while fetching product's` })
             return error;
         }
     }
@@ -66,6 +71,7 @@ export default function InitialWareHouseProducts() {
                     <Button variant={"outline"} className={isAddProductToggled ? "hidden" : ""} onClick={(e) => {
                         e.preventDefault();
                         setIsAddProductToggled(prev => !prev);
+
                     }}>Add new product</Button>
                     <form className="relative w-64" onSubmit={(e) => {
                         e.preventDefault();
@@ -96,7 +102,7 @@ export default function InitialWareHouseProducts() {
                                 <TableHead>Item Name</TableHead>
                                 <TableHead>Quantity</TableHead>
                                 <TableHead>Min Quantity</TableHead>
-                                <TableHead>validityPeriod</TableHead>
+                                <TableHead>Validity Period</TableHead>
                                 <TableHead>Price</TableHead>
                                 <TableHead>Unit</TableHead>
                                 <TableHead>Actions</TableHead>
@@ -112,9 +118,9 @@ export default function InitialWareHouseProducts() {
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.unit.name}</TableCell>
                                     <TableCell className="flex">
-                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.INC, amount, getAllProducts)}><Plus /></Button>
-                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.DEC, amount, getAllProducts)}><Minus /></Button>
-                                        <Button variant={'outline'} onClick={() => deleteProduct(product.productId, getAllProducts)}><Trash /></Button>
+                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.INC, amount, getAllProducts, toast)}><Plus /></Button>
+                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.DEC, amount, getAllProducts, toast)}><Minus /></Button>
+                                        <Button variant={'outline'} onClick={() => deleteProduct(product.productId, getAllProducts, toast)}><Trash /></Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

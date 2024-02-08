@@ -4,15 +4,15 @@ export const productFormData = [
         key: "unitId"
     },
     {
-        label: "Nazwa Produktu",
+        label: "Product Name",
         key: "name"
     },
     {
-        label: "Cena",
+        label: "Price",
         key: "price"
     },
     {
-        label: "Ilość",
+        label: "Quantity",
         key: "quantity"
     },
     {
@@ -20,7 +20,7 @@ export const productFormData = [
         key: "validityPeriod"
     },
     {
-        label: "min Quantity",
+        label: "Minimum Quantity",
         key: "minQuantity"
     }
-]
+];

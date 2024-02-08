@@ -5,6 +5,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { productFormData } from "../../static/AddProductFormData"
 import { Button } from "@/components/ui/button"
 import { api, baseApiURL } from "@/lib/axios.interceptors"
+import { useToast } from "@/components/ui/use-toast"
 
 export type TAddProductForm = {
     unitId: number;
@@ -33,7 +34,7 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
     })
     const [units, setUnits] = useState<TUnit[]>([])
 
-
+    const { toast } = useToast();
     const getAllUnits = async () => {
         try {
             const { data } = await api.get(baseApiURL + '/api/units')
@@ -47,11 +48,15 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
     const handleAddProduct = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            await api.post(baseApiURL + '/api/product', addProductForm)
+            const data = await api.post(baseApiURL + '/api/product', addProductForm)
+
+            if (data) toast({ variant: "default", title: "SUCCESS", description: `successfully added product ${addProductForm.name}` })
+            if (!data) toast({ variant: "destructive", title: "FAILED", description: `failed to add product` })
+
             setIsAddProductToggled(false)
             getAllProducts()
         } catch (error) {
-            console.error(error);
+            toast({ variant: "destructive", title: "ERROR", description: `Error while adding product` })
             return error;
         }
     }
@@ -63,7 +68,7 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
 
     return (
         <main className="w-full flex justify-center mt-5 flex-col">
-            <Label className="flex w-full justify-center">Dodaj Produkt!</Label>
+            <Label className="flex w-full justify-center">Add Product!</Label>
             <form onSubmit={(e) => handleAddProduct(e)} className="w-full flex justify-center">
                 <div className="w-2/5 p-6 flex justify-center flex-col rounded-xl shadow-lg bg-gray-50 shadow-gray-500">
                     {productFormData.map((products) => (
@@ -78,7 +83,7 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
                                     })}
                                     className="mt-2 p-2 border rounded-md"
                                 >
-                                    <option value={"select"}>Wybierz...</option>
+                                    <option value={"select"}>Choose...</option>
                                     {units.map((unit) => (
                                         <option key={unit.unitId} value={unit.unitId}>{unit.name}</option>
                                     ))}

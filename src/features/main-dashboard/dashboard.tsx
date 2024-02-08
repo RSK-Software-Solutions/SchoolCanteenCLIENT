@@ -49,7 +49,7 @@ const Dashboard = () => {
                                             </CardHeader>
                                             <CardContent>
                                                 <div className="text-2xl font-bold">
-                                                    {getProperty(data, cardInfo.dataKey as keyof TData)}
+                                                    {getProperty(data, cardInfo.key as keyof TData)}
                                                 </div>
                                             </CardContent>
                                         </Card>
