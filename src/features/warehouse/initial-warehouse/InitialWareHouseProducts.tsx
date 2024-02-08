@@ -2,12 +2,12 @@ import { Input } from "@/components/ui/input"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import React, { useEffect, useState } from 'react'
-import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Minus, Plus, SearchIcon, Trash } from "lucide-react"
 import AddProductForm from "./add-products-form/AddProductForm"
 import { changeQuantityOfProduct } from "../api/changeQuantityOfProduct"
 import { deleteProduct } from "../api/delete-product"
+import { api } from "@/lib/axios.interceptors"
 
 
 export enum TypeOfAction {
@@ -27,6 +27,8 @@ export type TProduct = {
     name: string;
     price: number;
     quantity: number;
+    validityPeriod: number;
+    minQuantity: number;
     unit: TUnit;
     productId: number;
 }
@@ -39,19 +41,13 @@ export default function InitialWareHouseProducts() {
     })
     const [isAddProductToggled, setIsAddProductToggled] = useState<boolean>(false);
     const [searchInput, setSearchInput] = useState<string>("");
-    const token = localStorage.getItem('token')
 
     const getAllProducts = async () => {
         const URL = process.env.REACT_APP_URL + `/api/products?name=${searchInput}`
         try {
-            const { data } = await axios.get(URL, {
-                headers: {
-                    Authorization: `bearer ${token}`
-                }
-            })
+            const { data } = await api.get(URL)
             setProducts(data)
         } catch (error) {
-            console.error(error)
             return error;
         }
     }
@@ -67,15 +63,14 @@ export default function InitialWareHouseProducts() {
             <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800">
                 <h1 className="text-2xl font-semibold">Stock Management</h1>
                 <div className="flex gap-5">
-                <Button variant={"outline"} className={isAddProductToggled ? "hidden" : ""} onClick={(e) => {
-                    e.preventDefault();
-                    setIsAddProductToggled(prev => !prev);
-                }}>Dodaj Produkt</Button>
+                    <Button variant={"outline"} className={isAddProductToggled ? "hidden" : ""} onClick={(e) => {
+                        e.preventDefault();
+                        setIsAddProductToggled(prev => !prev);
+                    }}>Dodaj Produkt</Button>
                     <form className="relative w-64" onSubmit={(e) => {
                         e.preventDefault();
                         getAllProducts();
                     }}>
-                        
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                         <Input
                             onChange={(e) => setSearchInput(e.target.value)}
@@ -86,34 +81,34 @@ export default function InitialWareHouseProducts() {
                         />
                     </form>
                 </div>
-                
+
             </header >
             <>
-                {
-                isAddProductToggled && (
+                {isAddProductToggled && (
                     <AddProductForm getAllProducts={getAllProducts} setIsAddProductToggled={setIsAddProductToggled} />
-                )
-            }
+                )}
             </>
             <main className="flex-1 overflow-auto p-4">
-
                 <ScrollArea className="h-[500px] border rounded-md">
                     <Table>
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Item Name</TableHead>
                                 <TableHead>Quantity</TableHead>
+                                <TableHead>Min Quantity</TableHead>
+                                <TableHead>validityPeriod</TableHead>
                                 <TableHead>Price</TableHead>
                                 <TableHead>Unit</TableHead>
                                 <TableHead>Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            
                             {products.map((product: TProduct) => (
                                 <TableRow key={product.productId}>
                                     <TableCell className="font-medium">{product.name}</TableCell>
                                     <TableCell>{product.quantity}</TableCell>
+                                    <TableCell>{product.minQuantity}</TableCell>
+                                    <TableCell>{product.validityPeriod}</TableCell>
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.unit.name}</TableCell>
                                     <TableCell className="flex">
@@ -127,7 +122,6 @@ export default function InitialWareHouseProducts() {
                     </Table>
                 </ScrollArea>
             </main>
-
         </div >
     )
 }

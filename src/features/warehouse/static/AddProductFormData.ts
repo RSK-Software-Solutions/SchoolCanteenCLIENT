@@ -14,5 +14,13 @@ export const productFormData = [
     {
         label: "Ilość",
         key: "quantity"
+    },
+    {
+        label: "Validity Period",
+        key: "validityPeriod"
+    },
+    {
+        label: "min Quantity",
+        key: "minQuantity"
     }
 ]

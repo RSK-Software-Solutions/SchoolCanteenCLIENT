@@ -7,6 +7,6 @@ export const deleteUser = async (userId: string | null, fetchEmployees: () => vo
         fetchEmployees();
     } catch (error) {
         console.error("Error deleting user:", error);
-        throw new Error("Error in function: deleteUser");
+        return new Error("Error in function: deleteUser");
     }
 };
