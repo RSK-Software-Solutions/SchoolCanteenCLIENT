@@ -8,6 +8,7 @@ import { SaveSettings } from "@/features/userSettings/api/SaveUserSettings";
 import React, { useState } from "react";
 import { type TUserPersonalData } from "../UserSettings";
 import getCookie from "@/lib/getCookieByName";
+import { useToast } from "@/components/ui/use-toast";
 
 export type TUserPersonalCredentials = {
   userSettingsData: TUserSettingsContent[];
@@ -21,6 +22,7 @@ export const UserPersonalSettingsOption = ({
   const userId = getCookie("userID");
   const userRoles = getCookie("userRoles");
   const userRolesArr = userRoles ? userRoles.split(",") : [];
+  const { toast } = useToast();
 
   const [userSettings, setUserSettings] = useState<TUserPersonalData>({
     id: userId,
@@ -38,8 +40,8 @@ export const UserPersonalSettingsOption = ({
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Ustawienia {optionPicked}</CardTitle>
-          <CardDescription>Aktualizuj swoje ustawienia {optionPicked}</CardDescription>
+          <CardTitle>{optionPicked} Settings</CardTitle>
+          <CardDescription>update your {optionPicked.toLowerCase()} settings</CardDescription>
         </CardHeader>
         {userSettingsData.map((settings) => (
           <form className="flex flex-col gap-4" key={settings.key}>
@@ -49,8 +51,8 @@ export const UserPersonalSettingsOption = ({
             </CardContent>
           </form>
         ))}
-        <CardFooter className="border-t p-6">
-          <Button onClick={() => { SaveSettings(userSettings) }}>Zapisz</Button>
+        <CardFooter className="pt-2">
+          <Button onClick={() => { SaveSettings(userSettings, toast) }}>Save</Button>
         </CardFooter>
       </Card>
     </>

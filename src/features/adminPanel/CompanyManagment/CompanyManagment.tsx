@@ -2,7 +2,6 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import React, { useState } from "react"
-import { CompanyManagmentOverview } from "@/features/adminPanel/companyManagment/CompanyManagmentOverview"
 import { saveCompanyEdited } from "@/features/adminPanel/companyManagment/api/saveEditedCompany"
 
 export type TcompanyForm = {
@@ -30,10 +29,9 @@ export const CompanyManagment = () => {
                     <div className="md:w-3/4">
                         <div className="grid gap-4">
                             <div className="grid md:grid-cols-3 gap-6">
-                                <CompanyManagmentOverview />
                             </div>
                             <div className="grid gap-1">
-                                <h2 className="text-2xl font-bold">Informacje o firmie</h2>
+                                <h2 className="text-2xl font-bold">Company Information</h2>
                                 <p className="text-gray-500 dark:text-gray-400">tutaj znajdują sie informacje które możesz edytowac.</p>
                             </div>
                             <div className="grid gap-4">
@@ -45,11 +43,10 @@ export const CompanyManagment = () => {
                             <div className="w-full flex justify-center flex-col">
                                 {isDisabled === false && <Button variant="outline" onClick={async () => {
                                     await saveCompanyEdited(companyForm, setIsDisabled)
-                                }}>Zapisz</Button>}
-
+                                }}>Save</Button>}
                                 <Button variant="outline" onClick={() => {
                                     setIsDisabled(prev => !prev)
-                                }} className="w-full">{isDisabled ? "Edytuj" : "Przestań edytować"}</Button>
+                                }} className="w-full">{isDisabled ? "Edit" : "Cancel"}</Button>
                             </div>
                         </div>
                     </div>

@@ -9,37 +9,37 @@ export type TUserSettingsContent = {
 
 export const userSettingsStaticData: TUserSettingsContent[] = [
   {
-    "label": "Imię",
+    "label": "First Name",
     "key": "firstName"
   },
   {
-    "label": "Nazwisko",
+    "label": "Last Name",
     "key": "lastName"
   },
   {
-    "label": "Ulica",
+    "label": "Street",
     "key": "street"
   },
   {
-    "label": "Kod pocztowy",
+    "label": "Postal Code",
     "key": "postalCode"
   },
   {
-    "label": "Miasto",
+    "label": "City",
     "key": "city"
   },
   {
-    "label": "Województwo",
+    "label": "State",
     "key": "state"
   },
   {
-    "label": "Kraj",
+    "label": "Country",
     "key": "country"
   }
 ]
 
 export const options: Options[] = [
   {
-    option: "Użytkownika",
+    option: "User",
   },
 ];
