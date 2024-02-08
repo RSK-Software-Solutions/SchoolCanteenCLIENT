@@ -42,22 +42,47 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   };
 
   //!@UserKacper tokenSetter function get's token validates it to check if is not expired if not sets it as localstorage
+  const setCookies = (decodedUser: Record<string, string>) => {
+    const expirationDate = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `userRoles=${Array.isArray(decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
+      ? (decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] as string[])
+      : []}; expires=${expirationDate}`;
+    document.cookie = `userID=${decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string}; expires=${expirationDate}`;
+  };
+
   const tokenSetter = async (token: string) => {
-    if (isTokenValid(token)) {
-      localStorage.setItem("token", token);
-      const decodedUser = jwt.decodeJwt(token) as Record<string, string>;
-      setUser({
-        id: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string,
-        email: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] as string,
-        login: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] as string,
-        roles: Array.isArray(decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
-          ? (decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] as string[])
-          : []
-      });
-    } else {
+    try {
+      if (isTokenValid(token)) {
+        const decodedUser = jwt.decodeJwt(token) as Record<string, string>;
+        localStorage.setItem("token", token);
+        setCookies(decodedUser);
+        setUser({
+          id: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string,
+          email: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] as string,
+          login: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] as string,
+          roles: Array.isArray(decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
+            ? (decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] as string[])
+            : []
+        });
+      } else {
+        clearSession();
+      }
+    } catch (error) {
+      console.error("Error decoding token:", error);
       clearSession();
     }
   };
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken && isTokenValid(storedToken)) {
+      setToken(storedToken);
+      tokenSetter(storedToken);
+    } else {
+      clearSession();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setToken]);
 
 
   //!@UserKacper clearSession function is used in logout button which clears session/token removes localstorage
@@ -71,32 +96,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     })
     localStorage.removeItem("token");
   };
-
-  //!@UserKacper this useEffect is checking if token is valid and setting user on every re-render so state after login is always there to get data 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      if (isTokenValid(storedToken)) {
-        setToken(storedToken);
-        const decodedUser = jwt.decodeJwt(storedToken) as Record<string, string>;
-        document.cookie = `userRoles=${Array.isArray(decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
-          ? (decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] as string[])
-          : []}; expires=` + new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toUTCString()
-        document.cookie = `userID=${decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string};expires=` + new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toUTCString()
-        setUser({
-          id: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] as string,
-          email: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] as string,
-          login: decodedUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] as string,
-          roles: Array.isArray(decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
-            ? (decodedUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] as string[])
-            : []
-        });
-        
-      } else {
-        clearSession();
-      }
-    }
-  }, [setToken]);
 
   return (
     <AuthContext.Provider value={{ token, user, tokenSetter, clearSession }}>

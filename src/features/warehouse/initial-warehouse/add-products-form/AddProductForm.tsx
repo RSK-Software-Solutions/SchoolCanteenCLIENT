@@ -103,10 +103,10 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
                             )}
                         </React.Fragment>
                     ))}
-                            <div className="flex  gap-y-10 mx-auto mt-3 gap-4">
-                                <Button variant={"outline"}>Zapisz</Button>
-                                <Button variant={'outline'} onClick={() => setIsAddProductToggled(false)}>Anuluj</Button>
-                            </div>
+                        <div className="flex  gap-y-10 mx-auto mt-3 gap-4">
+                            <Button variant={"outline"}>Zapisz</Button>
+                            <Button variant={'outline'} onClick={() => setIsAddProductToggled(false)}>Anuluj</Button>
+                        </div>
 
                 </div>
             </form>

@@ -8,7 +8,6 @@ import { Minus, Plus, SearchIcon, Trash } from "lucide-react"
 import AddProductForm from "./add-products-form/AddProductForm"
 import { changeQuantityOfProduct } from "../api/changeQuantityOfProduct"
 import { deleteProduct } from "../api/delete-product"
-import { handleSearchSubmit } from "../api/searchInput"
 
 
 export enum TypeOfAction {
@@ -63,14 +62,16 @@ export default function InitialWareHouseProducts() {
         <div className="flex flex-col w-full">
             <header className="flex items-center justify-between h-16 px-4 bg-gray-100 dark:bg-gray-800">
                 <h1 className="text-2xl font-semibold">Stock Management</h1>
-
                 <div className="flex gap-5">
                 <Button variant={"outline"} className={isAddProductToggled ? "hidden" : ""} onClick={(e) => {
                     e.preventDefault();
                     setIsAddProductToggled(prev => !prev);
                 }}>Dodaj Produkt</Button>
-
-                    <form className="relative w-64" onSubmit={(e) => handleSearchSubmit(e, getAllProducts)}>
+                    <form className="relative w-64" onSubmit={(e) => {
+                        e.preventDefault();
+                        getAllProducts();
+                    }}>
+                        
                         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
                         <Input
                             onChange={(e) => setSearchInput(e.target.value)}
@@ -81,12 +82,17 @@ export default function InitialWareHouseProducts() {
                         />
                     </form>
                 </div>
-            </header>
+                
+            </header >
             <>
-            {isAddProductToggled && (
-                <AddProductForm getAllProducts={getAllProducts} setIsAddProductToggled={setIsAddProductToggled} />
-            )}</>
+                {
+                isAddProductToggled && (
+                    <AddProductForm getAllProducts={getAllProducts} setIsAddProductToggled={setIsAddProductToggled} />
+                )
+            }
+            </>
             <main className="flex-1 overflow-auto p-4">
+
                 <ScrollArea className="h-[500px] border rounded-md">
                     <Table>
                         <TableHeader>
@@ -99,6 +105,7 @@ export default function InitialWareHouseProducts() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
+                            
                             {products.map((product: TProduct) => (
                                 <TableRow key={product.productId}>
                                     <TableCell className="font-medium">{product.name}</TableCell>
@@ -106,9 +113,9 @@ export default function InitialWareHouseProducts() {
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.unit.name}</TableCell>
                                     <TableCell className="flex">
-                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.INC, amount.quantity, token, getAllProducts)}><Plus /></Button>
-                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.DEC, amount.quantity, token, getAllProducts)}><Minus /></Button>
-                                        <Button variant={'outline'} onClick={() => deleteProduct(product.productId, token, getAllProducts)}><Trash /></Button>
+                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.INC, amount.quantity, getAllProducts)}><Plus /></Button>
+                                        <Button variant={'outline'} onClick={() => changeQuantityOfProduct(product.productId, TypeOfAction.DEC, amount.quantity, getAllProducts)}><Minus /></Button>
+                                        <Button variant={'outline'} onClick={() => deleteProduct(product.productId, getAllProducts)}><Trash /></Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -116,7 +123,7 @@ export default function InitialWareHouseProducts() {
                     </Table>
                 </ScrollArea>
             </main>
-        </div>
+
+        </div >
     )
 }
-
