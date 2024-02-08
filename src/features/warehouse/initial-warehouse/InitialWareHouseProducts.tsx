@@ -66,7 +66,7 @@ export default function InitialWareHouseProducts() {
                     <Button variant={"outline"} className={isAddProductToggled ? "hidden" : ""} onClick={(e) => {
                         e.preventDefault();
                         setIsAddProductToggled(prev => !prev);
-                    }}>Dodaj Produkt</Button>
+                    }}>Add new product</Button>
                     <form className="relative w-64" onSubmit={(e) => {
                         e.preventDefault();
                         getAllProducts();

@@ -5,10 +5,11 @@ import { TLoginCredentials } from "@/features/authentication/Login";
 import { TRegisterCredentials } from "@/features/authentication/Register";
 import { TUserPersonalData } from "@/features/userSettings/UserSettings";
 import { TAddProductForm } from "@/features/warehouse/initial-warehouse/add-products-form/AddProductForm";
+import { TAddRecipeForm } from "@/features/warehouse/recipes/add-recipe-form/AddRecipeForm";
 import { SetStateAction, Dispatch } from "react";
 
 // TODO: these types could be refactored for better read-ability
-export type TAuthCredentials = TLoginCredentials | TRegisterCredentials | TUserPersonalData | TcompanyForm | TNewUserForm | TEditedUserForm | TAddProductForm;
+export type TAuthCredentials = TLoginCredentials | TRegisterCredentials | TUserPersonalData | TcompanyForm | TNewUserForm | TEditedUserForm | TAddProductForm | TAddRecipeForm;
 
 export type TFormField = {
   label: string;
