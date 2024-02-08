@@ -8,5 +8,9 @@ export const warehouseData: TStaticLayoutData[] = [
     {
         label: "Finished Products",
         path: "/warehouse/finished"
-    }
+    },
+    {
+        label: "Recipes",
+        path: "/warehouse/recipes",
+    },
 ]
