@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TFormField, handleChangeInput } from "@/lib/handleChangeInput";
+import { handleChangeInput } from "@/lib/handleChangeInput";
 import HandleRegisterCompany from "@/features/authentication/api/RegisterAuthentication";
 import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
+import { registerFields } from "./static/authData";
 
 export type TRegisterCredentials = {
   email: string;
@@ -26,36 +28,13 @@ const Register = () => {
   });
   const [showPass, setShowPass] = useState<boolean>(false);
 
+  const { toast } = useToast()
   const navigate = useNavigate()
-
-  const formFields: TFormField[] = [
-    {
-      label: "Email",
-      key: "email",
-    },
-    {
-      label: "Login",
-      key: "userName",
-    },
-    {
-      label: "Hasło",
-      key: "password",
-    },
-    {
-      label: "Firma",
-      key: "comapanyName",
-    },
-  ];
-
-  const handleClick = () => {
-    HandleRegisterCompany(formData, navigate);
-  };
 
   return (
     <div className="shadow-md p-10 w-[450px] rounded-md bg-white">
-
-      <div className="text-xl font-semibold text-center mb-6">Rejestracja</div>
-      {formFields.map((field) => (
+      <div className="text-xl font-semibold text-center mb-6">Register</div>
+      {registerFields.map((field) => (
         <div key={field.key as string} className="mt-5">
           <Label className="block text-gray-700 text-sm font-bold">{field.label}</Label>
           <div className="flex gap-5 w-full">
@@ -83,13 +62,13 @@ const Register = () => {
         </div>
       ))}
       <div className="flex justify-evenly gap-x-5 mt-6">
-        <Button type="button" onClick={handleClick} variant={"outline"}>
-          Zarejestruj
+        <Button type="button" onClick={() => HandleRegisterCompany(formData, navigate, toast)} variant={"outline"}>
+          Register
         </Button>
         <div className="text-center text-sm flex flex-col">
-          Posiadasz już konto?
+          already have an account?
           <Link to='/login' className="underline">
-            Zaloguj się
+            Login here!
           </Link>
         </div>
       </div>

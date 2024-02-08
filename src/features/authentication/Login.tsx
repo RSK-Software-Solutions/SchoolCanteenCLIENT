@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TFormField, handleChangeInput } from "@/lib/handleChangeInput";
+import { handleChangeInput } from "@/lib/handleChangeInput";
 import HandleLogin from "@/features/authentication/api/LoginAuthentication";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthContext from "@/context/AuthContext";
+import { useToast } from "@/components/ui/use-toast";
+import { loginFields } from "./static/authData";
 
 export type TLoginCredentials = {
   email: string;
@@ -19,25 +21,12 @@ const Login = () => {
   });
   const user = useAuthContext();
   const navigate = useNavigate();
-  const formFields: TFormField[] = [
-    {
-      label: "Email",
-      key: "email",
-    },
-    {
-      label: "Hasło",
-      key: "password",
-    },
-  ];
-
-  const handleLoginclick = async () => {
-    await HandleLogin(formData, user, navigate)
-  }
+  const { toast } = useToast();
 
   return (
     <div className="shadow-md p-10 rounded-md bg-white">
-      <div className="text-xl font-semibold text-center mb-6  select-none">Logowanie</div>
-      {formFields.map((field) => (
+      <div className="text-xl font-semibold text-center mb-6  select-none">Login</div>
+      {loginFields.map((field) => (
         <div key={field.key} className="mt-5">
           <Label className="block text-gray-700 text-sm font-bold">{field.label}</Label>
           <Input
@@ -49,13 +38,13 @@ const Login = () => {
         </div>
       ))}
       <div className="flex justify-center gap-x-5 mt-6">
-        <Button variant={'outline'} type="button" onClick={handleLoginclick}>
-          Zaloguj
+        <Button variant={'outline'} type="button" onClick={() => HandleLogin(formData, user, navigate, toast)}>
+          Login
         </Button>
         <div className="text-center text-sm flex flex-col">
-          Nie masz konta?
+          dont have an account?
           <Link to='/register' className="underline">
-            Zarejestruj się
+            Register!
           </Link>
         </div>
       </div>

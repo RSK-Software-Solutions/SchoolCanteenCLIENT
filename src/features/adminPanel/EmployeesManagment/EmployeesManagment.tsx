@@ -13,6 +13,7 @@ import { UserData } from "./static/TableHeadersData";
 import NewEmployeesForm from "../addNewEmployees/NewEmployeesForm";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { SearchIcon } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 export type TEditedUserForm = {
   id: string | null;
@@ -66,6 +67,8 @@ export default function EmployeesManagment() {
     password: "",
     roleName: "User",
   });
+
+  const { toast } = useToast();
 
   useEffect(() => {
     const setRolesFromApi = async () => {
@@ -130,7 +133,6 @@ export default function EmployeesManagment() {
                                       e.target.selectedOptions,
                                       (option) => option.value
                                     );
-
                                     setEditedUserData({
                                       ...editedUserData,
                                       id: user.id,
@@ -147,11 +149,11 @@ export default function EmployeesManagment() {
                               ) : userForm.key === "akcje" ? (<TableCell className="flex">
                                 {isEditableByUserId && (
                                   <Button size="sm" variant="outline" onClick={() => setIsEditableByUserId("")}>
-                                    Anuluj
+                                    Cancel
                                   </Button>
                                 )}
-                                <Button size="sm" variant="outline" onClick={() => updateUser(fetchEmployees, editedUserData, setEditedUserData, isEditableByUserId)}>
-                                  Zapisz
+                                <Button size="sm" variant="outline" onClick={() => updateUser(fetchEmployees, editedUserData, setEditedUserData, isEditableByUserId, toast)}>
+                                  Save
                                 </Button>
                               </TableCell>) : (
                                 <Input
@@ -183,10 +185,10 @@ export default function EmployeesManagment() {
                             variant="outline"
                             onClick={() => setIsEditableByUserId(user.id)}
                           >
-                            Edytuj
+                            Edit
                           </Button>
-                          <Button size="sm" variant="outline" onClick={() => deleteUser(user.id, fetchEmployees)}>
-                            Usuń
+                          <Button size="sm" variant="outline" onClick={() => deleteUser(user.id, fetchEmployees, toast)}>
+                            Delete
                           </Button>
                         </TableCell>
                       </>
@@ -196,8 +198,6 @@ export default function EmployeesManagment() {
               </TableBody>
             </Table>
           </ScrollArea>
-
-
         </div >
       )
       }

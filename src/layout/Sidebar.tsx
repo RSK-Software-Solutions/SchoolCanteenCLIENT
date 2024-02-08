@@ -81,15 +81,12 @@ const Sidebar = ({ isOpen, setIsOpen }: TSidebarProps) => {
                     {mobileStatic.label}
                   </Link>)}
               </React.Fragment>
-
             ))}
           </nav>
           <div className="w-full text-center">
             <LogoutButton />
           </div>
         </motion.section>
-
-
       )
       }
     </AnimatePresence >

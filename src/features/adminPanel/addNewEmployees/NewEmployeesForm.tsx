@@ -6,7 +6,7 @@ import { submitUser } from './api/submitUser'
 import { AddUserFormData } from './static/newEmployeesFormData'
 import { Input } from '@/components/ui/input'
 import { TNewUserForm } from '../employeesManagment/EmployeesManagment'
-
+import { useToast } from '@/components/ui/use-toast'
 type TNewEmloyeesForm = {
     setNewUserForm: React.Dispatch<SetStateAction<TNewUserForm>>;
     newUserForm: TNewUserForm;
@@ -16,7 +16,8 @@ type TNewEmloyeesForm = {
     setToggleAddUser: React.Dispatch<SetStateAction<boolean>>
 }
 
-const NewEmployeesForm = ({ setNewUserForm, newUserForm, roles, token, fetchEmployees, setToggleAddUser }: TNewEmloyeesForm) => {
+const NewEmployeesForm = ({ setNewUserForm, newUserForm, roles, fetchEmployees, setToggleAddUser }: TNewEmloyeesForm) => {
+    const { toast } = useToast()
     return (
         <div className="flex flex-col max-sm:mx-5 mx-48 my-10 border p-8 rounded-md bg-muted shadow-lg">
             {AddUserFormData.map(userForm => (
@@ -43,8 +44,10 @@ const NewEmployeesForm = ({ setNewUserForm, newUserForm, roles, token, fetchEmpl
             </select>
 
             <div className="flex  gap-y-10 mx-auto mt-3 gap-4">
-                <Button variant={'outline'} onClick={(e) => submitUser(newUserForm, e, fetchEmployees)}>Zapisz</Button>
-                <Button variant={'outline'} onClick={() => setToggleAddUser(false)}>Anuluj</Button>
+                <Button variant={'outline'} onClick={(e) => {
+                    submitUser(newUserForm, e, fetchEmployees, toast)
+                }}>Save</Button>
+                <Button variant={'outline'} onClick={() => setToggleAddUser(false)}>Cancel</Button>
             </div>
         </div>
     )

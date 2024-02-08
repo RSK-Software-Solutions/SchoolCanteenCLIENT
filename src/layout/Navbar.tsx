@@ -8,6 +8,7 @@ import { adminManagmentOptionsPickerData } from "./static/adminManagmentOptions"
 import { warehouseData } from "./static/warehouse-naviagation";
 import { myAccountData } from "./static/my-accountData";
 import useAuthContext from "@/context/AuthContext";
+import { useToast } from "@/components/ui/use-toast";
 type NavbarProps = {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
 };
@@ -16,18 +17,18 @@ const Navbar = ({ setIsOpen }: NavbarProps) => {
   const user = useAuthContext();
   const [selectedOption, setSelectedOption] = useState<string>("");
   const navigate = useNavigate();
-
+  const { toast } = useToast()
   useEffect(() => {
-    const handleLogout = async () => {
-      if (selectedOption === "wyloguj") {
-        await user.clearSession();
+    const handleLogout = () => {
+      if (selectedOption === "Logout") {
+        user.clearSession();
+        toast({ variant: "default", title: "LOGOUT", description: `successfully logged out, goodbye ${user.user.login}` })
         navigate('/login')
-        // Perform any additional actions after the session is cleared
       }
     };
 
     handleLogout();
-  }, [selectedOption, user, navigate]);
+  }, [selectedOption, user, navigate, toast]);
 
   return (
     <div className="h-[80px] border-b flex text-xl shadow-md self-center select-none">
@@ -45,7 +46,7 @@ const Navbar = ({ setIsOpen }: NavbarProps) => {
             <div key={el.path} className="sm:flex hidden">
               <div className="flex self-center">
                 <nav>
-                  {el.label === "Panel admina" ? (
+                  {el.label === "Admin Panel" ? (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Link to={''}
@@ -57,7 +58,7 @@ const Navbar = ({ setIsOpen }: NavbarProps) => {
                         ))}
                       </DropdownMenuContent>
                     </DropdownMenu>
-                  ) : el.label === "Magazyn" ? (
+                  ) : el.label === "Warehouse" ? (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Link to={''}
@@ -69,7 +70,7 @@ const Navbar = ({ setIsOpen }: NavbarProps) => {
                         ))}
                       </DropdownMenuContent>
                     </DropdownMenu>
-                  ) : el.label === "Moje Konto" ? (
+                  ) : el.label === "My Account" ? (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Link to={''}
