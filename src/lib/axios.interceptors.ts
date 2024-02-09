@@ -13,7 +13,6 @@ api.interceptors.request.use(
         if (authToken) {
             config.headers.Authorization = `Bearer ${authToken}`;
         }
-
         return config;
     },
     (error) => {

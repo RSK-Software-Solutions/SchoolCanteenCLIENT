@@ -1,12 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table";
-import { api } from '@/lib/axios.interceptors';
+import { api, baseApiURL } from '@/lib/axios.interceptors';
 import { Label } from '@radix-ui/react-label';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
 import { SearchIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import AddRecipeForm from "./add-recipe-form/AddRecipeForm"
+import { useToast } from '@/components/ui/use-toast';
 
 type TUnit = {
   unitId: number;
@@ -51,11 +52,11 @@ type TFinishedProductCreate = {
 const RecipesWareHouse = () => {
   const [recipes, setRecipes] = useState<TRecipe[]>([]);
   const [chosenRecipe, setChosenRecipe] = useState<number | null>(null);
-  const [finishedProduct, setFinishedProduct] = useState<TFinishedProductCreate>({ recipeId : 0, quantity:0, profit :0 });
+  const [finishedProduct, setFinishedProduct] = useState<TFinishedProductCreate>({ recipeId: 0, quantity: 0, profit: 0 });
   const [detailsChosenRecipe, setDetailsChosenRecipe] = useState<TRecipeDetail[]>();
   const [isAddRecipeToggled, setIsAddRecipeToggled] = useState<boolean>(false);
   const [isCreateFinishedProductToggled, setIsCreateFinishedProductToggled] = useState<{ [key: string]: boolean }>({});
-
+  const { toast } = useToast();
   const getAllRecipes = async () => {
     const URL = `${process.env.REACT_APP_URL}/api/recipes`;
     try {
@@ -68,14 +69,18 @@ const RecipesWareHouse = () => {
   };
 
   const getDetailsRecipe = async () => {
-    if (chosenRecipe === null) return;
-
-    const URL = `${process.env.REACT_APP_URL}/api/recipe?id=${chosenRecipe}`;
+    if (chosenRecipe === null) {
+      toast({ variant: "destructive", title: "FAILED", description: `${chosenRecipe} is null` })
+    }
     try {
-      const { data } = await api.get(URL);
-      setDetailsChosenRecipe(data.details);
+      const { data } = await api.get(baseApiURL + `/api/recipe?id=${chosenRecipe}`);
+      if (data) {
+        toast({ variant: "default", title: "SUCCESS", description: `Successfully fetched recipe:${chosenRecipe}` })
+        setDetailsChosenRecipe(data.details);
+      }
+      if (!data) toast({ variant: "destructive", title: "FAILED", description: `failed to fetch recipe:${chosenRecipe}` })
     } catch (error) {
-      console.error(error);
+      toast({ variant: "destructive", title: "ERROR", description: `Error while fetching recipe ${error}` })
       return error;
     }
   };
@@ -86,34 +91,38 @@ const RecipesWareHouse = () => {
 
     const URL = `${process.env.REACT_APP_URL}/api/article`;
     try {
-      const { data } = await api.post(URL, finishedProduct );
-      setDetailsChosenRecipe(data.details);
-      handleCreateFinishedProduct(finishedProduct.recipeId);
+      const { data } = await api.post(URL, finishedProduct);
+      if (data) {
+        toast({ variant: "default", title: "SUCCESS", description: `Successfully created finished product:${finishedProduct.recipeId}` })
+        setDetailsChosenRecipe(data.details);
+        handleCreateFinishedProduct(finishedProduct.recipeId);
+      }
+      if (!data) toast({ variant: "destructive", title: "FAILED", description: `failed to create product:${finishedProduct.recipeId}` })
     } catch (error) {
-      console.error(error);
+      toast({ variant: "destructive", title: "ERROR", description: `Error while creating finished product :${error}` })
       return error;
     }
   }
 
-  const handleChangeInputProfit = (e : string) => {
+  const handleChangeInputProfit = (e: string) => {
     setFinishedProduct({
       ...finishedProduct,
-      recipeId : chosenRecipe, 
-      profit : parseInt(e)
+      recipeId: chosenRecipe,
+      profit: parseInt(e)
     })
   }
 
-  const handleChangeInputQuantity = (e : string) => {
+  const handleChangeInputQuantity = (e: string) => {
     setFinishedProduct({
       ...finishedProduct,
-      recipeId : chosenRecipe, 
-      quantity : parseInt(e)
+      recipeId: chosenRecipe,
+      quantity: parseInt(e)
     })
   }
   const handleCreateFinishedProduct = (recipeId: number) => {
     setIsCreateFinishedProductToggled((prev) => ({
       ...prev,
-      [recipeId]: !prev[recipeId], 
+      [recipeId]: !prev[recipeId],
     }));
   }
 
@@ -121,19 +130,13 @@ const RecipesWareHouse = () => {
     getAllRecipes();
   }, []);
 
-  useEffect(() => {
-    console.log(detailsChosenRecipe);
-  }, [detailsChosenRecipe]);
 
   useEffect(() => {
     if (chosenRecipe !== null) {
-      console.log(chosenRecipe);
       getDetailsRecipe();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chosenRecipe]);
-  
-  console.log(finishedProduct);
 
   return (
     <div className="flex flex-col w-full">
@@ -189,32 +192,32 @@ const RecipesWareHouse = () => {
                         <TableCell className="w-1/8">{recipe.quantity}</TableCell>
                         <TableCell className="w-1/8">{recipe.validityPeriod}</TableCell>
                         <TableCell className="w-2/8 grid grid-cols-4 gap-3">
-                        <Button
+                          <Button
                             size="sm"
                             variant="outline"
                             onClick={() => handleCreateFinishedProduct(recipe.recipeId)}
                           >
                             {isCreateFinishedProductToggled[recipe.recipeId] ? "Cancel" : "Set Profit"}
                           </Button>
-                          {isCreateFinishedProductToggled[recipe.recipeId] && ( 
+                          {isCreateFinishedProductToggled[recipe.recipeId] && (
                             <>
-                                      <Input
-                                      className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
-                                      placeholder="profit %"
-                                      type="number"
-                                      onChange={(e) => handleChangeInputProfit(e.target.value)}
-                                      />
-                                      <Input
-                                      className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
-                                      placeholder="quantity"
-                                      type="number"
-                                      onChange={(e) => handleChangeInputQuantity(e.target.value)}
-                                      />
-                                      <Button size="sm"
-                                      variant="outline"
-                                      onClick={() => createFinishedProduct()}>Create based on this recipe</Button>
+                              <Input
+                                className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
+                                placeholder="profit %"
+                                type="number"
+                                onChange={(e) => handleChangeInputProfit(e.target.value)}
+                              />
+                              <Input
+                                className="pl-8 bg-white shadow-none appearance-none dark:bg-gray-950"
+                                placeholder="quantity"
+                                type="number"
+                                onChange={(e) => handleChangeInputQuantity(e.target.value)}
+                              />
+                              <Button size="sm"
+                                variant="outline"
+                                onClick={() => createFinishedProduct()}>Create based on this recipe</Button>
                             </>
-                            )}
+                          )}
                         </TableCell>
                       </>
                     </TableRow>

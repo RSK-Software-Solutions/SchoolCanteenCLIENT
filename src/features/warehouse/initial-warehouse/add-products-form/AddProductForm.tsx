@@ -31,8 +31,8 @@ const AddProductForm = ({ getAllProducts, setIsAddProductToggled }: { getAllProd
         active: true
     })
     const [units, setUnits] = useState<TUnit[]>([])
-
     const { toast } = useToast();
+
     const getAllUnits = async () => {
         try {
             const { data } = await api.get(baseApiURL + '/api/units')

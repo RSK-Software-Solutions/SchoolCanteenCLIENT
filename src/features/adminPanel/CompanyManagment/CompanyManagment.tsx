@@ -3,12 +3,19 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import React, { useState } from "react"
 import { saveCompanyEdited } from "@/features/adminPanel/companyManagment/api/saveEditedCompany"
+import { companyInputData } from "./static/companyInputData"
+import { handleChangeInput } from "@/lib/handleChangeInput"
 
 export type TcompanyForm = {
     name: string;
+    nip: number;
+    street: string;
     email: string;
     address: string;
     phone: string;
+    number: string;
+    city: string;
+    postalCode: string;
 }
 
 export const CompanyManagment = () => {
@@ -17,9 +24,14 @@ export const CompanyManagment = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [companyForm, setCompanyForm] = useState<TcompanyForm>({
         name: "",
-        email: "",
+        nip: 0,
+        street: "",
+        number: "",
         address: "",
-        phone: ""
+        city: "",
+        postalCode: "",
+        phone: "",
+        email: "",
     })
 
     return (
@@ -32,21 +44,25 @@ export const CompanyManagment = () => {
                             </div>
                             <div className="grid gap-1">
                                 <h2 className="text-2xl font-bold">Company Information</h2>
-                                <p className="text-gray-500 dark:text-gray-400">tutaj znajdują sie informacje które możesz edytowac.</p>
+                                <p className="text-gray-500 dark:text-gray-400">Here you can edit company</p>
                             </div>
                             <div className="grid gap-4">
                                 <div className="grid gap-1" >
-                                    <Label htmlFor="name"></Label>
-                                    {isDisabled ? <Input disabled /> : <Input />}
+                                    {companyInputData.map(companyData => (
+                                        <React.Fragment key={companyData.key}>
+                                            <Label htmlFor="name">{companyData.label}</Label>
+                                            {isDisabled ? <Input disabled placeholder={companyData.key} onChange={(e) => handleChangeInput(setCompanyForm, e, companyData)} /> : <Input />}
+                                        </React.Fragment>
+                                    ))}
                                 </div>
                             </div>
                             <div className="w-full flex justify-center flex-col">
-                                {isDisabled === false && <Button variant="outline" onClick={async () => {
-                                    await saveCompanyEdited(companyForm, setIsDisabled)
-                                }}>Save</Button>}
                                 <Button variant="outline" onClick={() => {
                                     setIsDisabled(prev => !prev)
                                 }} className="w-full">{isDisabled ? "Edit" : "Cancel"}</Button>
+                                {isDisabled === false && <Button variant="outline" onClick={async () => {
+                                    await saveCompanyEdited(companyForm, setIsDisabled)
+                                }}>Save</Button>}
                             </div>
                         </div>
                     </div>

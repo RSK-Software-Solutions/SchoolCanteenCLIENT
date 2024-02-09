@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { changeQuantityOfFinishedProduct } from "../api/changeQuantityOfFinishedProduct"
 import { api, baseApiURL } from "@/lib/axios.interceptors"
 import { useNavigate } from "react-router-dom"
+import { useToast } from "@/components/ui/use-toast"
 
 export enum TypeOfAction {
     INC = "increase-quantity",
@@ -42,10 +43,8 @@ type TFinishedProducts = {
 
 export default function FinishProductsWareHouse() {
     const [finishedProducts, setFinishedProducts] = useState([]);
-    const [isAddProductToggled, setIsAddProductToggled] = useState<boolean>(false);
-
     const [chosenProduct, setChosenProduct] = useState<number | null>();
-
+    const { toast } = useToast()
     const getAllFinishedProducts = async () => {
         try {
             const { data } = await api.get(baseApiURL + '/api/articles')
@@ -114,7 +113,7 @@ export default function FinishProductsWareHouse() {
                                                         onClick={() => changeQuantityOfFinishedProduct(finishedProduct.finishedProductId,
                                                             TypeOfAction.DEC,
                                                             1,
-                                                            getAllFinishedProducts)}>Serve a meal</Button>
+                                                            getAllFinishedProducts, toast)}>Serve a meal</Button>
                                                 </TableCell>
                                             </>
                                         </TableRow>
@@ -158,11 +157,6 @@ export default function FinishProductsWareHouse() {
                     )}
                 </div>
             </main >
-            {
-                isAddProductToggled && (
-                    <div></div>
-                )
-            }
         </div >
     )
 }

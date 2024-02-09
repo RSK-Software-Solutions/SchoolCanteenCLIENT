@@ -5,6 +5,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { recipeFormData } from "../../static/AddRecipeFormData"
 import { Button } from "@/components/ui/button"
 import { api, baseApiURL } from "@/lib/axios.interceptors"
+import { useToast } from "@/components/ui/use-toast"
 
 export type TAddRecipeForm = {
     unitId: number;
@@ -27,6 +28,7 @@ const AddRecipeForm = ({ getAllRecipes, setIsAddRecipeToggled }: { getAllRecipes
     })
     const [units, setUnits] = useState<TUnit[]>([])
 
+    const { toast } = useToast();
 
     const getAllUnits = async () => {
         try {
@@ -41,11 +43,15 @@ const AddRecipeForm = ({ getAllRecipes, setIsAddRecipeToggled }: { getAllRecipes
     const handleAddRecipe = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            await api.post(baseApiURL + '/api/recipe', addRecipeForm)
-            setIsAddRecipeToggled(false)
-            getAllRecipes()
+            const { data } = await api.post(baseApiURL + '/api/recipe', addRecipeForm)
+            if (data) {
+                toast({ variant: "default", title: "SUCCESS", description: `Successfully Added Recipe: ${addRecipeForm.name}` })
+                setIsAddRecipeToggled(false)
+                getAllRecipes()
+            }
+            if (!data) toast({ variant: "destructive", title: "FAILED", description: `Failed to add Recipe: ${addRecipeForm.name}` })
         } catch (error) {
-            console.error(error);
+            toast({ variant: "destructive", title: "ERROR", description: `Error while trying to add recipe` })
             return error;
         }
     }

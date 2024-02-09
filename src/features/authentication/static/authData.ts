@@ -21,11 +21,11 @@ export const registerFields: TFormField[] = [
         key: "userName",
     },
     {
-        label: "Hasło",
+        label: "Password",
         key: "password",
     },
     {
-        label: "Firma",
+        label: "Company",
         key: "comapanyName",
     },
 ];
