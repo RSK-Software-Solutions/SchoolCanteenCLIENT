@@ -43,7 +43,7 @@ const Sidebar = ({ isOpen, setIsOpen }: TSidebarProps) => {
           <nav className="w-full flex justify-center flex-col gap-y-5 resize-x select-none">
             {navLinks.map((mobileStatic) => (
               <React.Fragment key={mobileStatic.label}>
-                {mobileStatic.label === "Panel admina" ? (
+                {mobileStatic.label === "Admin Panel" ? (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Link to={''}
@@ -57,7 +57,7 @@ const Sidebar = ({ isOpen, setIsOpen }: TSidebarProps) => {
                       ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
-                ) : mobileStatic.label === "Magazyn" ? (
+                ) : mobileStatic.label === "Warehouse" ? (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Link to={''}
