@@ -1,46 +1,49 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# SchoolCanteen Management System
 
-In the project directory, you can run:
+Welcome to the SchoolCanteen Management System GitHub repository! This project is a comprehensive solution for managing meal services, employees, and warehouse stock in a school canteen. The frontend is built using React, while the backend API is implemented in .NET C#.
 
-### `npm start`
+## Frontend
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The frontend code for the SchoolCanteen Management System is available in this repository. Follow the installation instructions below to set up the frontend locally.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Installation
 
-### `npm test`
+Ensure you have Node.js and npm installed. Install them from Node.js website.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Clone Repository
 
-### `npm run build`
+    git clone git@github.com:RSK-Software-Solutions/SchoolCanteenCLIENT.git
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Install dependencies.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Setup .env variables
+example: "https://localhost:7093"
 
-### `npm run eject`
+    APP_REACT_APP=<"backend.ip">
+    
+Start the React development server.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    npm start
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The frontend should now be accessible at http://localhost:3000.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Backend API
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The backend API for the SchoolCanteen Management System is in a separate repository. Find it at SchoolCanteen-API. Follow the installation instructions provided in that repository to set up the backend.
 
-## Learn More
+## Contributing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+We welcome contributions to both the frontend and backend repositories! If you find any issues or have ideas for improvements, please open an issue or submit a pull request. Follow the Contributing Guidelines for more details.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+Special thanks to all contributors and supporters who have helped make the SchoolCanteen Management System possible.
+Thank you for using SchoolCanteen Management System! We hope it serves your school's needs effectively.
